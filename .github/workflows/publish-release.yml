@@ -51,6 +51,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" app/build/outputs/apk/release/app-release.apk \
-            --title "Learn with Malik $GITHUB_REF_NAME" \
+          gh release create "v2.4" app/build/outputs/apk/release/app-release.apk \
+            --title "Learn with Malik v2.4" \
             --notes "Install this update from the app's About screen."
