@@ -4,6 +4,8 @@
     <application
         android:allowBackup="true"
         android:label="Mein Mathetrainer"
+        android:icon="@drawable/ic_launcher_foreground_legacy"
+        android:roundIcon="@drawable/ic_launcher_foreground_legacy"
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
         android:usesCleartextTraffic="false">
         <activity
