@@ -176,6 +176,17 @@ h1 small{color:#c8f8f2!important}
 #win h2{color:#ffe16c;text-shadow:0 3px 0 #714700}
 .primary{background:linear-gradient(180deg,#21e7c7,#009b8b);color:#003e43;border:2px solid #9affef;box-shadow:0 5px 0 #00535b,0 0 16px #22e6c477;border-radius:18px}
 .conf{filter:drop-shadow(0 2px 2px #002b35)}
+/* v2.4.4: expressive Daoud reactions and TV-friendly home mascot */
+#mas0{cursor:pointer;position:relative;flex:none}
+#mas0:focus-visible{outline:5px solid #ffe16b;outline-offset:5px;filter:drop-shadow(0 0 12px #ffe16b)}
+#mas{position:relative}
+#mas[data-mood="happy"]::after,#mas[data-mood="sad"]::after,#mas[data-mood="wave"]::after{position:absolute;right:-.08em;top:-.12em;font-size:clamp(24px,5vmin,54px);line-height:1;filter:drop-shadow(0 3px 2px #002b35);animation:moodPop .35s ease-out}
+#mas[data-mood="happy"]::after{content:"😄"}
+#mas[data-mood="sad"]::after{content:"😟"}
+#mas[data-mood="wave"]::after{content:"👋"}
+@keyframes moodPop{from{transform:scale(.2) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.firework{position:fixed;z-index:99;pointer-events:none;font-size:clamp(30px,7vmin,76px);animation:fireworkBurst 1.7s ease-out forwards;filter:drop-shadow(0 0 12px #ffe66d)}
+@keyframes fireworkBurst{0%{opacity:0;transform:scale(.1) rotate(-30deg)}25%{opacity:1;transform:scale(1.6) rotate(15deg)}75%{opacity:1;transform:scale(1.15) rotate(-8deg)}100%{opacity:0;transform:scale(2.1) translateY(-30px)}}
 /* v2.0 character reactions */
 #mas img{transform-origin:50% 85%;transition:transform .25s ease,filter .25s ease}
 #mas.celebrate img{animation:foxCelebrate .9s ease-in-out 2;filter:drop-shadow(0 0 12px #f4d16b)}
@@ -302,7 +313,7 @@ button:active{transform:translateY(2px) scale(.985);filter:brightness(1.06)}
 <body>
 <div class="wrap">
 <header>
- <div class="hero"><div class="mas" id="mas0" aria-label="شخصيات مالك ومحمد وأصدقائه"></div><h1><span class="ar">تعلم مع مالك</span><small class="de">Learn with Malik</small></h1></div>
+ <div class="hero"><button type="button" class="mas" id="mas0" aria-label="اضغط لتحية مالك ومحمد"></button><h1><span class="ar">تعلم مع مالك</span><small class="de">Learn with Malik</small></h1></div>
  <div class="tools"><span class="langs"><button data-l="ar">عربي</button><button data-l="de">Deutsch</button><button data-l="both">ع+DE</button></span><button id="snd" aria-label="Ton">🔊</button><button id="aboutBtn" aria-label="حول التطبيق">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Info</span></button><button id="rst" aria-label="مسح التقدم">↺</button></div>
 </header>
 
@@ -383,11 +394,12 @@ var HEROES=[
  {src:'friend-sara.webp',alt:'سارة'},
  {src:'friend-dawood.webp',alt:'داوود'}
 ];
-function mascot(){var h=HEROES[heroIndex%HEROES.length];return '<img alt="'+h.alt+'" title="'+h.alt+'" src="'+h.src+'">'}
-function setMas(state){var e=document.getElementById('mas');if(e){e.classList.remove('celebrate','think','wave','jump');e.innerHTML=mascot();if(state==='ok')e.classList.add('celebrate');else if(state==='bad')e.classList.add('think');else if(state==='wave')e.classList.add('wave')}}
+function mascot(which){var h=HEROES[which==='home'?1:9];return '<img alt="'+h.alt+'" title="'+h.alt+'" src="'+h.src+'">'}
+function setMas(state){var e=document.getElementById('mas');if(e){e.classList.remove('celebrate','think','wave','jump');e.innerHTML=mascot('game');e.dataset.mood=state==='ok'?'happy':state==='bad'?'sad':state==='wave'?'wave':'calm';if(state==='ok')e.classList.add('celebrate');else if(state==='bad')e.classList.add('think');else if(state==='wave')e.classList.add('wave')}}
 
 function setStars(n){var e=document.getElementById('cnt');e.className='stars';e.textContent='⭐'.repeat(n)+'☆'.repeat(NEED-n)}
-function confetti(){var E=['🎉','⭐','🎈','🌟','✨','🏆'];for(var i=0;i<42;i++){var s=document.createElement('span');s.className='conf';s.textContent=E[i%4];s.style.left=R(2,96)+'vw';s.style.animationDuration=R(25,50)/10+'s';s.style.animationDelay=R(0,15)/10+'s';document.body.appendChild(s);(function(x){setTimeout(function(){x.remove()},6500)})(s)}}
+function confetti(){var E=['🎉','⭐','🎈','🌟','✨','🏆','🎊'];for(var i=0;i<64;i++){var s=document.createElement('span');s.className='conf';s.textContent=E[R(0,E.length-1)];s.style.left=R(2,96)+'vw';s.style.animationDuration=R(25,50)/10+'s';s.style.animationDelay=R(0,12)/10+'s';s.style.fontSize=R(3,7)+'vmin';document.body.appendChild(s);(function(x){setTimeout(function(){x.remove()},6500)})(s)}fireworks()}
+function fireworks(){var E=['🎆','✨','💥','🌟'];for(var i=0;i<7;i++){var s=document.createElement('span');s.className='firework';s.textContent=E[i%E.length];s.style.left=(8+i*13)+'%';s.style.top=R(12,48)+'%';s.style.animationDelay=(i*.12)+'s';document.body.appendChild(s);(function(x){setTimeout(function(){x.remove()},1900)})(s)}}
 function LT(i){return lang=='de'?L[i].de:lang=='ar'?L[i].ar:L[i].ar+' — '+L[i].de}
 
 /* ---- helpers ---- */
@@ -440,7 +452,7 @@ function tick(){seq([760],'sine',.22,.05)}
 function fanfare(){seq([523,659,784,659,784,1047,1319],'triangle',.4,.13)}
 var CP=['أحْسَنْتَ يا مالِكْ! · Bravo, Malik!','رائِعٌ يا مالِكْ! · Toll, Malik!','مُمْتازٌ يا بَطَلُ! · Ausgezeichnet, Champion!','مَرْحى يا مالِكْ! · Hurra, Malik!','أَبْدَعْتَ يا مالِكْ! · Das hast du toll gemacht!','إِجابَةٌ صَحيحَةٌ! أَنْتَ ذَكِيٌّ! · Richtige Antwort! Du bist schlau!','يا لَكَ مِنْ بَطَلٍ! · Was für ein Held!','أَحْسَنْتَ! نَجْمَةٌ جَديدَةٌ لَكَ! · Super! Ein neuer Stern für dich!'],HERO='بَطَلٌ يا مالِكْ! · Du bist ein Held, Malik!',WR=['تابِعْ يا مالِكْ، حاوِلْ مَرَّةً أُخْرى! · Weiter, Malik, versuch es nochmal','لا بَأْسَ، أَنْتَ تَسْتَطيعُ! · Nicht schlimm, du schaffst das!'],run=0;
 function praise(n){return n==Math.floor(NEED/2)?'أَكْمَلْتَ نِصْفَ الطَّريقِ يا مالِكْ! · Halbzeit, Malik!':(R(0,5)==0?HERO:CP[R(0,CP.length-1)])}
-function celebrateAnswer(){var E=['⭐','🌟','✨','🎉','🎈','🏆'];for(var i=0;i<16;i++){var s=document.createElement('span');s.className='conf';s.textContent=E[R(0,E.length-1)];s.style.left=R(3,97)+'vw';s.style.animationDuration=R(22,42)/10+'s';s.style.animationDelay=R(0,5)/10+'s';s.style.fontSize=R(4,7)+'vmin';document.body.appendChild(s);(function(x){setTimeout(function(){x.remove()},5200)})(s)}jumpIt($('mas'));if(streak%3===2)fanfare();}
+function celebrateAnswer(){var E=['⭐','🌟','✨','🎉','🎈','🏆','🎊'];for(var i=0;i<30;i++){var s=document.createElement('span');s.className='conf';s.textContent=E[R(0,E.length-1)];s.style.left=R(2,98)+'vw';s.style.animationDuration=R(24,46)/10+'s';s.style.animationDelay=R(0,5)/10+'s';s.style.fontSize=R(4,8)+'vmin';document.body.appendChild(s);(function(x){setTimeout(function(){x.remove()},5600)})(s)}fireworks();jumpIt($('mas'));if(streak%3===2)fanfare();}
 function bub(t,c){var b=$('msg');b.className='bub '+(c||'');b.innerHTML=t}
 function flash(c){var e=$('card');e.classList.remove('pop','flash-ok','flash-no');void e.offsetWidth;e.classList.add(c)}
 function jumpIt(e){e.classList.remove('jump');void e.offsetWidth;e.classList.add('jump')}
@@ -485,7 +497,7 @@ function check(){if(!input||locked)return;var ok=+input===q.ans;
   var wm=WR[R(0,WR.length-1)];bub(T(wm)+(miss>=2?'<br><small>'+T(q.help)+'</small>':''),'no');flash('flash-no');say(wm);run=0;
   if(miss>=2&&q.vis===''&&!$('steps').textContent)$('steps').textContent=T(q.help);
   input='';showInput()}}
-function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML=mascot();confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالك · Ausgezeichnet, Malik! Stufe geschafft');
+function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML=mascot('game');confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالك · Ausgezeichnet, Malik! Stufe geschafft');
  $('wintxt').textContent=LT(cur);
  $('nextlv').style.display=last?'none':'inline-block';
  if(!last){$('nextlv').focus()}if(last)$('tomenu').focus();}
@@ -504,7 +516,7 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
-var APP_VERSION='2.4.3';
+var APP_VERSION='2.4.4';
 var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
 var releaseDownload='';
 function aboutStatus(ar,de){$('updateStatus').innerHTML='<div class="ar" dir="rtl">'+ar+'</div><div class="de" dir="ltr">'+de+'</div>';}
@@ -596,7 +608,7 @@ $('memoryClose').onclick=function(){$('bonusGame').classList.remove('open');$('t
 
 function applyLang(){document.body.dataset.lang=lang;var h=document.documentElement;h.dir=lang=='de'?'ltr':'rtl';h.lang=lang=='de'?'de':'ar';[].forEach.call(document.querySelectorAll('.langs button'),function(b){b.setAttribute('aria-pressed',String(b.dataset.l==lang))});renderMenu();if(q&&$('game').style.display==='block')$('task').textContent=T(q.task)}
 [].forEach.call(document.querySelectorAll('.langs button'),function(b){b.onclick=function(){lang=b.dataset.l;store.set('r100l',lang);applyLang()}});
-$('mas0').innerHTML=mascot();applyLang();show('menu');renderMenu();
+$('mas0').innerHTML=mascot('home');$('mas0').type='button';$('mas0').setAttribute('aria-label','اضغط لتحية مالك ومحمد');applyLang();show('menu');renderMenu();
 function poke(id,fn){$(id).onclick=function(){var m=CP[R(0,CP.length-1)];fn(m);jumpIt($(id));if(id==='mas'){setMas('wave');bub(T(m),'ok')}say(m);chime(true)}}
 poke('mas0',function(m){$('greet').textContent=T(m);$('mas0').classList.remove('jump');$('mas0').classList.add('wave')});poke('mas',function(m){bub(T(m),'ok')});poke('mas2',function(){confetti()});
 document.addEventListener('keydown',function(e){if(/^Arrow/.test(e.key)){e.preventDefault();navFocus(e.key)}else if((e.key==='Escape'||e.key==='BrowserBack'||e.key==='GoBack')&&window.__back())e.preventDefault()});
