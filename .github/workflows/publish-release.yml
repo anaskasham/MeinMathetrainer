@@ -51,6 +51,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "v2.4" app/build/outputs/apk/release/app-release.apk \
-            --title "Learn with Malik v2.4" \
+          gh release create "v2.4.1" app/build/outputs/apk/release/app-release.apk \
+            --title "Learn with Malik v2.4.1" \
             --notes "Install this update from the app's About screen."
