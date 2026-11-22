@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>نحسب حتى 100 · Rechnen bis 100</title>
+<title>تعلم مع مالك · Learn with Malik</title>
 <style>
 :root{--bg:#eaf7f6;--panel:#ffffff;--ink:#083b45;--mute:#315f66;--acc:#12b9a8;--wood:#ffd36e;--woodd:#9a6415;--ok:#167a36;--bad:#b42318;color-scheme:light}
 
@@ -169,12 +169,55 @@ h1 small{color:#c8f8f2!important}
 @media (max-width:760px) and (orientation:portrait){.game-hud{flex-wrap:wrap}.game-hud .prog{order:5;flex-basis:100%}.card{grid-template-columns:1fr}.card>div:first-child{padding:14px}.answer-zone{min-height:300px}.eq{font-size:2.8em}}
 @media (max-height:520px) and (orientation:landscape){.card{padding:1.2vmin}.card>div:first-child{padding:1vmin}.answer-zone{padding:1vmin}.ten{height:17px}.one{width:18px;height:18px}.ones{grid-template-columns:repeat(5,18px)}.pad button{height:38px}.task{font-size:.95em}}
 
+
+/* v1.9 – softer turquoise palette, stronger readable typography */
+:root{--bg:#dcece8;--panel:#f8fcfa;--ink:#173f48;--mute:#315d63;--acc:#6daea5;--wood:#f2cf7b;--woodd:#956b2e;--ok:#28764e;--bad:#a83e3e;color-scheme:light}
+body{background:radial-gradient(ellipse at 50% -15%,#d8eeea 0%,#a9ccc5 58%,#8bb6b0 100%);color:#173f48;font-family:"Segoe UI",Tahoma,"Noto Sans Arabic","Noto Naskh Arabic",Arial,sans-serif;font-weight:500}
+body:before{opacity:.09;background-image:radial-gradient(circle,#ffffff 1.2px,transparent 2px)}
+header{border-bottom:2px solid #7eaaa4;box-shadow:0 4px 0 #477a7655}
+h1{color:#173f48;text-shadow:0 1px 0 #fff8,0 2px 2px #477a7622}
+h1 small{color:#315d63!important;text-shadow:none}
+.tools button,.top button{background:linear-gradient(180deg,#fbfefd,#e5f1ee);color:#173f48;border:2px solid #a7c9c2;box-shadow:0 3px 0 #719b9555;font-weight:800}
+.tools button[aria-pressed="true"]{background:linear-gradient(180deg,#a9d0c8,#79b2a8);color:#123d42;border-color:#6eaaa0}
+.level-chip,.score-chip{border:2px solid #a6c9c2;background:linear-gradient(135deg,#6faaa1,#477f7b);color:#fff;box-shadow:0 3px 0 #345f5d55}
+.score-chip{color:#fff3c5}
+.prog{background:#e5f1ee;border:2px solid #b8d2cc;box-shadow:inset 0 1px 4px #355d5a22}
+.prog i{background:linear-gradient(90deg,#75b7a4,#b8c985);box-shadow:none}
+#cnt{color:#fff4ce;text-shadow:0 1px 2px #315d63}
+.card{background:linear-gradient(145deg,#6eaaa3,#4f8984 78%)!important;color:#fff!important;border:2px solid #b5d6ce;box-shadow:0 7px 0 #477b7655,0 8px 20px #315d6320}
+.card>div:first-child{background:linear-gradient(150deg,#6b9f99,#477c78);border:1px solid #b5d6ce;box-shadow:inset 0 0 18px #173f4818}
+.task{color:#fff;font-weight:800;text-shadow:0 1px 2px #244e4b;font-size:1.12em}
+.bub{background:linear-gradient(135deg,#fffdf1,#f5e7bd);color:#173f48;border:2px solid #e8d39c;box-shadow:0 3px 0 #765d3155}
+.bub.ok{background:linear-gradient(135deg,#e6f7e9,#b8dfc1);color:#20583b;border-color:#a7d3b2}
+.bub.no{background:linear-gradient(135deg,#fff0ec,#f1c9c1);color:#78352d;border-color:#e8b7ad}
+.eq{color:#fff;text-shadow:0 2px 2px #244e4b;font-weight:900}
+.eq u{color:#fff;background:linear-gradient(180deg,#6faaa1,#477f7b);border:2px solid #f0d58f;box-shadow:0 3px 0 #315d63}
+.steps{color:#fff3cf;text-shadow:0 1px 2px #244e4b}
+#vis{background:linear-gradient(145deg,#f8fcfa,#e4f1ed);border:2px solid #fff;box-shadow:0 4px 0 #477b7655;color:#173f48}
+.ten{border:2px solid #a77734;background:repeating-linear-gradient(90deg,#f6d58a 0 18px,#b58a4c 18px 21px);box-shadow:inset 0 1px 0 #fff9}
+.one{border:2px solid #9b713a;background:linear-gradient(145deg,#f8dfa0,#e9bd69);box-shadow:inset 0 1px 0 #fff9,0 1px 0 #9b713a}
+.wall span{background:#f7f3df;color:#173f48;border:2px solid #cbb77e}
+.answer-zone{background:linear-gradient(160deg,#f9fdfb,#e5f2ee);border:2px solid #b4d4cc;box-shadow:0 5px 0 #477b7655}
+.answer-title{color:#244e52}
+.ans{background:#fff;color:#173f48;border:2px solid #9bbfb7;box-shadow:inset 0 2px 5px #244e4b15,0 3px 0 #a5c4bc}
+.pad button{background:linear-gradient(180deg,#fff,#e6f1ed);color:#173f48;border:2px solid #a9c9c1;box-shadow:0 3px 0 #83a9a155}
+.pad button.go{background:linear-gradient(180deg,#8bc4b6,#68a99c);color:#123d3d;border:2px solid #d3e9df;box-shadow:0 3px 0 #477b76}
+.reward-hint{color:#315d63}
+#hint,#say{background:linear-gradient(180deg,#fbfefd,#e5f1ee)!important;color:#173f48!important;border:2px solid #a7c9c2!important;box-shadow:0 3px 0 #719b9555}
+.lv{background:linear-gradient(145deg,#6eaaa3,#4f8984);color:#fff;border:2px solid #b5d6ce;box-shadow:0 4px 0 #477b7655;border-radius:20px}
+.lv span{color:#f0faf6}.lv .bar{background:#dcece8}.lv .bar i{background:linear-gradient(90deg,#b8d58e,#f0d58c)}
+.lv.done{box-shadow:inset 0 0 0 2px #f0d58c,0 4px 0 #477b7655}
+#win{background:linear-gradient(145deg,#6eaaa3,#477f7b);border:2px solid #b5d6ce;box-shadow:0 7px 0 #477b7655}
+#win h2{color:#fff2c9;text-shadow:0 2px 2px #315d63}
+.primary{background:linear-gradient(180deg,#a8d0c7,#78b2a8);color:#173f48;border:2px solid #e1f1ec;box-shadow:0 4px 0 #477b76;border-radius:16px}
+button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0 0 6px #fff8}
+
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
- <div class="hero"><div class="mas" id="mas0" aria-label="شخصيات مالك ومحمد وأصدقائه"></div><h1><span class="ar">نحسب حتى ١٠٠</span><small class="de">Rechnen bis 100</small></h1></div>
+ <div class="hero"><div class="mas" id="mas0" aria-label="شخصيات مالك ومحمد وأصدقائه"></div><h1><span class="ar">تعلم مع مالك</span><small class="de">Learn with Malik</small></h1></div>
  <div class="tools"><span class="langs"><button data-l="ar">عربي</button><button data-l="de">Deutsch</button><button data-l="both">ع+DE</button></span><button id="snd" aria-label="Ton">🔊</button><button id="rst" aria-label="مسح التقدم">↺</button></div>
 </header>
 
@@ -206,7 +249,7 @@ h1 small{color:#c8f8f2!important}
 </section>
 
 <section id="win">
- <div class="mas" id="mas2" style="margin:0 auto" aria-label="شخصيات مالك ومحمد وأصدقائه"></div><div class="sticker" id="stk"></div><h2>🎉 <span class="ar">بطل يا مالك! ممتاز!</span> <span class="de">Du bist ein Held, Malek!</span></h2>
+ <div class="mas" id="mas2" style="margin:0 auto" aria-label="شخصيات مالك ومحمد وأصدقائه"></div><div class="sticker" id="stk"></div><h2>🎉 <span class="ar">بطل يا مالك! ممتاز!</span> <span class="de">Du bist ein Held, Malik!</span></h2>
  <p id="wintxt"></p>
  <button class="primary" id="nextlv"><span class="ar">أكمل</span> <span class="de">Weiter</span></button>
  <button class="primary" id="tomenu" style="background:var(--panel);color:var(--ink)"><span class="ar">القائمة</span> <span class="de">Menü</span></button>
@@ -292,13 +335,13 @@ var ac;
 function seq(n,ty,vol,gap){if(!sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();var t=ac.currentTime+.02;n.forEach(function(f,i){var o=ac.createOscillator(),g=ac.createGain(),s=t+i*gap;o.type=ty;o.frequency.setValueAtTime(f,s);g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(vol,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+gap*1.9);o.connect(g);g.connect(ac.destination);o.start(s);o.stop(s+gap*1.9+.05)})}catch(e){}}
 function tick(){seq([760],'sine',.22,.05)}
 function fanfare(){seq([523,659,784,659,784,1047,1319],'triangle',.4,.13)}
-var CP=['أحسنت يا مالك! · Bravo, Malek!','ممتاز! · Ausgezeichnet!','رائع يا مالك! · Toll, Malek!','أحسنت! تابع · Super! Weiter so!'],HERO='بطل يا مالك! · Du bist ein Held, Malek!',WR=['تابع يا مالك، حاول مرة أخرى · Weiter, Malek, versuch es nochmal','لا بأس، أنت تستطيع! · Nicht schlimm, du schaffst das!'],run=0;
+var CP=['أحسنت يا مالك! · Bravo, Malik!','ممتاز! · Ausgezeichnet!','رائع يا مالك! · Toll, Malik!','أحسنت! تابع · Super! Weiter so!'],HERO='بطل يا مالك! · Du bist ein Held, Malik!',WR=['تابع يا مالك، حاول مرة أخرى · Weiter, Malik, versuch es nochmal','لا بأس، أنت تستطيع! · Nicht schlimm, du schaffst das!'],run=0;
 function praise(n){return run%3==0?HERO:(n==Math.floor(NEED/2)?'أكمل، أنت في المنتصف! · Weiter, du bist halb da!':CP[R(0,CP.length-1)])}
 function bub(t,c){var b=$('msg');b.className='bub '+(c||'');b.innerHTML=t}
 function flash(c){var e=$('card');e.classList.remove('pop','flash-ok','flash-no');void e.offsetWidth;e.classList.add(c)}
 function jumpIt(e){e.classList.remove('jump');void e.offsetWidth;e.classList.add('jump')}
 function say(m){var p=m.split(' · ');if(lang=='de')speak(p[1]||p[0],'de-DE');else speak(p[0],'ar-SA')}
-function renderAlbum(){var a=$('album');if(a)a.innerHTML=IC.map(function(e,i){return '<i class="'+(done(i)?'':'off')+'">'+e+'</i>'}).join('');var g=$('greet');if(g)g.textContent=T('أهلاً يا مالك ومحمد وأصدقائهم! · Hallo Malek, Mohammad und ihre Freunde!')}
+function renderAlbum(){var a=$('album');if(a)a.innerHTML=IC.map(function(e,i){return '<i class="'+(done(i)?'':'off')+'">'+e+'</i>'}).join('');var g=$('greet');if(g)g.textContent=T('أهلاً يا مالك ومحمد وأصدقائهم! · Hallo Malik, Mohammad und ihre Freunde!')}
 function navFocus(dir){var els=[].filter.call(document.querySelectorAll('button:not([disabled])'),function(b){var r=b.getBoundingClientRect();return r.width>0&&r.height>0});var a=document.activeElement;if(!a||els.indexOf(a)<0){if(els.length)els[0].focus();return}var r=a.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,best=null,bs=1e9;els.forEach(function(b){if(b===a)return;var q=b.getBoundingClientRect(),x=q.left+q.width/2-cx,y=q.top+q.height/2-cy,ok,p,s;if(dir=='ArrowUp'){ok=y<-4;p=-y;s=Math.abs(x)}else if(dir=='ArrowDown'){ok=y>4;p=y;s=Math.abs(x)}else if(dir=='ArrowLeft'){ok=x<-4;p=-x;s=Math.abs(y)}else{ok=x>4;p=x;s=Math.abs(y)}if(!ok)return;var sc=p+s*2.5;if(sc<bs){bs=sc;best=b}});if(best){best.focus();best.scrollIntoView({block:'nearest',inline:'nearest'})}}
 function chime(ok){if(window.AndroidSound){try{if(ok)AndroidSound.playCorrect();else AndroidSound.playWrong();return}catch(e){}}if(ok)seq([523,659,784,1047],'triangle',.4,.11);else seq([300,220],'sawtooth',.15,.22)}
 function speak(t,l){if(!sound)return;l=l||'de-DE';try{if(window.AndroidSound&&AndroidSound.speak){AndroidSound.speak(t,l);return}if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.9;var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.toLowerCase().indexOf(l.slice(0,2))==0})[0];if(v)u.voice=v;else if(l.slice(0,2)=='ar')return;speechSynthesis.speak(u)}catch(e){}}
@@ -319,7 +362,7 @@ function show(id){['menu','game','win'].forEach(function(s){$(s).style.display=s
 function start(i){cur=i;d=Math.min(2,Math.floor((prog[i]||0)/3));streak=0;miss=0;run=0;show('game');next();var k0=document.querySelector('#pad [data-k="5"]');if(k0)try{k0.focus()}catch(e){}}
 function next(){locked=false;input='';miss=0;heroIndex=(heroIndex+1)%HEROES.length;q=L[cur].gen(d);
  $('task').textContent=T(q.task);$('vis').innerHTML=q.vis||'';$('vis').setAttribute('aria-label','تمثيل بصري للعشرات والآحاد');$('eq').innerHTML=q.eq||'';$('steps').textContent=q.steps||'';
- $('ans').innerHTML='&nbsp;';bub(T('هيا يا مالك! · Los, Malek!'),'');setMas('hi');
+ $('ans').innerHTML='&nbsp;';bub(T('هيا يا مالك! · Los, Malik!'),'');setMas('hi');
  var n=Math.min(prog[cur]||0,NEED);$('pb').style.width=(n/NEED*100)+'%';setStars(n);
  $('card').classList.remove('pop','flash-ok','flash-no');void $('card').offsetWidth;$('card').classList.add('pop');
  setTimeout(function(){speak(q.say)},250)}
@@ -337,7 +380,7 @@ function check(){if(!input||locked)return;var ok=+input===q.ans;
   var wm=WR[R(0,WR.length-1)];bub(T(wm)+(miss>=2?'<br><small>'+T(q.help)+'</small>':''),'no');flash('flash-no');say(wm);run=0;
   if(miss>=2&&q.vis===''&&!$('steps').textContent)$('steps').textContent=T(q.help);
   input='';showInput()}}
-function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML=mascot();confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالك · Ausgezeichnet, Malek! Stufe geschafft');
+function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML=mascot();confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالك · Ausgezeichnet, Malik! Stufe geschafft');
  $('wintxt').textContent=LT(cur);
  $('nextlv').style.display=last?'none':'inline-block';
  if(!last){$('nextlv').focus()}if(last)$('tomenu').focus();}
