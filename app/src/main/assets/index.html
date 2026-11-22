@@ -60,6 +60,7 @@ h1 small{display:block;font-size:.6em;color:var(--mute);font-weight:400}
 .pop{animation:pop .35s}@keyframes pop{50%{transform:scale(1.04)}}
 body{background-image:radial-gradient(circle at 8% 12%,#3ed6c422 0 9vmin,transparent 9.2vmin),radial-gradient(circle at 92% 30%,#f2c87922 0 12vmin,transparent 12.2vmin),radial-gradient(circle at 20% 90%,#ff8a7a1f 0 10vmin,transparent 10.2vmin);background-attachment:fixed}
 body[data-lang="ar"] .de,body[data-lang="de"] .ar{display:none}
+body[data-lang="ar"] #updateStatus .de,body[data-lang="de"] #updateStatus .ar{display:none}
 body[data-lang="de"] h1 small{font-size:1em;color:inherit;font-weight:700}
 .mas{width:clamp(90px,16vmin,170px);flex:none}.mas svg{width:100%;height:auto;display:block}
 .hero{display:flex;align-items:center;gap:14px}
@@ -253,6 +254,8 @@ button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0
 .memory-card .backface{font-size:clamp(2em,6vw,4em);font-weight:900;color:#168b83}
 .memory-card img{width:100%;height:clamp(65px,12vw,112px);object-fit:contain}
 .memory-card .name{font-size:clamp(.72em,1.6vw,1em);font-weight:800;color:#123f46}
+.memory-card .name.person-name{display:none!important}
+#memoryPreview{background:#f3d36e;color:#493400;border:2px solid #d5a933}
 .memory-card.matched{background:#e2f8d9;border-color:#77b96a;box-shadow:0 4px 0 #5c9a53}
 .memory-card:disabled{cursor:default;opacity:1}
 #memoryStatus{font-weight:900;font-size:1.15em;min-height:2em;color:#075d56}
@@ -484,7 +487,7 @@ var memoryPairs=[
  {id:'rn',a:{src:'friend-rashed.webp',name:'راشد · Rashed'},b:{src:'friend-noura.webp',name:'نورا · Noura'},label:'راشد ونورا · Rashed & Noura'},
  {id:'ss',a:{src:'friend-saud.webp',name:'سعود · Saud'},b:{src:'friend-sara.webp',name:'سارة · Sara'},label:'سعود وسارة · Saud & Sara'}
 ];
-var memCards=[],memOpen=[],memMatched={},memBusy=false,memMoves=0;
+var memCards=[],memOpen=[],memMatched={},memBusy=false,memMoves=0,memPreviewing=false,memPreviewTimer=null;
 function memoryPraise(ar,de){$('memoryStatus').innerHTML='<div class=\"ar\" dir=\"rtl\">'+ar+'</div><div class=\"de\" dir=\"ltr\">'+de+'</div>'}
 function memorySound(){
  try{fanfare();setTimeout(function(){fanfare()},220);applauseSound()}catch(e){}
@@ -508,18 +511,18 @@ function buildMemory(){
  memCards=[];
  memoryPairs.forEach(function(p){memCards.push({pair:p.id,person:p.a},{pair:p.id,person:p.b})});
  for(var i=memCards.length-1;i>0;i--){var j=R(0,i);var t=memCards[i];memCards[i]=memCards[j];memCards[j]=t}
- memOpen=[];memMatched={};memBusy=false;memMoves=0;renderMemory();
+ memOpen=[];memMatched={};memBusy=false;memMoves=0;memPreviewing=false;if(memPreviewTimer)clearTimeout(memPreviewTimer);renderMemory();
  memoryPraise('اقلب بطاقتين وابحث عن الصديقين!','Drehe zwei Karten um und finde das Freundespaar!');
 }
 function renderMemory(){
  var g=$('memoryGrid');g.innerHTML='';
  memCards.forEach(function(c,i){
   var matched=!!memMatched[c.pair]&&memMatched[c.pair]===true;
-  var open=memOpen.indexOf(i)>=0;
+  var open=memPreviewing||memOpen.indexOf(i)>=0;
   var b=document.createElement('button');b.className='memory-card'+(matched?' matched':'');b.type='button';b.disabled=matched||open||memBusy;
   if(open||matched){
    var im=document.createElement('img');im.src=c.person.src;im.alt=c.person.name;b.appendChild(im);
-   var nm=document.createElement('span');nm.className='name';nm.textContent=c.person.name;b.appendChild(nm);
+   /* لا نعرض أسماء الشخصيات حتى يعتمد مالك على الذاكرة البصرية */
   }else{var back=document.createElement('span');back.className='backface';back.textContent='?';b.appendChild(back);var hint=document.createElement('span');hint.className='name';hint.textContent='⭐';b.appendChild(hint)}
   b.addEventListener('click',(function(ix){return function(){flipMemory(ix)}})(i));g.appendChild(b);
  });
@@ -546,7 +549,7 @@ function flipMemory(i){
  }
 }
 $('bonusBtn').onclick=function(){$('bonusGame').classList.add('open');buildMemory();var f=$('memoryGrid').querySelector('button');if(f)f.focus()};
-$('memoryRestart').onclick=buildMemory;
+$('memoryRestart').onclick=buildMemory;\n$('memoryPreview').onclick=previewMemory;
 $('memoryClose').onclick=function(){$('bonusGame').classList.remove('open');$('tomenu').focus()};
 
 function applyLang(){document.body.dataset.lang=lang;var h=document.documentElement;h.dir=lang=='de'?'ltr':'rtl';h.lang=lang=='de'?'de':'ar';[].forEach.call(document.querySelectorAll('.langs button'),function(b){b.setAttribute('aria-pressed',String(b.dataset.l==lang))});renderMenu();if(q&&$('game').style.display==='block')$('task').textContent=T(q.task)}
