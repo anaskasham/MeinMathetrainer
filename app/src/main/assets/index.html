@@ -110,6 +110,65 @@ button.mas img{display:block;width:100%;height:auto;object-fit:contain;border-ra
 @media (max-width:760px) and (orientation:portrait){.card{grid-template-columns:1fr}.card>div:last-child{display:block}.pad{grid-template-columns:repeat(3,minmax(0,1fr))}.mas img{height:100px}}
 @media (max-height:520px) and (orientation:landscape){.wrap{padding:1vmin 2vmin}.card{padding:1.5vmin;gap:1.5vmin;margin-top:1vmin}.mas img{height:76px}.eq{font-size:2.3em}.blocks{margin:.2em 0}.ten{height:18px}.ones{grid-template-columns:repeat(5,18px)}.one{width:18px;height:18px}.pad button{height:42px}.task{font-size:.9em}}
 
+
+/* v1.8 – playful game world inspired by the supplied reference */
+:root{--bg:#063f49;--panel:#075d66;--ink:#f7ffff;--mute:#c4e8e9;--acc:#00d3bd;--wood:#ffd45f;--woodd:#a76512;--ok:#24d66b;--bad:#ff7b70}
+body{background:radial-gradient(ellipse at 50% -20%,#168f91 0%,#07505a 45%,#032e39 100%);color:#f5ffff;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;background-image:radial-gradient(circle,#9cf9ee 1.5px,transparent 2px);background-size:42px 42px;mask-image:linear-gradient(to bottom,#000,transparent 85%)}
+.wrap{max-width:1600px;position:relative;z-index:1}
+header{padding:.5vmin 1vmin 1.5vmin;border-bottom:3px solid #13bdb2;box-shadow:0 5px 0 #002d36}
+h1{color:#fff;text-shadow:0 3px 0 #00343d,0 0 18px #55e9dc}
+h1 small{color:#c8f8f2!important}
+.tools button,.top button{background:linear-gradient(180deg,#faffff,#d8f7f4);color:#06434b;border:2px solid #5de6d8;box-shadow:0 4px 0 #00323b,0 0 14px #23d5c355;font-weight:800}
+.tools button[aria-pressed="true"]{background:linear-gradient(180deg,#ffe77a,#ffb91e);color:#493000}
+#game .top{margin-top:1.5vmin}
+.game-hud{gap:12px}
+.level-chip,.score-chip{border:2px solid #20d5c5;background:linear-gradient(135deg,#087c83,#064b59);border-radius:999px;padding:.35em .8em;color:#fff;font-weight:900;box-shadow:0 4px 0 #002c35}
+.score-chip{font-size:1.2em;color:#ffe16b;min-width:90px;text-align:center}
+.prog{height:18px;background:#b6e5e2;border:2px solid #e3ffff;box-shadow:inset 0 2px 5px #003b44}
+.prog i{background:linear-gradient(90deg,#18ed76,#c7ff42);box-shadow:0 0 12px #aaff56}
+#cnt{font-size:1.15em;color:#ffe16b;text-shadow:0 2px 3px #002e36;white-space:nowrap}
+.card{background:linear-gradient(145deg,#087e82,#04515e 75%)!important;color:#fff!important;border:3px solid #20d8ca;border-radius:30px;box-shadow:0 12px 0 #02313b,0 0 28px #12cbb755;padding:clamp(14px,2.5vmin,34px);gap:2.2vmin}
+.card>div:first-child{background:linear-gradient(150deg,#0b7279,#064650);border:2px solid #31cfc4;border-radius:24px;padding:clamp(12px,2vmin,28px);box-shadow:inset 0 0 30px #001e2b55}
+.card .hero{align-items:center}
+.task{color:#e0ffff;font-size:1.15em;font-weight:900;text-shadow:0 2px 2px #00343b}
+.bub{background:linear-gradient(135deg,#fff4b7,#ffe07a);color:#553500;border:3px solid #fff1a6;box-shadow:0 4px 0 #a46a13;font-weight:900}
+.bub.ok{background:linear-gradient(135deg,#d8ffe3,#70f59c);color:#07572c;border-color:#a5ffc1}
+.bub.no{background:linear-gradient(135deg,#ffe5e0,#ffaaa0);color:#80251b;border-color:#ffd0c9}
+.eq{color:#fff;font-size:clamp(2.5em,5.4vmin,4.7em);text-shadow:0 4px 0 #00343d,0 0 15px #fff5;font-weight:1000;margin:.35em 0}
+.eq u{color:#fff;border:3px solid #ffe45e;background:linear-gradient(180deg,#159f75,#08744f);border-radius:16px;min-width:1.5em;padding:0 .16em;box-shadow:0 0 0 5px #ffe45e55,0 5px 0 #064b39}
+.steps{color:#fff0b2;font-size:1.15em;text-shadow:0 2px 2px #00343b}
+#vis{margin:.8em 0;padding:clamp(10px,1.8vmin,22px);border-radius:22px;background:linear-gradient(145deg,#e9ffff,#bceaf0);border:3px solid #fff;box-shadow:0 6px 0 #328b92,inset 0 0 20px #5bb9c055;color:#073d47;min-height:90px}
+.blocks{justify-content:center;gap:12px 24px;min-height:72px}
+.grp{gap:6px;filter:drop-shadow(0 3px 1px #8a541c55)}
+.ten{height:clamp(18px,3.2vmin,30px);width:clamp(120px,17vw,210px);border:2px solid #b66c12;background:repeating-linear-gradient(90deg,#ffe36a 0 18px,#c47b18 18px 21px);border-radius:5px;box-shadow:inset 0 2px 0 #fff9}
+.ones{grid-template-columns:repeat(5,clamp(17px,2.6vmin,25px));gap:5px}
+.one{width:clamp(17px,2.6vmin,25px);height:clamp(17px,2.6vmin,25px);border:2px solid #a45f0d;background:linear-gradient(145deg,#ffe98a,#ffb62f);border-radius:6px;box-shadow:inset 0 2px 0 #fff9,0 2px 0 #9b5d16;animation:cubeIn .35s both}
+@keyframes cubeIn{from{opacity:0;transform:translateY(12px) scale(.65)}to{opacity:1;transform:translateY(0) scale(1)}}
+.wall span{background:#fff1b8;color:#593900;border:2px solid #e9b638}
+.answer-zone{background:linear-gradient(160deg,#f5ffff,#c9f0ee);border:3px solid #43e0d0;border-radius:24px;padding:clamp(12px,2vmin,24px);box-shadow:0 7px 0 #00333c;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.answer-title{font-weight:1000;color:#07515b;text-align:center;font-size:1.15em}
+.ans{background:#fff;color:#063e49;border:3px solid #8ecacb;box-shadow:inset 0 3px 8px #06444b22,0 4px 0 #8abfc0;border-radius:16px;font-size:clamp(2.2em,4.5vmin,3.3em)}
+.pad{gap:9px}
+.pad button{background:linear-gradient(180deg,#fff,#d9f5f3);color:#064650;border:2px solid #8bd7d3;border-radius:15px;box-shadow:0 4px 0 #559b9d;font-weight:1000}
+.pad button:active{transform:translateY(3px);box-shadow:0 1px 0 #559b9d}
+.pad button.go{background:linear-gradient(180deg,#36f18c,#08b96b);color:#033f2c;border:2px solid #b9ffcf;box-shadow:0 4px 0 #087444}
+.reward-hint{display:flex;gap:7px;align-items:center;justify-content:center;color:#07515b;font-weight:800;font-size:.86em;text-align:center}
+#hint,#say{background:linear-gradient(180deg,#fff,#c9f1ef)!important;color:#06434b!important;border:2px solid #65d9d0!important;box-shadow:0 4px 0 #07515b}
+#mas img{filter:drop-shadow(0 5px 5px #001f2b88);max-height:190px}
+#mas0 img{filter:drop-shadow(0 4px 5px #002b33)}
+#menu .hello .bub{background:linear-gradient(135deg,#fff4b9,#ffd55d);color:#4c3100}
+.lv{background:linear-gradient(145deg,#0c7880,#064a57);color:#fff;border:2px solid #31cfc4;box-shadow:0 6px 0 #002f39,0 0 14px #13cfc344;border-radius:22px}
+.lv span{color:#d3f9f5}.lv .bar{background:#c7f1ec}.lv .bar i{background:linear-gradient(90deg,#15e985,#ffe05b)}
+.lv[disabled]{opacity:.45}.lv.done{box-shadow:inset 0 0 0 3px #ffe36b,0 6px 0 #002f39}
+#win{background:linear-gradient(145deg,#087d80,#03404d);border:3px solid #4ce4d0;border-radius:30px;margin-top:3vmin;padding:4vmin;box-shadow:0 10px 0 #002d37}
+#win h2{color:#ffe16c;text-shadow:0 3px 0 #714700}
+.primary{background:linear-gradient(180deg,#21e7c7,#009b8b);color:#003e43;border:2px solid #9affef;box-shadow:0 5px 0 #00535b,0 0 16px #22e6c477;border-radius:18px}
+.conf{filter:drop-shadow(0 2px 2px #002b35)}
+@media (orientation:landscape){#game .card{grid-template-columns:minmax(0,1.2fr) minmax(250px,.72fr);max-height:calc(100dvh - 120px);overflow:auto}#game .card>div:first-child{min-width:0}.answer-zone{min-width:0}.pad button{height:clamp(48px,9vmin,88px)}}
+@media (max-width:760px) and (orientation:portrait){.game-hud{flex-wrap:wrap}.game-hud .prog{order:5;flex-basis:100%}.card{grid-template-columns:1fr}.card>div:first-child{padding:14px}.answer-zone{min-height:300px}.eq{font-size:2.8em}}
+@media (max-height:520px) and (orientation:landscape){.card{padding:1.2vmin}.card>div:first-child{padding:1vmin}.answer-zone{padding:1vmin}.ten{height:17px}.one{width:18px;height:18px}.ones{grid-template-columns:repeat(5,18px)}.pad button{height:38px}.task{font-size:.95em}}
+
 </style>
 </head>
 <body>
@@ -122,12 +181,12 @@ button.mas img{display:block;width:100%;height:auto;object-fit:contain;border-ra
 <section id="menu">
  <div class="hello"><div class="bub" id="greet"></div><div style="color:var(--mute);font-size:.82em;margin-top:4px">أصدقاء التعلّم: راشد · نورا · سراج · عمر · هنا · سعود · سارة</div></div>
  <div class="album" id="album" aria-hidden="true"></div>
- <p style="color:var(--mute)"><span class="ar">أنهِ كل مستوى (٨ إجابات صحيحة) لتفتح المستوى التالي.</span> <span class="de">Schließe jede Stufe ab (8 richtige Antworten), um die nächste zu öffnen.</span></p>
+ <p style="color:var(--mute)"><span class="ar">أنهِ كل مستوى (٨ إجابات صحيحة) لتفتح المستوى التالي.</span> <span class="de">Schließe jede Stufe ab (10 richtige Antworten), um die nächste zu öffnen.</span></p>
  <div id="levels"></div>
 </section>
 
 <section id="game">
- <div class="top"><button id="back">🏠 <span class="ar">القائمة</span> <span class="de">Menü</span></button><div class="prog"><i id="pb"></i></div><span id="cnt" style="direction:ltr"></span></div>
+ <div class="top game-hud"><button id="back">🏠 <span class="ar">القائمة</span> <span class="de">Menü</span></button><div class="level-chip">🏅 <span class="ar">مغامرة الأرقام</span><span class="de">Zahlen-Abenteuer</span></div><div class="prog"><i id="pb"></i></div><span id="cnt" style="direction:ltr"></span><div class="score-chip">⭐ <b id="score">0</b></div></div>
  <div class="card" id="card">
   <div>
    <div class="hero"><div class="mas" id="mas" aria-label="مالك أو محمد مع الفأر"></div><div><div class="bub" id="msg" role="status" aria-live="polite"></div><div class="task" id="task"></div></div></div>
@@ -137,10 +196,11 @@ button.mas img{display:block;width:100%;height:auto;object-fit:contain;border-ra
    <button id="hint" class="primary" style="background:var(--panel);color:var(--ink)">💡 <span class="ar">مساعدة</span> <span class="de">Hilfe</span></button>
    <button id="say" class="primary" style="background:var(--panel);color:var(--ink)">🔊 <span class="ar">استمع</span> <span class="de">Hören</span></button>
   </div>
-  <div>
+  <div class="answer-zone">
+   <div class="answer-title"><span class="ar">اكتب إجابتك يا بطل!</span><span class="de">Deine Antwort, Champion!</span></div>
    <div class="ans" id="ans">&nbsp;</div>
    <div class="pad" id="pad"></div>
-   
+   <div class="reward-hint"><span>💡</span><span class="ar">فكّر، جرّب، واربح نجمة!</span><span class="de">Denk nach und verdiene Sterne!</span></div>
   </div>
  </div>
 </section>
@@ -258,7 +318,7 @@ function renderMenu(){var h='';L.forEach(function(l,i){var n=Math.min(prog[i]||0
 function show(id){['menu','game','win'].forEach(function(s){$(s).style.display=s==id?'block':'none'})}
 function start(i){cur=i;d=Math.min(2,Math.floor((prog[i]||0)/3));streak=0;miss=0;run=0;show('game');next();var k0=document.querySelector('#pad [data-k="5"]');if(k0)try{k0.focus()}catch(e){}}
 function next(){locked=false;input='';miss=0;heroIndex=(heroIndex+1)%HEROES.length;q=L[cur].gen(d);
- $('task').textContent=T(q.task);$('vis').innerHTML=q.vis||'';$('eq').innerHTML=q.eq||'';$('steps').textContent=q.steps||'';
+ $('task').textContent=T(q.task);$('vis').innerHTML=q.vis||'';$('vis').setAttribute('aria-label','تمثيل بصري للعشرات والآحاد');$('eq').innerHTML=q.eq||'';$('steps').textContent=q.steps||'';
  $('ans').innerHTML='&nbsp;';bub(T('هيا يا مالك! · Los, Malek!'),'');setMas('hi');
  var n=Math.min(prog[cur]||0,NEED);$('pb').style.width=(n/NEED*100)+'%';setStars(n);
  $('card').classList.remove('pop','flash-ok','flash-no');void $('card').offsetWidth;$('card').classList.add('pop');
@@ -268,7 +328,7 @@ function press(k){if(locked)return;if(k!=='✓')tick();
  if(k==='⌫'){input=input.slice(0,-1)}else if(k==='✓'){return check()}else if(input.length<3){input+=k}
  showInput()}
 function check(){if(!input||locked)return;var ok=+input===q.ans;
- if(ok){locked=true;chime(true);setMas('ok');run++;var pm=praise((prog[cur]||0)+1);bub(T(pm),'ok');flash('flash-ok');say(pm);
+ if(ok){locked=true;chime(true);setMas('ok');run++;$('card').classList.add('pop');var pm=praise((prog[cur]||0)+1);bub(T(pm),'ok');flash('flash-ok');say(pm);
   prog[cur]=(prog[cur]||0)+1;store.set('r100',prog);streak++;
   if(streak>=2&&d<2){d++;streak=0}
   var n=Math.min(prog[cur],NEED);$('pb').style.width=(n/NEED*100)+'%';setStars(n);
