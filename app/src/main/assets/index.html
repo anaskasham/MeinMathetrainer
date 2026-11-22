@@ -268,6 +268,35 @@ button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0
 @media(max-width:520px){#memoryGrid{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.memory-card{min-height:94px;padding:4px;border-radius:12px}.memory-card img{height:55px}.memory-card .name{font-size:.65em}}
 @media(prefers-reduced-motion:no-preference){.memory-card:not(:disabled):active{transform:scale(.96)}}
 
+
+/* --- Visual refresh 2.4.2: playful classroom panels, responsive and touch-friendly --- */
+:root{--bg:#d8f7f4;--panel:#f8ffff;--ink:#073b46;--mute:#27636a;--acc:#00b8aa;--wood:#ffd84d;--ok:#159447;--bad:#d83243}
+body{background:radial-gradient(ellipse at 50% 0%,#baf4ed 0,#e4fbf8 46%,#bdece8 100%);background-attachment:fixed}
+.wrap{max-width:1500px}
+header{padding:clamp(8px,1.2vw,16px) clamp(10px,1.5vw,22px);margin-bottom:clamp(10px,1.5vw,18px);border:2px solid #8edbd3;border-radius:0 0 26px 26px;background:linear-gradient(110deg,#087d83,#0bb7aa 55%,#087d83);box-shadow:0 6px 0 #087d83;color:#fff}
+header h1,header .de,header .ar{color:#fff}
+.tools button,.langs button{border:2px solid #a9f4e9!important;border-radius:999px!important;background:linear-gradient(180deg,#19c9bb,#078b8c)!important;color:white!important;box-shadow:0 4px 0 #066b72;padding:.48em .85em}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .12s,filter .12s,box-shadow .12s}
+button:active{transform:translateY(2px) scale(.985);filter:brightness(1.06)}
+#menu .hello,.card,.bonus-card,#win{border:3px solid #8bded5;border-radius:28px;background:linear-gradient(145deg,#fbffff,#e4f8f6);box-shadow:0 8px 0 rgba(13,111,112,.22),0 14px 28px rgba(6,83,91,.12)}
+#menu .hello{padding:clamp(12px,2vw,24px);margin-bottom:12px}
+#levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));gap:clamp(10px,1.3vw,18px)}
+#levels>button,.level-card{border:2px solid #a8e4dc!important;border-radius:22px!important;background:linear-gradient(145deg,#fff,#d8f2ee)!important;box-shadow:0 5px 0 #86c7bf!important;padding:1em!important;font-weight:900}
+.game-hud{border-radius:20px;padding:10px;background:linear-gradient(90deg,#087e82,#10b8aa);color:#fff;box-shadow:0 5px 0 #086b70}
+.game-hud button{border:2px solid #a8f2e7;border-radius:16px;background:#087f83;color:white;padding:.5em .8em}
+.card{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(240px,.8fr);gap:clamp(12px,2vw,26px);padding:clamp(14px,2vw,28px)}
+.bub{border:3px solid #69d0e4;border-radius:28px;background:#f7ffff;box-shadow:0 5px 0 rgba(20,145,165,.2);padding:.65em 1em}
+.task{font-weight:950;color:#073e4a}
+.answer-zone{border:2px solid #a8e3dc;border-radius:24px;background:linear-gradient(160deg,#f5ffff,#d7f2ed);padding:clamp(10px,1.5vw,20px)}
+.pad button,.pad .key{border:2px solid #fff!important;border-radius:18px!important;background:linear-gradient(180deg,#f7ffff,#cce8e8)!important;box-shadow:0 4px 0 #9bc6c5!important;font-weight:950}
+.pad button.primary{background:linear-gradient(180deg,#ffe66c,#ffbf16)!important;color:#163e43!important}
+.eq{font-weight:950}
+#vis{border-radius:24px;background:linear-gradient(145deg,#e8fbff,#c9eeeb);border:2px solid #a4dcd9;padding:clamp(10px,1.5vw,20px);margin:10px 0}
+#win{padding:clamp(18px,3vw,36px);text-align:center}
+#hint,#say,.reward-hint{border-radius:16px}
+@media(max-width:760px){.card{grid-template-columns:1fr}.game-hud{flex-wrap:wrap}.wrap{padding:2vw}}
+@media(min-width:1100px){.card{min-height:68vh;align-items:center}.answer-zone{min-height:100%;display:flex;flex-direction:column;justify-content:center}}
+
 </style>
 </head>
 <body>
@@ -284,7 +313,7 @@ button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0
  <div id="levels"></div>
 </section>
 
-<div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><div class="about-card"><h2 id="aboutTitle">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Über die App</span></h2><p><strong>تعلم مع مالك · Learn with Malik</strong></p><div class="about-line"><div class="ar" dir="rtl">الإصدار المثبّت: <b id="appVersion">2.3</b></div><div class="de" dir="ltr">Installierte Version: <b id="appVersionDe">2.4</b></div></div><div id="updateStatus" aria-live="polite"><div class="ar" dir="rtl">يمكنك البحث عن أحدث إصدار عبر الإنترنت.</div><div class="de" dir="ltr">Du kannst online nach einer neuen Version suchen.</div></div><div class="about-actions"><button class="primary" id="checkUpdate"><span class="ar">البحث عن تحديثات</span><span class="de">Nach Updates suchen</span></button><button id="downloadUpdate" style="display:none"><span class="ar">تنزيل التحديث</span><span class="de">Update herunterladen</span></button><button id="closeAbout"><span class="ar">إغلاق</span><span class="de">Schließen</span></button></div></div></div>
+<div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><div class="about-card"><h2 id="aboutTitle">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Über die App</span></h2><p><strong>تعلم مع مالك · Learn with Malik</strong></p><div class="about-line"><div class="ar" dir="rtl">الإصدار المثبّت: <b id="appVersion">2.4.2</b></div><div class="de" dir="ltr">Installierte Version: <b id="appVersionDe">2.4.2</b></div></div><div id="updateStatus" aria-live="polite"><div class="ar" dir="rtl">يمكنك البحث عن أحدث إصدار عبر الإنترنت.</div><div class="de" dir="ltr">Du kannst online nach einer neuen Version suchen.</div></div><div class="about-actions"><button class="primary" id="checkUpdate"><span class="ar">البحث عن تحديثات</span><span class="de">Nach Updates suchen</span></button><button id="downloadUpdate" style="display:none"><span class="ar">تنزيل التحديث</span><span class="de">Update herunterladen</span></button><button id="closeAbout"><span class="ar">إغلاق</span><span class="de">Schließen</span></button></div></div></div>
 
 <section id="game">
  <div class="top game-hud"><button id="back">🏠 <span class="ar">القائمة</span> <span class="de">Menü</span></button><div class="level-chip">🏅 <span class="ar">مغامرة الأرقام</span><span class="de">Zahlen-Abenteuer</span></div><div class="prog"><i id="pb"></i></div><span id="cnt" style="direction:ltr"></span><div class="score-chip">⭐ <b id="score">0</b></div></div>
@@ -372,9 +401,9 @@ function blank(){return '<u id="bl">&nbsp;</u>'}
 /* ---- levels: gen(d) d=0..2 adaptive difficulty ---- */
 var L=[
  {ar:'تمثيل الأعداد بالمكعبات',de:'Zahldarstellung',gen:function(d){var t=R(1,[3,6,9][d]),o=R(d?0:1,9),n=t*10+o;
-  return {task:'كم عدد المكعبات؟ · Welche Zahl ist das?',vis:blocks(n),eq:'? ',ans:n,say:'ما هذا الرقم يا مالك؟ · Welche Zahl ist das, Malik?',help:'الأعمدة = عشرات · Stangen = Zehner (Z), Würfel = Einer (E)'}}},
+  return {task:'كَمْ عَدَدُ المُكَعَّباتِ؟ · Welche Zahl ist das?',vis:blocks(n),eq:'? ',ans:n,say:'ما هذا الرَّقْمُ يا مالِكْ؟ · Welche Zahl ist das, Malik?',help:'الأعمدةُ = عَشَراتٌ، والمكعّباتُ = آحادٌ · Stangen = Zehner (Z), Würfel = Einer (E)'}}},
  {ar:'تفكيك الأعداد',de:'Zerlegung in Z und E',gen:function(d){var t=R(2,[5,8,9][d]),o=R(1,9),n=t*10+o,askE=d<2||R(0,1);
-  return {task:'فكّك العدد · Zerlege in Zehner und Einer',vis:d==0?blocks(n):'',eq:askE?n+' = '+t*10+' + '+blank():n+' = '+blank()+' + '+o,ans:askE?o:t*10,say:n+' gleich',help:n+' = '+t+' Z + '+o+' E'}}},
+  return {task:'فكِّكِ العددَ · Zerlege in Zehner und Einer',vis:d==0?blocks(n):'',eq:askE?n+' = '+t*10+' + '+blank():n+' = '+blank()+' + '+o,ans:askE?o:t*10,say:n+' gleich',help:n+' = '+t+' Z + '+o+' E'}}},
  {ar:'السابق واللاحق',de:'Vorgänger und Nachfolger',gen:function(d){var n=R(2,[49,89,98][d]),s=R(0,1);
   return {task:s?'ما العدد التالي؟ · Nachfolger von '+n:'ما العدد السابق؟ · Vorgänger von '+n,vis:'',eq:(s?n+' → ':blank()+' ← ')+(s?blank():n),ans:s?n+1:n-1,say:(s?'Nachfolger von ':'Vorgänger von ')+n,help:s?'+١ · eins mehr':'−١ · eins weniger'}}},
  {ar:'عشرات فقط: Z ± Z',de:'Zehnerzahlen addieren/subtrahieren',gen:function(d){var m=[5,8,10][d],s=R(0,1),a,b;
@@ -409,8 +438,8 @@ var ac;
 function seq(n,ty,vol,gap){if(!sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();var t=ac.currentTime+.02;n.forEach(function(f,i){var o=ac.createOscillator(),g=ac.createGain(),s=t+i*gap;o.type=ty;o.frequency.setValueAtTime(f,s);g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(vol,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+gap*1.9);o.connect(g);g.connect(ac.destination);o.start(s);o.stop(s+gap*1.9+.05)})}catch(e){}}
 function tick(){seq([760],'sine',.22,.05)}
 function fanfare(){seq([523,659,784,659,784,1047,1319],'triangle',.4,.13)}
-var CP=['أحسنت يا مالك! · Bravo, Malik!','ممتاز! · Ausgezeichnet!','رائع يا مالك! · Toll, Malik!','أحسنت! تابع · Super! Weiter so!'],HERO='بطل يا مالك! · Du bist ein Held, Malik!',WR=['تابع يا مالك، حاول مرة أخرى · Weiter, Malik, versuch es nochmal','لا بأس، أنت تستطيع! · Nicht schlimm, du schaffst das!'],run=0;
-function praise(n){return run%3==0?HERO:(n==Math.floor(NEED/2)?'أكمل، أنت في المنتصف! · Weiter, du bist halb da!':CP[R(0,CP.length-1)])}
+var CP=['أحْسَنْتَ يا مالِكْ! · Bravo, Malik!','مُمْتازٌ! · Ausgezeichnet!','رائِعٌ يا مالِكْ! · Toll, Malik!','أحْسَنْتَ! تابِعْ! · Super! Weiter so!'],HERO='بَطَلٌ يا مالِكْ! · Du bist ein Held, Malik!',WR=['تابِعْ يا مالِكْ، حاوِلْ مَرَّةً أُخْرى! · Weiter, Malik, versuch es nochmal','لا بَأْسَ، أَنْتَ تَسْتَطيعُ! · Nicht schlimm, du schaffst das!'],run=0;
+function praise(n){return run%3==0?HERO:(n==Math.floor(NEED/2)?'أَكْمِلْ، أَنْتَ في المُنْتَصَفِ! · Weiter, du bist halb da!':CP[R(0,CP.length-1)])}
 function bub(t,c){var b=$('msg');b.className='bub '+(c||'');b.innerHTML=t}
 function flash(c){var e=$('card');e.classList.remove('pop','flash-ok','flash-no');void e.offsetWidth;e.classList.add(c)}
 function jumpIt(e){e.classList.remove('jump');void e.offsetWidth;e.classList.add('jump')}
@@ -474,7 +503,7 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
-var APP_VERSION='2.4.1';
+var APP_VERSION='2.4.2';
 var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
 var releaseDownload='';
 function aboutStatus(ar,de){$('updateStatus').innerHTML='<div class="ar" dir="rtl">'+ar+'</div><div class="de" dir="ltr">'+de+'</div>';}
