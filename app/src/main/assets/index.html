@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#123e60">
+<title>Mein Mathetrainer | مدرب الرياضيات</title>
+<style>
+:root{--bg:#f1f6fa;--card:#fff;--ink:#183247;--muted:#64788a;--teal:#087e91;--line:#dce6ed;--green:#16834b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
+main{max-width:1050px;margin:auto;padding:20px}.hero{background:linear-gradient(120deg,#123e60,#087e91);color:#fff;border-radius:22px;padding:24px;display:flex;justify-content:space-between;align-items:center;gap:15px}.hero h1{font-size:clamp(25px,4vw,42px);margin:5px 0}.hero p{margin:5px 0;opacity:.9}.owl{font-size:65px}
+h2{margin:20px 0 8px}.muted{color:var(--muted)}.stats{display:flex;justify-content:space-between;gap:12px;margin:18px 0 8px}.bar{height:12px;background:#dce6ed;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:#18a477;width:0}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:13px;margin-top:15px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px}.level{width:100%;text-align:right;color:inherit;cursor:pointer;min-height:150px}.level:focus,button:focus{outline:4px solid #e7a83b;outline-offset:3px}.level.locked{opacity:.5}.level .top{display:flex;justify-content:space-between;font-size:28px}.level b{display:block;margin:12px 0 5px;font-size:19px}.pill{font-size:13px;background:#edf3f6;border-radius:20px;padding:6px 10px}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);border-radius:13px;padding:13px 17px;background:#fff;color:var(--ink);font-weight:bold;min-height:50px}.primary{background:var(--teal);border-color:var(--teal);color:#fff}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.hidden{display:none!important}
+#game{max-width:850px;margin:20px auto}.question{text-align:center;padding:25px}.question h2{font-size:clamp(24px,4vw,38px)}.mainq{font-size:clamp(42px,8vw,76px);font-weight:900;direction:ltr;margin:28px 0}.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;margin:15px 0}.answer{font-size:clamp(26px,4vw,38px);min-height:85px}.answer.selected{border:3px solid var(--teal);background:#e7f5f7}.feedback{padding:15px;border-radius:14px;margin:12px 0}.good{background:#e3f5e9;border:1px solid #80c69a}.bad{background:#fff0e8;border:1px solid #e6a58a}.center{text-align:center}.big{font-size:65px}
+@media(min-width:750px){main{padding:28px}.question{padding:35px}.answers{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body><main>
+<header class="hero"><div><div>WILLKOMMEN · أهلاً بك</div><h1>Mein Mathetrainer</h1><p>مدرّب الرياضيات الذكي · Deutsch + عربي</p><div class="row"><span class="pill">🎯 حتى 100</span><span class="pill">⭐ مستويات متدرجة</span></div></div><div class="owl">🦉</div></header>
+<div id="home">
+<div class="stats"><b>تقدمك الإجمالي</b><b id="progressText">0 / 60 تمريناً</b></div><div class="bar"><span id="progressBar"></span></div>
+<h2>رحلة المستويات</h2><p class="muted">لا يُفتح المستوى التالي إلا بعد إتقان السابق بنسبة 100%.</p>
+<div class="levels" id="levels"></div>
+<div class="row" style="margin-top:18px"><button id="sound">🔊 الصوت: يعمل</button><button id="showStats">📊 سجل الإنجاز</button><button id="reset">إعادة ضبط التقدم</button></div>
+<div id="stats" class="card hidden" style="margin-top:15px"></div>
+</div>
+<section id="game" class="hidden">
+<div class="row" style="justify-content:space-between"><button id="back">← القائمة</button><b id="levelName"></b><span class="pill" id="counter">1 / 10</span></div>
+<div class="bar" style="margin:12px 0"><span id="roundBar"></span></div>
+<div class="card question"><div class="muted" id="category"></div><h2 id="title"></h2><div class="muted" id="help"></div><div class="mainq" id="mainq"></div><div id="visual"></div></div>
+<div class="answers" id="answers"></div><div id="feedback" class="feedback hidden" aria-live="polite"></div>
+<div class="row" style="justify-content:space-between"><button id="hint">💡 تلميح</button><button id="next" class="primary hidden">السؤال التالي ←</button></div>
+</section>
+<section id="finish" class="card center hidden" style="margin-top:20px"><div class="big">🏆</div><h1>أحسنت! رائع جداً!</h1><p>لقد أتقنت جميع تمارين هذا المستوى.</p><div class="big">⭐⭐⭐</div><p id="finishDetail"></p><button class="primary" id="finishBack">متابعة رحلة التعلم</button></section>
+</main>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),key='mathetrainer_tv_v1';
+const levels=[
+['الأعداد حتى 20','Zahlen bis 20','🔢','التعرف على الأعداد والجمع والطرح البسيط'],
+['الأعداد حتى 50','Zahlen bis 50','🌱','العشرات والآحاد وخط الأعداد'],
+['الأعداد حتى 100','Zahlen bis 100','🚀','القيمة المكانية والجمع والطرح'],
+['تجاوز العشرات','Zehnerübergang','🧠','الجمع والطرح مع تجاوز العشرات'],
+['استراتيجيات الحساب','Rechenstrategien','🧩','الأنماط والأهرامات والمسائل المركبة'],
+['تحدي الأبطال','Mathe-Champion','🏆','مراجعة شاملة وتحديات متنوعة']];
+let data;try{data=JSON.parse(localStorage.getItem(key))||{completed:[],stars:0,wrong:0,sound:true}}catch(e){data={completed:[],stars:0,wrong:0,sound:true}}
+let lvl=0,idx=0,qs=[],cur=null,selected=0,locked=false,wrongRound=0,ctx;
+const save=()=>localStorage.setItem(key,JSON.stringify(data));
+const show=id=>['home','game','finish'].forEach(x=>$(x).classList.toggle('hidden',x!==id));
+const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const shuffle=a=>a.sort(()=>Math.random()-.5);
+function question(){
+ let a,b,ans,kind=rand(0,4),max=[20,50,100,100,100,100][lvl];
+ if(lvl===0){a=rand(1,10);b=rand(1,10);if(kind===0){ans=a+b;return ['Rechne aus','احسب الناتج',`${a} + ${b} = ?`,ans,'ابدأ من العدد الأكبر وأضف العدد الآخر.','Addition']}if(kind===1){if(b>a)[a,b]=[b,a];ans=a-b;return ['Rechne aus','احسب الناتج',`${a} − ${b} = ?`,ans,'ارجع للخلف بعدد خطوات يساوي العدد الثاني.','Subtraktion']}a=rand(2,19);let next=rand(0,1);ans=a+(next?1:-1);return [next?'Welche Zahl kommt danach?':'Welche Zahl kommt davor?','ما العدد السابق أو اللاحق؟',next?`${a} → ?`:`? ← ${a}`,ans,'السابق أقل بواحد واللاحق أكبر بواحد.','Zahlenreihe']}
+ if(kind===0){a=rand(10,max-10);let n=rand(0,1);ans=n?Math.ceil(a/10)*10:Math.floor(a/10)*10;return [n?'Ergänze zum nächsten Zehner':'Welcher Zehner liegt darunter?','أكمل إلى العشرة التالية أو السابقة',`${a} → ?`,ans,'انظر إلى خانة الآحاد.','Zehner']}
+ if(kind===1){a=rand(10,max-2);let n=rand(0,1);ans=a+(n?1:-1);return [n?'Welche Zahl kommt danach?':'Welche Zahl kommt davor?','ما العدد السابق أو اللاحق؟',n?`${a} → ?`:`? ← ${a}`,ans,'أضف واحداً أو اطرح واحداً.','Zahlenreihe']}
+ if(kind===2){let step=rand(2,8),start=rand(1,max-step*4);ans=start+step*3;return ['Ergänze die Zahlenreihe','أكمل المتتالية',`${start} , ${start+step} , ${start+2*step} , ?`,ans,'اكتشف مقدار الزيادة بين الأعداد.','Zahlenmuster']}
+ if(kind===3){a=rand(12,max-20);b=rand(1,Math.min(20,max-a));ans=a+b;return ['Rechne aus','احسب الناتج',`${a} + ${b} = ?`,ans,'اجمع الآحاد أولاً ثم العشرات.','Addition']}
+ a=rand(25,max);b=rand(1,Math.min(a-1,20));ans=a-b;return ['Rechne aus','احسب الناتج',`${a} − ${b} = ?`,ans,'اطرح الآحاد ثم العشرات.','Subtraktion'];
+}
+function options(ans){let s=new Set([ans]);while(s.size<4){let n=ans+rand(-12,12);if(n>=0&&n<=100)s.add(n)}return shuffle([...s])}
+function renderHome(){
+ let unlocked=0;while(unlocked<6&&data.completed.includes(unlocked))unlocked++;
+ $('progressText').textContent=(data.completed.length*10)+' / 60 تمريناً';$('progressBar').style.width=(data.completed.length/6*100)+'%';
+ $('levels').innerHTML=levels.map((x,i)=>{let done=data.completed.includes(i),open=i<=unlocked;return `<button class="card level ${open?'':'locked'}" data-l="${i}" ${open?'':'disabled'}><div class="top"><span>${x[2]}</span><span class="pill">${done?'✓ مكتمل':open?'متاح':'🔒 مقفل'}</span></div><b>${i+1}. ${x[0]}</b><div dir="ltr">${x[1]}</div><p class="muted">${x[3]}</p><small>${done?'10 / 10 – 100%':open?'10 تمارين لإتقان المستوى':'أكمل المستوى السابق أولاً'}</small></button>`}).join('');
+ document.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>start(+b.dataset.l));
+ $('sound').textContent=data.sound?'🔊 الصوت: يعمل':'🔇 الصوت: متوقف';
+}
+function start(n){lvl=n;idx=0;wrongRound=0;qs=Array.from({length:10},question);show('game');renderQ()}
+function renderQ(){locked=false;cur=qs[idx];selected=0;$('levelName').textContent=levels[lvl][0];$('counter').textContent=(idx+1)+' / 10';$('roundBar').style.width=(idx*10)+'%';$('category').textContent=cur[5];$('title').textContent=cur[0];$('help').textContent=cur[1];$('mainq').textContent=cur[2];$('visual').textContent='';$('feedback').className='feedback hidden';$('next').classList.add('hidden');cur.opts=options(cur[3]);$('answers').innerHTML=cur.opts.map((v,i)=>`<button class="answer" data-i="${i}">${v}</button>`).join('');document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>answer(+b.dataset.i));select()}
+function select(){document.querySelectorAll('[data-i]').forEach((b,i)=>b.classList.toggle('selected',i===selected))}
+function beep(ok){if(!data.sound)return;try{ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();let o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=ok?660:180;g.gain.value=.08;o.start();o.stop(ctx.currentTime+.18)}catch(e){}}
+function answer(i){if(locked)return;let ok=cur.opts[i]===cur[3];$('feedback').classList.remove('hidden');if(ok){locked=true;data.stars++;save();beep(true);$('feedback').className='feedback good';$('feedback').innerHTML='<b>🎉 Richtig! إجابة صحيحة!</b><p>Sehr gut! ممتاز، استمر!</p>';document.querySelectorAll('[data-i]').forEach(b=>{b.disabled=true;if(+b.textContent===cur[3])b.style.border='3px solid #16834b'});$('next').classList.remove('hidden')}else{wrongRound++;data.wrong++;save();beep(false);$('feedback').className='feedback bad';$('feedback').innerHTML='<b>حاول مرة أخرى 💪</b><p>'+cur[4]+'</p>'}}
+$('next').onclick=()=>{if(idx<9){idx++;renderQ()}else{data.completed.push(lvl);save();$('finishDetail').textContent='أكملت '+levels[lvl][0]+' بنجاح. عدد المحاولات الخاطئة: '+wrongRound;show('finish');renderHome()}};
+$('hint').onclick=()=>{$('feedback').className='feedback';$('feedback').textContent='💡 '+cur[4]};
+$('back').onclick=()=>{show('home');renderHome()};
+$('finishBack').onclick=()=>{show('home');renderHome()};
+$('sound').onclick=()=>{data.sound=!data.sound;save();renderHome()};
+$('showStats').onclick=()=>{$('stats').classList.toggle('hidden');$('stats').innerHTML=`<b>📊 سجل الإنجاز</b><p>المستويات المكتملة: ${data.completed.length} / 6</p><p>النجوم: ⭐ ${data.stars}</p><p>المحاولات الخاطئة: ${data.wrong}</p>`};
+$('reset').onclick=()=>{if(confirm('هل تريد حذف كل التقدم والنجوم؟')){data={completed:[],stars:0,wrong:0,sound:true};save();renderHome()}};
+document.addEventListener('keydown',e=>{if($('game').classList.contains('hidden'))return;if(!locked&&['ArrowRight','ArrowDown'].includes(e.key)){e.preventDefault();selected=(selected+1)%4;select()}if(!locked&&['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();selected=(selected+3)%4;select()}if(e.key==='Enter'||e.key===' '){e.preventDefault();if(locked)$('next').click();else answer(selected)}});
+renderHome();
+})();
+</script></body></html>
