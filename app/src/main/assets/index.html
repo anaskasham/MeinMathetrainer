@@ -323,6 +323,7 @@ button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0
   <div id="memoryGrid"></div>
   <div id="memoryStatus" aria-live="polite"><span class="ar">هيا يا مالك! ❤️</span><span class="de">Los, Malik! ❤️</span></div>
   <div class="bonus-actions">
+   <button id="memoryPreview">👀 <span class="ar">لمحة سريعة</span><span class="de">Schnellblick</span></button>
    <button id="memoryRestart">🔄 <span class="ar">العب مرة أخرى</span><span class="de">Nochmal spielen</span></button>
    <button class="primary" id="memoryClose">🏅 <span class="ar">العودة للمكافأة</span><span class="de">Zurück</span></button>
   </div>
@@ -530,8 +531,15 @@ function renderMemory(){
   b.addEventListener('click',(function(ix){return function(){flipMemory(ix)}})(i));g.appendChild(b);
  });
 }
+function previewMemory(){
+ if(memBusy||memPreviewing)return;
+ memPreviewing=true;memBusy=true;renderMemory();
+ memoryPraise('احفظ أماكن الصور بسرعة!','Merke dir die Bilder und ihre Plätze!');
+ var b=$('memoryPreview');b.disabled=true;
+ memPreviewTimer=setTimeout(function(){memPreviewing=false;memBusy=false;renderMemory();b.disabled=false;memoryPraise('هيا يا مالك، ابحث عن الأزواج!','Los, Malik! Finde die Paare!')},1400);
+}
 function flipMemory(i){
- if(memBusy||memOpen.indexOf(i)>=0||memMatched[memCards[i].pair])return;
+ if(memPreviewing||memBusy||memOpen.indexOf(i)>=0||memMatched[memCards[i].pair])return;
  memOpen.push(i);renderMemory();
  if(memOpen.length===2){
   memMoves++;
