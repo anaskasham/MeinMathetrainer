@@ -29,6 +29,6 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Rechnen-bis-100-AndroidTV-v1.3-APK
+          name: Taallam-ma-Malik-AndroidTV-v2.0-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
