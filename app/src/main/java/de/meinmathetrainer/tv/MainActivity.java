@@ -2,6 +2,8 @@ package de.meinmathetrainer.tv;
 
 import android.app.Activity;
 import android.media.AudioManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -23,6 +25,10 @@ public class MainActivity extends Activity {
     private boolean ttsReady = false;
 
     public class AndroidSound {
+        @JavascriptInterface public void openUrl(String url) {
+            if (url == null || !url.startsWith("https://")) return;
+            runOnUiThread(() -> { try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception ignored) {} });
+        }
         @JavascriptInterface public void playCorrect() {
             runOnUiThread(() -> { if (tones != null) tones.startTone(ToneGenerator.TONE_PROP_ACK, 260); });
         }

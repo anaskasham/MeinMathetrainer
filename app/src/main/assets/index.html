@@ -17,6 +17,15 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px}
 h1{font-size:1.5em;margin:0}
 h1 small{display:block;font-size:.6em;color:var(--mute);font-weight:400}
 .tools button{background:var(--panel);border-radius:14px;padding:.5em .9em;margin-inline-start:8px}
+#aboutPanel{display:none;position:fixed;inset:0;background:#082f36b8;z-index:30;align-items:center;justify-content:center;padding:18px}
+#aboutPanel.open{display:flex}
+.about-card{width:min(92vw,560px);background:#f8fffc;border:3px solid #9fcfc4;border-radius:26px;padding:24px;color:#123f46;box-shadow:0 18px 60px #001d2580;text-align:center}
+.about-card h2{margin:0 0 10px;font-size:1.5em}
+.about-card p{margin:.6em 0;color:#315f66}
+.about-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.about-actions button{border-radius:14px;padding:.65em 1em;font-weight:700;background:#dcefe9;color:#123f46;border:2px solid #a9ccc2}
+.about-actions .primary{background:#7db9ad}
+#updateStatus{min-height:2.5em;font-weight:700;margin-top:12px}
 #levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:2vmin}
 .lv{background:var(--panel);border-radius:18px;padding:16px;text-align:start;display:flex;flex-direction:column;gap:6px;min-height:120px}
 .lv b{font-size:1.15em}.lv span{color:var(--mute);direction:ltr;text-align:start}
@@ -228,7 +237,7 @@ button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0
 <div class="wrap">
 <header>
  <div class="hero"><div class="mas" id="mas0" aria-label="شخصيات مالك ومحمد وأصدقائه"></div><h1><span class="ar">تعلم مع مالك</span><small class="de">Learn with Malik</small></h1></div>
- <div class="tools"><span class="langs"><button data-l="ar">عربي</button><button data-l="de">Deutsch</button><button data-l="both">ع+DE</button></span><button id="snd" aria-label="Ton">🔊</button><button id="rst" aria-label="مسح التقدم">↺</button></div>
+ <div class="tools"><span class="langs"><button data-l="ar">عربي</button><button data-l="de">Deutsch</button><button data-l="both">ع+DE</button></span><button id="snd" aria-label="Ton">🔊</button><button id="aboutBtn" aria-label="حول التطبيق">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Info</span></button><button id="rst" aria-label="مسح التقدم">↺</button></div>
 </header>
 
 <section id="menu">
@@ -237,6 +246,8 @@ button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0
  <p style="color:var(--mute)"><span class="ar">أنهِ كل مستوى (٨ إجابات صحيحة) لتفتح المستوى التالي.</span> <span class="de">Schließe jede Stufe ab (10 richtige Antworten), um die nächste zu öffnen.</span></p>
  <div id="levels"></div>
 </section>
+
+<div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><div class="about-card"><h2 id="aboutTitle">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Über die App</span></h2><p><strong>تعلم مع مالك · Learn with Malik</strong></p><p><span class="ar">الإصدار المثبّت:</span><span class="de">Installierte Version:</span> <b id="appVersion">2.2</b></p><p id="updateStatus"><span class="ar">يمكنك البحث عن أحدث إصدار عبر الإنترنت.</span><span class="de">Du kannst online nach einer neuen Version suchen.</span></p><div class="about-actions"><button class="primary" id="checkUpdate"><span class="ar">البحث عن تحديثات</span><span class="de">Nach Updates suchen</span></button><button id="downloadUpdate" style="display:none"><span class="ar">تنزيل التحديث</span><span class="de">Update herunterladen</span></button><button id="closeAbout"><span class="ar">إغلاق</span><span class="de">Schließen</span></button></div></div></div>
 
 <section id="game">
  <div class="top game-hud"><button id="back">🏠 <span class="ar">القائمة</span> <span class="de">Menü</span></button><div class="level-chip">🏅 <span class="ar">مغامرة الأرقام</span><span class="de">Zahlen-Abenteuer</span></div><div class="prog"><i id="pb"></i></div><span id="cnt" style="direction:ltr"></span><div class="score-chip">⭐ <b id="score">0</b></div></div>
@@ -410,6 +421,15 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
+var APP_VERSION='2.2';
+var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
+var releaseDownload='';
+function aboutStatus(ar,de){$('updateStatus').textContent=lang==='de'?de:(lang==='ar'?ar:ar+' · '+de)}
+$('aboutBtn').onclick=function(){$('aboutPanel').classList.add('open');$('downloadUpdate').style.display='none';$('appVersion').textContent=APP_VERSION;$('closeAbout').focus()};
+$('closeAbout').onclick=function(){$('aboutPanel').classList.remove('open');$('aboutBtn').focus()};
+$('aboutPanel').addEventListener('click',function(e){if(e.target===$('aboutPanel'))$('closeAbout').click()});
+$('checkUpdate').onclick=async function(){var b=$('checkUpdate');b.disabled=true;releaseDownload='';$('downloadUpdate').style.display='none';aboutStatus('جارٍ البحث عن تحديث عبر الإنترنت…','Suche online nach Updates…');try{var r=await fetch(RELEASES_API,{headers:{'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'},cache:'no-store'});if(r.status===404){aboutStatus('لم يُنشر إصدار جديد بعد. أنت تستخدم الإصدار '+APP_VERSION+'.','Es wurde noch keine neue Version veröffentlicht. Du verwendest Version '+APP_VERSION+'.');return}if(!r.ok)throw new Error('HTTP '+r.status);var data=await r.json();var tag=String(data.tag_name||'').replace(/^v/i,'');var apk=(data.assets||[]).filter(function(a){return /\.apk$/i.test(a.name||'')})[0];function nums(v){return String(v).split('.').map(function(x){return parseInt(x,10)||0})}function newer(a,b){a=nums(a);b=nums(b);for(var i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}if(newer(tag,APP_VERSION)){aboutStatus('يتوفر إصدار جديد '+tag+'. اضغط تنزيل التحديث.','Version '+tag+' ist verfügbar. Tippe auf „Update herunterladen“.');if(apk){releaseDownload=apk.browser_download_url;$('downloadUpdate').style.display='inline-block'}else{aboutStatus('الإصدار '+tag+' متاح، لكن ملف APK غير مرفق بالإصدار بعد.','Version '+tag+' ist verfügbar, aber die APK-Datei ist nicht angehängt.')}}else{aboutStatus('أنت تستخدم أحدث إصدار منشور ('+APP_VERSION+').','Du verwendest die neueste veröffentlichte Version ('+APP_VERSION+').')}}catch(e){aboutStatus('تعذّر الاتصال بخادم التحديث. تحقق من الإنترنت وحاول مجدداً.','Update-Server nicht erreichbar. Prüfe die Internetverbindung und versuche es erneut.')}finally{b.disabled=false}};
+$('downloadUpdate').onclick=function(){if(!releaseDownload)return;try{if(window.AndroidSound&&AndroidSound.openUrl)AndroidSound.openUrl(releaseDownload);else window.open(releaseDownload,'_blank')}catch(e){window.open(releaseDownload,'_blank')}};
 function applyLang(){document.body.dataset.lang=lang;var h=document.documentElement;h.dir=lang=='de'?'ltr':'rtl';h.lang=lang=='de'?'de':'ar';[].forEach.call(document.querySelectorAll('.langs button'),function(b){b.setAttribute('aria-pressed',String(b.dataset.l==lang))});renderMenu();if(q&&$('game').style.display==='block')$('task').textContent=T(q.task)}
 [].forEach.call(document.querySelectorAll('.langs button'),function(b){b.onclick=function(){lang=b.dataset.l;store.set('r100l',lang);applyLang()}});
 $('mas0').innerHTML=mascot();applyLang();show('menu');renderMenu();
