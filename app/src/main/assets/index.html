@@ -61,6 +61,7 @@ h1 small{display:block;font-size:.6em;color:var(--mute);font-weight:400}
 body{background-image:radial-gradient(circle at 8% 12%,#3ed6c422 0 9vmin,transparent 9.2vmin),radial-gradient(circle at 92% 30%,#f2c87922 0 12vmin,transparent 12.2vmin),radial-gradient(circle at 20% 90%,#ff8a7a1f 0 10vmin,transparent 10.2vmin);background-attachment:fixed}
 body[data-lang="ar"] .de,body[data-lang="de"] .ar{display:none}
 body[data-lang="ar"] #updateStatus .de,body[data-lang="de"] #updateStatus .ar{display:none}
+body[data-lang="ar"] #updateStatus .de,body[data-lang="de"] #updateStatus .ar{display:none}
 body[data-lang="de"] h1 small{font-size:1em;color:inherit;font-weight:700}
 .mas{width:clamp(90px,16vmin,170px);flex:none}.mas svg{width:100%;height:auto;display:block}
 .hero{display:flex;align-items:center;gap:14px}
@@ -254,6 +255,8 @@ button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0
 .memory-card .backface{font-size:clamp(2em,6vw,4em);font-weight:900;color:#168b83}
 .memory-card img{width:100%;height:clamp(65px,12vw,112px);object-fit:contain}
 .memory-card .name{font-size:clamp(.72em,1.6vw,1em);font-weight:800;color:#123f46}
+.memory-card .name.person-name{display:none!important}
+#memoryPreview{background:#f3d36e;color:#493400;border:2px solid #d5a933}
 .memory-card .name.person-name{display:none!important}
 #memoryPreview{background:#f3d36e;color:#493400;border:2px solid #d5a933}
 .memory-card.matched{background:#e2f8d9;border-color:#77b96a;box-shadow:0 4px 0 #5c9a53}
@@ -549,7 +552,7 @@ function flipMemory(i){
  }
 }
 $('bonusBtn').onclick=function(){$('bonusGame').classList.add('open');buildMemory();var f=$('memoryGrid').querySelector('button');if(f)f.focus()};
-$('memoryRestart').onclick=buildMemory;\n$('memoryPreview').onclick=previewMemory;
+$('memoryRestart').onclick=buildMemory;\n$('memoryPreview').onclick=previewMemory;\n$('memoryPreview').onclick=previewMemory;
 $('memoryClose').onclick=function(){$('bonusGame').classList.remove('open');$('tomenu').focus()};
 
 function applyLang(){document.body.dataset.lang=lang;var h=document.documentElement;h.dir=lang=='de'?'ltr':'rtl';h.lang=lang=='de'?'de':'ar';[].forEach.call(document.querySelectorAll('.langs button'),function(b){b.setAttribute('aria-pressed',String(b.dataset.l==lang))});renderMenu();if(q&&$('game').style.display==='block')$('task').textContent=T(q.task)}
