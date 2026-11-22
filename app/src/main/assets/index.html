@@ -231,6 +231,37 @@ h1 small{color:#315d63!important;text-shadow:none}
 .primary{background:linear-gradient(180deg,#a8d0c7,#78b2a8);color:#173f48;border:2px solid #e1f1ec;box-shadow:0 4px 0 #477b76;border-radius:16px}
 button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0 0 6px #fff8}
 
+
+/* v2.3: readable bilingual About panel and bonus memory game */
+.about-card{width:min(94vw,680px);padding:clamp(18px,3vw,30px)}
+.about-card h2{line-height:1.35}
+.about-line{display:grid;gap:5px;margin:14px 0;color:#315f66;font-weight:700}
+.about-line>div{padding:4px 0}
+#updateStatus{display:grid;gap:7px;min-height:3.2em;line-height:1.5;padding:8px 4px}
+#updateStatus>div{display:block}
+#updateStatus .ar{direction:rtl;text-align:center}
+#updateStatus .de{direction:ltr;text-align:center}
+.about-actions button{min-width:145px;line-height:1.35}
+#bonusBtn{background:#f3d36e;color:#493400;border:2px solid #d5a933;border-radius:18px;padding:.7em 1.2em;font-weight:900;margin:10px}
+#bonusGame{display:none;position:fixed;inset:0;z-index:40;background:#073d46ed;overflow:auto;padding:3vmin}
+#bonusGame.open{display:flex;align-items:center;justify-content:center}
+.bonus-card{width:min(100%,900px);background:#f4fbf8;color:#083b45;border:4px solid #a6d4c9;border-radius:28px;padding:clamp(16px,3vw,30px);text-align:center;box-shadow:0 16px 50px #001d2580}
+.bonus-card h2{margin:.1em 0 .3em;font-size:clamp(1.4em,3vw,2em)}
+.bonus-sub{color:#315f66;margin:.2em 0 1em}
+#memoryGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(7px,1.5vw,14px);max-width:760px;margin:16px auto}
+.memory-card{min-height:clamp(110px,19vw,170px);border:3px solid #9fc9c4;border-radius:18px;background:linear-gradient(145deg,#d9f0eb,#b8ddd5);box-shadow:0 4px 0 #7eaaa2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px;overflow:hidden}
+.memory-card .backface{font-size:clamp(2em,6vw,4em);font-weight:900;color:#168b83}
+.memory-card img{width:100%;height:clamp(65px,12vw,112px);object-fit:contain}
+.memory-card .name{font-size:clamp(.72em,1.6vw,1em);font-weight:800;color:#123f46}
+.memory-card.matched{background:#e2f8d9;border-color:#77b96a;box-shadow:0 4px 0 #5c9a53}
+.memory-card:disabled{cursor:default;opacity:1}
+#memoryStatus{font-weight:900;font-size:1.15em;min-height:2em;color:#075d56}
+.bonus-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.bonus-actions button{border-radius:15px;padding:.65em 1em;background:#dcefe9;border:2px solid #a9ccc2;font-weight:800}
+.bonus-actions .primary{background:#0ba995;color:white}
+@media(max-width:520px){#memoryGrid{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.memory-card{min-height:94px;padding:4px;border-radius:12px}.memory-card img{height:55px}.memory-card .name{font-size:.65em}}
+@media(prefers-reduced-motion:no-preference){.memory-card:not(:disabled):active{transform:scale(.96)}}
+
 </style>
 </head>
 <body>
@@ -247,7 +278,7 @@ button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0
  <div id="levels"></div>
 </section>
 
-<div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><div class="about-card"><h2 id="aboutTitle">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Über die App</span></h2><p><strong>تعلم مع مالك · Learn with Malik</strong></p><p><span class="ar">الإصدار المثبّت:</span><span class="de">Installierte Version:</span> <b id="appVersion">2.2</b></p><p id="updateStatus"><span class="ar">يمكنك البحث عن أحدث إصدار عبر الإنترنت.</span><span class="de">Du kannst online nach einer neuen Version suchen.</span></p><div class="about-actions"><button class="primary" id="checkUpdate"><span class="ar">البحث عن تحديثات</span><span class="de">Nach Updates suchen</span></button><button id="downloadUpdate" style="display:none"><span class="ar">تنزيل التحديث</span><span class="de">Update herunterladen</span></button><button id="closeAbout"><span class="ar">إغلاق</span><span class="de">Schließen</span></button></div></div></div>
+<div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><div class="about-card"><h2 id="aboutTitle">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Über die App</span></h2><p><strong>تعلم مع مالك · Learn with Malik</strong></p><div class="about-line"><div class="ar" dir="rtl">الإصدار المثبّت: <b id="appVersion">2.3</b></div><div class="de" dir="ltr">Installierte Version: <b>2.3</b></div></div><div id="updateStatus" aria-live="polite"><div class="ar" dir="rtl">يمكنك البحث عن أحدث إصدار عبر الإنترنت.</div><div class="de" dir="ltr">Du kannst online nach einer neuen Version suchen.</div></div><div class="about-actions"><button class="primary" id="checkUpdate"><span class="ar">البحث عن تحديثات</span><span class="de">Nach Updates suchen</span></button><button id="downloadUpdate" style="display:none"><span class="ar">تنزيل التحديث</span><span class="de">Update herunterladen</span></button><button id="closeAbout"><span class="ar">إغلاق</span><span class="de">Schließen</span></button></div></div></div>
 
 <section id="game">
  <div class="top game-hud"><button id="back">🏠 <span class="ar">القائمة</span> <span class="de">Menü</span></button><div class="level-chip">🏅 <span class="ar">مغامرة الأرقام</span><span class="de">Zahlen-Abenteuer</span></div><div class="prog"><i id="pb"></i></div><span id="cnt" style="direction:ltr"></span><div class="score-chip">⭐ <b id="score">0</b></div></div>
@@ -273,8 +304,23 @@ button:focus-visible{outline:4px solid #f0cf7b;outline-offset:3px;box-shadow:0 0
  <div class="mas" id="mas2" style="margin:0 auto" aria-label="شخصيات مالك ومحمد وأصدقائه"></div><div class="sticker" id="stk"></div><h2>🎉 <span class="ar">بطل يا مالك! ممتاز!</span> <span class="de">Du bist ein Held, Malik!</span></h2>
  <p id="wintxt"></p>
  <button class="primary" id="nextlv"><span class="ar">أكمل</span> <span class="de">Weiter</span></button>
+ <button id="bonusBtn">🎁 <span class="ar">مكافأة اللعب</span><span class="de">Spiel-Belohnung</span></button>
  <button class="primary" id="tomenu" style="background:var(--panel);color:var(--ink)"><span class="ar">القائمة</span> <span class="de">Menü</span></button>
 </section>
+</div>
+
+<div id="bonusGame" role="dialog" aria-modal="true" aria-labelledby="bonusTitle">
+ <div class="bonus-card">
+  <div style="font-size:2.2em">🎁 ⭐ 🎉</div>
+  <h2 id="bonusTitle"><span class="ar">لعبة الأصدقاء: اعثر على الثنائيات!</span><span class="de">Freunde-Spiel: Finde die Paare!</span></h2>
+  <p class="bonus-sub"><span class="ar">اقلب بطاقتين في كل مرة، وابحث عن الصديقين المرتبطين معاً.</span><span class="de">Decke zwei Karten auf und finde die passenden Freunde.</span></p>
+  <div id="memoryGrid"></div>
+  <div id="memoryStatus" aria-live="polite"><span class="ar">هيا يا مالك! ❤️</span><span class="de">Los, Malik! ❤️</span></div>
+  <div class="bonus-actions">
+   <button id="memoryRestart">🔄 <span class="ar">العب مرة أخرى</span><span class="de">Nochmal spielen</span></button>
+   <button class="primary" id="memoryClose">🏅 <span class="ar">العودة للمكافأة</span><span class="de">Zurück</span></button>
+  </div>
+ </div>
 </div>
 
 <script>
@@ -421,15 +467,88 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
-var APP_VERSION='2.2';
+var APP_VERSION='2.3';
 var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
 var releaseDownload='';
-function aboutStatus(ar,de){$('updateStatus').textContent=lang==='de'?de:(lang==='ar'?ar:ar+' · '+de)}
+function aboutStatus(ar,de){$('updateStatus').innerHTML='<div class="ar" dir="rtl">'+ar+'</div><div class="de" dir="ltr">'+de+'</div>';}
 $('aboutBtn').onclick=function(){$('aboutPanel').classList.add('open');$('downloadUpdate').style.display='none';$('appVersion').textContent=APP_VERSION;$('closeAbout').focus()};
 $('closeAbout').onclick=function(){$('aboutPanel').classList.remove('open');$('aboutBtn').focus()};
 $('aboutPanel').addEventListener('click',function(e){if(e.target===$('aboutPanel'))$('closeAbout').click()});
 $('checkUpdate').onclick=async function(){var b=$('checkUpdate');b.disabled=true;releaseDownload='';$('downloadUpdate').style.display='none';aboutStatus('جارٍ البحث عن تحديث عبر الإنترنت…','Suche online nach Updates…');try{var r=await fetch(RELEASES_API,{headers:{'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'},cache:'no-store'});if(r.status===404){aboutStatus('لم يُنشر إصدار جديد بعد. أنت تستخدم الإصدار '+APP_VERSION+'.','Es wurde noch keine neue Version veröffentlicht. Du verwendest Version '+APP_VERSION+'.');return}if(!r.ok)throw new Error('HTTP '+r.status);var data=await r.json();var tag=String(data.tag_name||'').replace(/^v/i,'');var apk=(data.assets||[]).filter(function(a){return /\.apk$/i.test(a.name||'')})[0];function nums(v){return String(v).split('.').map(function(x){return parseInt(x,10)||0})}function newer(a,b){a=nums(a);b=nums(b);for(var i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}if(newer(tag,APP_VERSION)){aboutStatus('يتوفر إصدار جديد '+tag+'. اضغط تنزيل التحديث.','Version '+tag+' ist verfügbar. Tippe auf „Update herunterladen“.');if(apk){releaseDownload=apk.browser_download_url;$('downloadUpdate').style.display='inline-block'}else{aboutStatus('الإصدار '+tag+' متاح، لكن ملف APK غير مرفق بالإصدار بعد.','Version '+tag+' ist verfügbar, aber die APK-Datei ist nicht angehängt.')}}else{aboutStatus('أنت تستخدم أحدث إصدار منشور ('+APP_VERSION+').','Du verwendest die neueste veröffentlichte Version ('+APP_VERSION+').')}}catch(e){aboutStatus('تعذّر الاتصال بخادم التحديث. تحقق من الإنترنت وحاول مجدداً.','Update-Server nicht erreichbar. Prüfe die Internetverbindung und versuche es erneut.')}finally{b.disabled=false}};
 $('downloadUpdate').onclick=function(){if(!releaseDownload)return;try{if(window.AndroidSound&&AndroidSound.openUrl)AndroidSound.openUrl(releaseDownload);else window.open(releaseDownload,'_blank')}catch(e){window.open(releaseDownload,'_blank')}};
+
+/* ---- level-completion bonus: partner memory game ---- */
+var memoryPairs=[
+ {id:'mm',a:{src:'malik-maus.webp',name:'مالك · Malik'},b:{src:'mohammad-maus.webp',name:'محمد · Mohammad'},label:'مالك ومحمد · Malik & Mohammad'},
+ {id:'oh',a:{src:'friend-omar.webp',name:'عمر · Omar'},b:{src:'friend-hana.webp',name:'هنا · Hana'},label:'عمر وهنا · Omar & Hana'},
+ {id:'rn',a:{src:'friend-rashed.webp',name:'راشد · Rashed'},b:{src:'friend-noura.webp',name:'نورا · Noura'},label:'راشد ونورا · Rashed & Noura'},
+ {id:'ss',a:{src:'friend-saud.webp',name:'سعود · Saud'},b:{src:'friend-sara.webp',name:'سارة · Sara'},label:'سعود وسارة · Saud & Sara'}
+];
+var memCards=[],memOpen=[],memMatched={},memBusy=false,memMoves=0;
+function memoryPraise(ar,de){$('memoryStatus').innerHTML='<div class=\"ar\" dir=\"rtl\">'+ar+'</div><div class=\"de\" dir=\"ltr\">'+de+'</div>'}
+function memorySound(){
+ try{fanfare();setTimeout(function(){fanfare()},220);applauseSound()}catch(e){}
+}
+function applauseSound(){
+ if(!sound)return;
+ try{
+  ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+  if(ac.state==='suspended')ac.resume();
+  var now=ac.currentTime;
+  for(var i=0;i<8;i++){
+   var len=Math.floor(ac.sampleRate*.075),buf=ac.createBuffer(1,len,ac.sampleRate),data=buf.getChannelData(0);
+   for(var j=0;j<len;j++)data[j]=(Math.random()*2-1)*(1-j/len);
+   var src=ac.createBufferSource(),gain=ac.createGain();src.buffer=buf;
+   gain.gain.setValueAtTime(.0001,now+i*.16);gain.gain.exponentialRampToValueAtTime(.16,now+i*.16+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+i*.16+.075);
+   src.connect(gain);gain.connect(ac.destination);src.start(now+i*.16);src.stop(now+i*.16+.08);
+  }
+ }catch(e){}
+}
+function buildMemory(){
+ memCards=[];
+ memoryPairs.forEach(function(p){memCards.push({pair:p.id,person:p.a},{pair:p.id,person:p.b})});
+ for(var i=memCards.length-1;i>0;i--){var j=R(0,i);var t=memCards[i];memCards[i]=memCards[j];memCards[j]=t}
+ memOpen=[];memMatched={};memBusy=false;memMoves=0;renderMemory();
+ memoryPraise('اقلب بطاقتين وابحث عن الصديقين!','Drehe zwei Karten um und finde das Freundespaar!');
+}
+function renderMemory(){
+ var g=$('memoryGrid');g.innerHTML='';
+ memCards.forEach(function(c,i){
+  var matched=!!memMatched[c.pair]&&memMatched[c.pair]===true;
+  var open=memOpen.indexOf(i)>=0;
+  var b=document.createElement('button');b.className='memory-card'+(matched?' matched':'');b.type='button';b.disabled=matched||open||memBusy;
+  if(open||matched){
+   var im=document.createElement('img');im.src=c.person.src;im.alt=c.person.name;b.appendChild(im);
+   var nm=document.createElement('span');nm.className='name';nm.textContent=c.person.name;b.appendChild(nm);
+  }else{var back=document.createElement('span');back.className='backface';back.textContent='?';b.appendChild(back);var hint=document.createElement('span');hint.className='name';hint.textContent='⭐';b.appendChild(hint)}
+  b.addEventListener('click',(function(ix){return function(){flipMemory(ix)}})(i));g.appendChild(b);
+ });
+}
+function flipMemory(i){
+ if(memBusy||memOpen.indexOf(i)>=0||memMatched[memCards[i].pair])return;
+ memOpen.push(i);renderMemory();
+ if(memOpen.length===2){
+  memMoves++;
+  var a=memCards[memOpen[0]],b=memCards[memOpen[1]];
+  if(a.pair===b.pair){
+   memMatched[a.pair]=true;memOpen=[];renderMemory();chime(true);
+   var p=memoryPairs.filter(function(x){return x.id===a.pair})[0];
+   memoryPraise('أحسنت! وجدت '+p.label.split(' · ')[0]+'!','Super! Du hast '+p.label.split(' · ')[1]+' gefunden!');
+   if(Object.keys(memMatched).length===memoryPairs.length){
+    memoryPraise('رائع يا مالك! وجدت كل الأصدقاء! 🎉','Wunderbar, Malik! Du hast alle Freunde gefunden! 🎉');
+    confetti();memorySound();try{if(window.AndroidSound&&AndroidSound.applause)AndroidSound.applause()}catch(e){}
+   }
+  }else{
+   memBusy=true;chime(false);
+   memoryPraise('محاولة جميلة! جرّب بطاقتين أخريين.','Gut versucht! Probiere zwei andere Karten.');
+   setTimeout(function(){memOpen=[];memBusy=false;renderMemory()},1050);
+  }
+ }
+}
+$('bonusBtn').onclick=function(){$('bonusGame').classList.add('open');buildMemory();var f=$('memoryGrid').querySelector('button');if(f)f.focus()};
+$('memoryRestart').onclick=buildMemory;
+$('memoryClose').onclick=function(){$('bonusGame').classList.remove('open');$('tomenu').focus()};
+
 function applyLang(){document.body.dataset.lang=lang;var h=document.documentElement;h.dir=lang=='de'?'ltr':'rtl';h.lang=lang=='de'?'de':'ar';[].forEach.call(document.querySelectorAll('.langs button'),function(b){b.setAttribute('aria-pressed',String(b.dataset.l==lang))});renderMenu();if(q&&$('game').style.display==='block')$('task').textContent=T(q.task)}
 [].forEach.call(document.querySelectorAll('.langs button'),function(b){b.onclick=function(){lang=b.dataset.l;store.set('r100l',lang);applyLang()}});
 $('mas0').innerHTML=mascot();applyLang();show('menu');renderMenu();
