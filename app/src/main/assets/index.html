@@ -401,7 +401,7 @@ function blank(){return '<u id="bl">&nbsp;</u>'}
 /* ---- levels: gen(d) d=0..2 adaptive difficulty ---- */
 var L=[
  {ar:'تمثيل الأعداد بالمكعبات',de:'Zahldarstellung',gen:function(d){var t=R(1,[3,6,9][d]),o=R(d?0:1,9),n=t*10+o;
-  return {task:'كَمْ عَدَدُ المُكَعَّباتِ؟ · Welche Zahl ist das?',vis:blocks(n),eq:'? ',ans:n,say:'ما هذا الرَّقْمُ يا مالِكْ؟ · Welche Zahl ist das, Malik?',help:'الأعمدةُ = عَشَراتٌ، والمكعّباتُ = آحادٌ · Stangen = Zehner (Z), Würfel = Einer (E)'}}},
+  return {task:'كَمْ مُكَعَّبًا تَرَى؟ · Welche Zahl ist das?',vis:blocks(n),eq:'? ',ans:n,say:'ما هذا الرَّقْمُ يا مالِكْ؟ · Welche Zahl ist das, Malik?',help:'الأعمدةُ = عَشَراتٌ، والمكعّباتُ = آحادٌ · Stangen = Zehner (Z), Würfel = Einer (E)'}}},
  {ar:'تفكيك الأعداد',de:'Zerlegung in Z und E',gen:function(d){var t=R(2,[5,8,9][d]),o=R(1,9),n=t*10+o,askE=d<2||R(0,1);
   return {task:'فكِّكِ العددَ · Zerlege in Zehner und Einer',vis:d==0?blocks(n):'',eq:askE?n+' = '+t*10+' + '+blank():n+' = '+blank()+' + '+o,ans:askE?o:t*10,say:n+' gleich',help:n+' = '+t+' Z + '+o+' E'}}},
  {ar:'السابق واللاحق',de:'Vorgänger und Nachfolger',gen:function(d){var n=R(2,[49,89,98][d]),s=R(0,1);
@@ -438,7 +438,7 @@ var ac;
 function seq(n,ty,vol,gap){if(!sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();var t=ac.currentTime+.02;n.forEach(function(f,i){var o=ac.createOscillator(),g=ac.createGain(),s=t+i*gap;o.type=ty;o.frequency.setValueAtTime(f,s);g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(vol,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+gap*1.9);o.connect(g);g.connect(ac.destination);o.start(s);o.stop(s+gap*1.9+.05)})}catch(e){}}
 function tick(){seq([760],'sine',.22,.05)}
 function fanfare(){seq([523,659,784,659,784,1047,1319],'triangle',.4,.13)}
-var CP=['أحْسَنْتَ يا مالِكْ! · Bravo, Malik!','مُمْتازٌ! · Ausgezeichnet!','رائِعٌ يا مالِكْ! · Toll, Malik!','أحْسَنْتَ! تابِعْ! · Super! Weiter so!'],HERO='بَطَلٌ يا مالِكْ! · Du bist ein Held, Malik!',WR=['تابِعْ يا مالِكْ، حاوِلْ مَرَّةً أُخْرى! · Weiter, Malik, versuch es nochmal','لا بَأْسَ، أَنْتَ تَسْتَطيعُ! · Nicht schlimm, du schaffst das!'],run=0;
+var CP=['أحْسَنْتَ يا مالِكُ! · Bravo, Malik!','مُمْتازٌ! · Ausgezeichnet!','رائِعٌ يا مالِكُ! · Toll, Malik!','أحْسَنْتَ! تابِعْ! · Super! Weiter so!'],HERO='بَطَلٌ يا مالِكُ! · Du bist ein Held, Malik!',WR=['تابِعْ يا مالِكْ، حاوِلْ مَرَّةً أُخْرى! · Weiter, Malik, versuch es nochmal','لا بَأْسَ، أَنْتَ تَسْتَطيعُ! · Nicht schlimm, du schaffst das!'],run=0;
 function praise(n){return run%3==0?HERO:(n==Math.floor(NEED/2)?'أَكْمِلْ، أَنْتَ في المُنْتَصَفِ! · Weiter, du bist halb da!':CP[R(0,CP.length-1)])}
 function bub(t,c){var b=$('msg');b.className='bub '+(c||'');b.innerHTML=t}
 function flash(c){var e=$('card');e.classList.remove('pop','flash-ok','flash-no');void e.offsetWidth;e.classList.add(c)}
