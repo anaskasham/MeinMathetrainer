@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>نحسب حتى 100 · Rechnen bis 100</title>
 <style>
-:root{--bg:#0e3a42;--panel:#14505a;--ink:#f4fbfa;--mute:#9fd0cb;--acc:#3ed6c4;--wood:#f2c879;--woodd:#b9893a;--ok:#7be08a;--bad:#ff8a7a;color-scheme:dark}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#e8f6f4;--panel:#fff;--ink:#0e3a42;--mute:#3f6f73;--acc:#0a8f84;--ok:#1d8a3a;--bad:#c4402f;color-scheme:light}}
+:root{--bg:#eaf7f6;--panel:#ffffff;--ink:#083b45;--mute:#315f66;--acc:#12b9a8;--wood:#ffd36e;--woodd:#9a6415;--ok:#167a36;--bad:#b42318;color-scheme:light}
+
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",system-ui,sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);font-size:clamp(16px,2.2vmin,26px)}
@@ -82,12 +82,40 @@ button.mas img{display:block;width:100%;height:auto;object-fit:contain;border-ra
 .album i{font-style:normal;font-size:2em;background:#0003;border-radius:16px;padding:.1em .25em}.album i.off{filter:grayscale(1);opacity:.3}
 .sticker{font-size:6em;line-height:1.1;animation:stk 1s}@keyframes stk{0%{transform:scale(0) rotate(-40deg)}70%{transform:scale(1.25) rotate(8deg)}100%{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.pop,.jump,.flash-ok,.flash-no,.sticker{animation:none}.prog i{transition:none}.conf{display:none}}
+
+/* v1.6: clear high-contrast learning layout */
+.card{grid-template-columns:minmax(0,1.12fr) minmax(260px,.88fr);align-items:stretch;background:#fff;color:#083b45;min-width:0}
+.card>div{min-width:0}
+.mas img{display:block;width:100%;height:clamp(78px,16vmin,150px);object-fit:contain;object-position:center bottom;background:transparent}
+#mas0{width:clamp(58px,8vmin,92px)!important}
+#mas{width:clamp(74px,11vmin,118px)!important}
+#mas2{width:clamp(100px,16vmin,170px)!important}
+.task{color:#315f66;font-weight:700;font-size:1.02em}
+.eq{color:#073943;text-shadow:0 1px 0 #fff}
+.eq u{color:#075d68;border-bottom:4px solid #e0a82e}
+.steps{color:#315f66;font-weight:600}
+.ans{background:#edf5f6;border:3px solid #9bbfc2;color:#073943;min-height:1.55em;font-weight:800}
+.pad{gap:8px;align-content:start}
+.pad button{background:#e2eff0;color:#073943;border:2px solid #9bbfc2;box-shadow:0 2px 0 #b7ced0;font-weight:800}
+.pad button.go{background:#0ba995;color:#fff;border-color:#087e73}
+#vis{min-height:48px}
+.blocks{align-items:center;gap:12px 20px}
+.ten{height:24px;width:clamp(130px,21vw,230px);border:2px solid #a66c18;background:repeating-linear-gradient(90deg,#ffd36e 0 19px,#b98226 19px 22px);border-radius:5px}
+.ones{grid-template-columns:repeat(5,22px);gap:5px;width:max-content}
+.one{width:22px;height:22px;border:3px solid #a66c18;background:#ffda7d;border-radius:5px;box-shadow:inset 0 1px 0 #fff7}
+.wall span{background:#e3eff0;color:#083b45;border:2px solid #9bbfc2;font-weight:800}
+.primary{background:#0ba995;color:#fff}
+#hint,#say{background:#e4f0f1!important;color:#083b45!important;border:2px solid #a8c8ca}
+@media (orientation:landscape){#game .card{min-height:calc(100dvh - 125px);max-height:calc(100dvh - 115px);overflow:auto}#game .card>div:last-child{display:flex;flex-direction:column;justify-content:flex-start;min-width:250px}.pad button{height:clamp(42px,8.5vmin,74px);font-size:1.6em}.ans{font-size:2em;margin-bottom:8px}.hero{gap:10px}}
+@media (max-width:760px) and (orientation:portrait){.card{grid-template-columns:1fr}.card>div:last-child{display:block}.pad{grid-template-columns:repeat(3,minmax(0,1fr))}.mas img{height:100px}}
+@media (max-height:520px) and (orientation:landscape){.wrap{padding:1vmin 2vmin}.card{padding:1.5vmin;gap:1.5vmin;margin-top:1vmin}.mas img{height:76px}.eq{font-size:2.3em}.blocks{margin:.2em 0}.ten{height:18px}.ones{grid-template-columns:repeat(5,18px)}.one{width:18px;height:18px}.pad button{height:42px}.task{font-size:.9em}}
+
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
- <div class="hero"><div class="mas" id="mas0" aria-label="مالك ومحمد مع الفأر"></div><h1><span class="ar">نحسب حتى ١٠٠</span><small class="de">Rechnen bis 100</small></h1></div>
+ <div class="hero"><div class="mas" id="mas0" aria-label="شخصيات مالك ومحمد وأصدقائه"></div><h1><span class="ar">نحسب حتى ١٠٠</span><small class="de">Rechnen bis 100</small></h1></div>
  <div class="tools"><span class="langs"><button data-l="ar">عربي</button><button data-l="de">Deutsch</button><button data-l="both">ع+DE</button></span><button id="snd" aria-label="Ton">🔊</button><button id="rst" aria-label="مسح التقدم">↺</button></div>
 </header>
 
@@ -118,7 +146,7 @@ button.mas img{display:block;width:100%;height:auto;object-fit:contain;border-ra
 </section>
 
 <section id="win">
- <div class="mas" id="mas2" style="margin:0 auto" aria-label="مالك ومحمد مع الفأر"></div><div class="sticker" id="stk"></div><h2>🎉 <span class="ar">بطل يا مالك! ممتاز!</span> <span class="de">Du bist ein Held, Malek!</span></h2>
+ <div class="mas" id="mas2" style="margin:0 auto" aria-label="شخصيات مالك ومحمد وأصدقائه"></div><div class="sticker" id="stk"></div><h2>🎉 <span class="ar">بطل يا مالك! ممتاز!</span> <span class="de">Du bist ein Held, Malek!</span></h2>
  <p id="wintxt"></p>
  <button class="primary" id="nextlv"><span class="ar">أكمل</span> <span class="de">Weiter</span></button>
  <button class="primary" id="tomenu" style="background:var(--panel);color:var(--ink)"><span class="ar">القائمة</span> <span class="de">Menü</span></button>
@@ -140,7 +168,14 @@ var heroIndex=1;
 var HEROES=[
  {src:'malik-maus.webp',alt:'مالك مع الفأر'},
  {src:'mohammad-maus.webp',alt:'محمد مع الفأر'},
- {src:'friends-group.webp',alt:'أصدقاء مالك ومحمد: راشد، نورا، سراج، عمر، هنا، سعود، سارة'}
+ {src:'friend-rashed.webp',alt:'راشد'},
+ {src:'friend-noura.webp',alt:'نورا'},
+ {src:'friend-siraj.webp',alt:'سراج'},
+ {src:'friend-omar.webp',alt:'عمر'},
+ {src:'friend-hana.webp',alt:'هنا'},
+ {src:'friend-saud.webp',alt:'سعود'},
+ {src:'friend-sara.webp',alt:'سارة'},
+ {src:'friend-dawood.webp',alt:'داوود'}
 ];
 function mascot(){var h=HEROES[heroIndex%HEROES.length];return '<img alt="'+h.alt+'" title="'+h.alt+'" src="'+h.src+'">'}
 function setMas(m){var e=document.getElementById('mas');if(e)e.innerHTML=mascot()}
