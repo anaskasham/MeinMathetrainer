@@ -474,7 +474,7 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
-var APP_VERSION='2.4';
+var APP_VERSION='2.4.1';
 var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
 var releaseDownload='';
 function aboutStatus(ar,de){$('updateStatus').innerHTML='<div class="ar" dir="rtl">'+ar+'</div><div class="de" dir="ltr">'+de+'</div>';}
@@ -560,7 +560,8 @@ function flipMemory(i){
  }
 }
 $('bonusBtn').onclick=function(){$('bonusGame').classList.add('open');buildMemory();var f=$('memoryGrid').querySelector('button');if(f)f.focus()};
-$('memoryRestart').onclick=buildMemory;\n$('memoryPreview').onclick=previewMemory;\n$('memoryPreview').onclick=previewMemory;
+$('memoryRestart').onclick=buildMemory;
+$('memoryPreview').onclick=previewMemory;
 $('memoryClose').onclick=function(){$('bonusGame').classList.remove('open');$('tomenu').focus()};
 
 function applyLang(){document.body.dataset.lang=lang;var h=document.documentElement;h.dir=lang=='de'?'ltr':'rtl';h.lang=lang=='de'?'de':'ar';[].forEach.call(document.querySelectorAll('.langs button'),function(b){b.setAttribute('aria-pressed',String(b.dataset.l==lang))});renderMenu();if(q&&$('game').style.display==='block')$('task').textContent=T(q.task)}
