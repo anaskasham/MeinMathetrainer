@@ -36,7 +36,7 @@ h1 small{display:block;font-size:.6em;color:var(--mute);font-weight:400}
 .blocks{direction:ltr;display:flex;flex-wrap:wrap;gap:10px 22px;margin:.6em 0;align-items:flex-end}
 .grp{display:flex;flex-direction:column;gap:3px}
 .ten{width:150px;height:15px;background:repeating-linear-gradient(90deg,var(--wood) 0 13px,var(--woodd) 13px 15px);border-radius:3px}
-.ones{display:flex;gap:3px;flex-wrap:wrap;max-width:120px}.one{width:15px;height:15px;background:var(--wood);border:2px solid var(--woodd);border-radius:3px}
+.ones{display:grid;grid-template-columns:repeat(5,15px);gap:3px;direction:ltr;width:max-content}.one{width:15px;height:15px;background:var(--wood);border:2px solid var(--woodd);border-radius:3px}
 .wall{direction:ltr;display:flex;flex-direction:column;align-items:center;gap:6px;margin:.4em 0}
 .wall div{display:flex;gap:6px}.wall span{min-width:2.4em;text-align:center;background:#0004;border-radius:8px;padding:.25em .4em;font-size:1.3em}
 .pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;direction:ltr}
@@ -67,7 +67,11 @@ body{font-size:clamp(15px,2.4vmin,30px)}
 @media (orientation:landscape) and (max-height:520px){.eq{font-size:2.4em}.card{padding:2vmin;margin-top:1vmin}.mas{width:70px}.steps{font-size:1.1em}}
 button:focus-visible{outline:5px solid var(--wood);outline-offset:3px;transform:scale(1.07);box-shadow:0 0 0 9px #f2c87955}
 .pad button{height:clamp(46px,9.5vmin,96px);padding:0}
-button.mas{background:none;padding:0;border-radius:24px}
+button.mas{background:none;padding:0;border-radius:24px;overflow:hidden;display:block}
+button.mas img{display:block;width:100%;height:auto;object-fit:contain;border-radius:18px}
+#mas0{width:clamp(64px,10vmin,112px)!important}
+#mas{width:clamp(84px,13vmin,150px)}
+#mas2{width:clamp(130px,22vmin,230px)}
 .jump{animation:jump .6s}@keyframes jump{30%{transform:translateY(-22px) rotate(-6deg)}60%{transform:translateY(0) rotate(5deg)}}
 .bub{background:#fff;color:#0e3a42;border-radius:20px;padding:.45em .9em;font-weight:700;font-size:1.25em;margin-bottom:.5em;display:inline-block;max-width:100%}
 .bub:empty{display:none}.bub.ok{background:#d9ffe0;color:#11602a}.bub.no{background:#ffe3df;color:#8f2a1d}
@@ -83,12 +87,12 @@ button.mas{background:none;padding:0;border-radius:24px}
 <body>
 <div class="wrap">
 <header>
- <div class="hero"><button class="mas" id="mas0" style="width:72px" aria-label="Malek"></button><h1><span class="ar">نحسب حتى ١٠٠</span><small class="de">Rechnen bis 100</small></h1></div>
+ <div class="hero"><div class="mas" id="mas0" aria-label="مالك ومحمد مع الفأر"></div><h1><span class="ar">نحسب حتى ١٠٠</span><small class="de">Rechnen bis 100</small></h1></div>
  <div class="tools"><span class="langs"><button data-l="ar">عربي</button><button data-l="de">Deutsch</button><button data-l="both">ع+DE</button></span><button id="snd" aria-label="Ton">🔊</button><button id="rst" aria-label="مسح التقدم">↺</button></div>
 </header>
 
 <section id="menu">
- <div class="hello"><div class="bub" id="greet"></div></div>
+ <div class="hello"><div class="bub" id="greet"></div><div style="color:var(--mute);font-size:.82em;margin-top:4px">أصدقاء التعلّم: راشد · نورا · سراج · عمر · هنا · سعود · سارة</div></div>
  <div class="album" id="album" aria-hidden="true"></div>
  <p style="color:var(--mute)"><span class="ar">أنهِ كل مستوى (٨ إجابات صحيحة) لتفتح المستوى التالي.</span> <span class="de">Schließe jede Stufe ab (8 richtige Antworten), um die nächste zu öffnen.</span></p>
  <div id="levels"></div>
@@ -98,7 +102,7 @@ button.mas{background:none;padding:0;border-radius:24px}
  <div class="top"><button id="back">🏠 <span class="ar">القائمة</span> <span class="de">Menü</span></button><div class="prog"><i id="pb"></i></div><span id="cnt" style="direction:ltr"></span></div>
  <div class="card" id="card">
   <div>
-   <div class="hero"><button class="mas" id="mas" aria-label="Malek"></button><div><div class="bub" id="msg" role="status" aria-live="polite"></div><div class="task" id="task"></div></div></div>
+   <div class="hero"><div class="mas" id="mas" aria-label="مالك أو محمد مع الفأر"></div><div><div class="bub" id="msg" role="status" aria-live="polite"></div><div class="task" id="task"></div></div></div>
    <div id="vis"></div>
    <div class="eq" id="eq"></div>
    <div class="steps" id="steps"></div>
@@ -114,7 +118,7 @@ button.mas{background:none;padding:0;border-radius:24px}
 </section>
 
 <section id="win">
- <button class="mas" id="mas2" style="margin:0 auto" aria-label="Malek"></button><div class="sticker" id="stk"></div><h2>🎉 <span class="ar">بطل يا مالك! ممتاز!</span> <span class="de">Du bist ein Held, Malek!</span></h2>
+ <div class="mas" id="mas2" style="margin:0 auto" aria-label="مالك ومحمد مع الفأر"></div><div class="sticker" id="stk"></div><h2>🎉 <span class="ar">بطل يا مالك! ممتاز!</span> <span class="de">Du bist ein Held, Malek!</span></h2>
  <p id="wintxt"></p>
  <button class="primary" id="nextlv"><span class="ar">أكمل</span> <span class="de">Weiter</span></button>
  <button class="primary" id="tomenu" style="background:var(--panel);color:var(--ink)"><span class="ar">القائمة</span> <span class="de">Menü</span></button>
@@ -132,10 +136,15 @@ var prog=store.get('r100',{}), sound=store.get('r100s',true);
 var lang=store.get('r100l','both');
 var IC=['🧱','✂️','↔️','🔟','🍎','🔗','🎯','🌉','🧩','🏰'];
 function T(s){if(lang=='both')return s;var p=String(s).split(' · ');return p.length<2?s:(lang=='ar'?p[0]:p[1])}
-function mascot(m){var p=m=='bad'?'<path d="M38 50h16M66 50h16" stroke="#222" stroke-width="4" stroke-linecap="round"/><path d="M92 58q-4 8 0 10q4-2 0-10z" fill="#5bb8ff"/>':'<circle cx="46" cy="50" r="6" fill="#222"/><circle cx="74" cy="50" r="6" fill="#222"/><circle cx="48" cy="48" r="2" fill="#fff"/><circle cx="76" cy="48" r="2" fill="#fff"/>';
- var w=m=='ok'?'<ellipse cx="18" cy="82" rx="9" ry="20" transform="rotate(35 18 82)" fill="#d9822b"/><ellipse cx="102" cy="82" rx="9" ry="20" transform="rotate(-35 102 82)" fill="#d9822b"/>':'<ellipse cx="22" cy="96" rx="9" ry="20" fill="#d9822b"/><ellipse cx="98" cy="96" rx="9" ry="20" fill="#d9822b"/>';
- return '<svg viewBox="0 0 120 130" aria-hidden="true">'+w+'<ellipse cx="60" cy="94" rx="36" ry="32" fill="#f2a65a"/><ellipse cx="60" cy="102" rx="22" ry="20" fill="#ffe3b8"/><path d="M30 24l10 18H22zM90 24L80 42h18z" fill="#d9822b"/><circle cx="60" cy="54" r="34" fill="#f2a65a"/><circle cx="46" cy="50" r="13" fill="#fff"/><circle cx="74" cy="50" r="13" fill="#fff"/>'+p+'<path d="M54 60h12l-6 11z" fill="#ffb300"/><path d="M48 124h10M62 124h10" stroke="#ffb300" stroke-width="5" stroke-linecap="round"/></svg>'}
-function setMas(m){var e=document.getElementById('mas');if(e)e.innerHTML=mascot(m)}
+var heroIndex=1;
+var HEROES=[
+ {src:'malik-maus.webp',alt:'مالك مع الفأر'},
+ {src:'mohammad-maus.webp',alt:'محمد مع الفأر'},
+ {src:'friends-group.webp',alt:'أصدقاء مالك ومحمد: راشد، نورا، سراج، عمر، هنا، سعود، سارة'}
+];
+function mascot(){var h=HEROES[heroIndex%HEROES.length];return '<img alt="'+h.alt+'" title="'+h.alt+'" src="'+h.src+'">'}
+function setMas(m){var e=document.getElementById('mas');if(e)e.innerHTML=mascot()}
+
 function setStars(n){var e=document.getElementById('cnt');e.className='stars';e.textContent='⭐'.repeat(n)+'☆'.repeat(NEED-n)}
 function confetti(){var E=['🎉','⭐','🎈','🌟'];for(var i=0;i<26;i++){var s=document.createElement('span');s.className='conf';s.textContent=E[i%4];s.style.left=R(2,96)+'vw';s.style.animationDuration=R(25,50)/10+'s';s.style.animationDelay=R(0,15)/10+'s';document.body.appendChild(s);(function(x){setTimeout(function(){x.remove()},6500)})(s)}}
 function LT(i){return lang=='de'?L[i].de:lang=='ar'?L[i].ar:L[i].ar+' — '+L[i].de}
@@ -194,7 +203,7 @@ function bub(t,c){var b=$('msg');b.className='bub '+(c||'');b.innerHTML=t}
 function flash(c){var e=$('card');e.classList.remove('pop','flash-ok','flash-no');void e.offsetWidth;e.classList.add(c)}
 function jumpIt(e){e.classList.remove('jump');void e.offsetWidth;e.classList.add('jump')}
 function say(m){var p=m.split(' · ');if(lang=='de')speak(p[1]||p[0],'de-DE');else speak(p[0],'ar-SA')}
-function renderAlbum(){var a=$('album');if(a)a.innerHTML=IC.map(function(e,i){return '<i class="'+(done(i)?'':'off')+'">'+e+'</i>'}).join('');var g=$('greet');if(g)g.textContent=T('أهلاً يا بطل يا مالك! · Hallo, Held Malek!')}
+function renderAlbum(){var a=$('album');if(a)a.innerHTML=IC.map(function(e,i){return '<i class="'+(done(i)?'':'off')+'">'+e+'</i>'}).join('');var g=$('greet');if(g)g.textContent=T('أهلاً يا مالك ومحمد وأصدقائهم! · Hallo Malek, Mohammad und ihre Freunde!')}
 function navFocus(dir){var els=[].filter.call(document.querySelectorAll('button:not([disabled])'),function(b){var r=b.getBoundingClientRect();return r.width>0&&r.height>0});var a=document.activeElement;if(!a||els.indexOf(a)<0){if(els.length)els[0].focus();return}var r=a.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,best=null,bs=1e9;els.forEach(function(b){if(b===a)return;var q=b.getBoundingClientRect(),x=q.left+q.width/2-cx,y=q.top+q.height/2-cy,ok,p,s;if(dir=='ArrowUp'){ok=y<-4;p=-y;s=Math.abs(x)}else if(dir=='ArrowDown'){ok=y>4;p=y;s=Math.abs(x)}else if(dir=='ArrowLeft'){ok=x<-4;p=-x;s=Math.abs(y)}else{ok=x>4;p=x;s=Math.abs(y)}if(!ok)return;var sc=p+s*2.5;if(sc<bs){bs=sc;best=b}});if(best){best.focus();best.scrollIntoView({block:'nearest',inline:'nearest'})}}
 function chime(ok){if(window.AndroidSound){try{if(ok)AndroidSound.playCorrect();else AndroidSound.playWrong();return}catch(e){}}if(ok)seq([523,659,784,1047],'triangle',.4,.11);else seq([300,220],'sawtooth',.15,.22)}
 function speak(t,l){if(!sound)return;l=l||'de-DE';try{if(window.AndroidSound&&AndroidSound.speak){AndroidSound.speak(t,l);return}if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.9;var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.toLowerCase().indexOf(l.slice(0,2))==0})[0];if(v)u.voice=v;else if(l.slice(0,2)=='ar')return;speechSynthesis.speak(u)}catch(e){}}
@@ -213,7 +222,7 @@ function renderMenu(){var h='';L.forEach(function(l,i){var n=Math.min(prog[i]||0
 
 function show(id){['menu','game','win'].forEach(function(s){$(s).style.display=s==id?'block':'none'})}
 function start(i){cur=i;d=Math.min(2,Math.floor((prog[i]||0)/3));streak=0;miss=0;run=0;show('game');next();var k0=document.querySelector('#pad [data-k="5"]');if(k0)try{k0.focus()}catch(e){}}
-function next(){locked=false;input='';miss=0;q=L[cur].gen(d);
+function next(){locked=false;input='';miss=0;heroIndex=(heroIndex+1)%HEROES.length;q=L[cur].gen(d);
  $('task').textContent=T(q.task);$('vis').innerHTML=q.vis||'';$('eq').innerHTML=q.eq||'';$('steps').textContent=q.steps||'';
  $('ans').innerHTML='&nbsp;';bub(T('هيا يا مالك! · Los, Malek!'),'');setMas('hi');
  var n=Math.min(prog[cur]||0,NEED);$('pb').style.width=(n/NEED*100)+'%';setStars(n);
@@ -233,7 +242,7 @@ function check(){if(!input||locked)return;var ok=+input===q.ans;
   var wm=WR[R(0,WR.length-1)];bub(T(wm)+(miss>=2?'<br><small>'+T(q.help)+'</small>':''),'no');flash('flash-no');say(wm);run=0;
   if(miss>=2&&q.vis===''&&!$('steps').textContent)$('steps').textContent=T(q.help);
   input='';showInput()}}
-function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML=mascot('ok');confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالك · Ausgezeichnet, Malek! Stufe geschafft');
+function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML=mascot();confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالك · Ausgezeichnet, Malek! Stufe geschafft');
  $('wintxt').textContent=LT(cur);
  $('nextlv').style.display=last?'none':'inline-block';
  if(!last){$('nextlv').focus()}if(last)$('tomenu').focus();}
@@ -254,7 +263,7 @@ $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschr
 $('snd').textContent=sound?'🔊':'🔇';
 function applyLang(){document.body.dataset.lang=lang;var h=document.documentElement;h.dir=lang=='de'?'ltr':'rtl';h.lang=lang=='de'?'de':'ar';[].forEach.call(document.querySelectorAll('.langs button'),function(b){b.setAttribute('aria-pressed',String(b.dataset.l==lang))});renderMenu();if(q&&$('game').style.display==='block')$('task').textContent=T(q.task)}
 [].forEach.call(document.querySelectorAll('.langs button'),function(b){b.onclick=function(){lang=b.dataset.l;store.set('r100l',lang);applyLang()}});
-$('mas0').innerHTML=mascot('hi');applyLang();show('menu');renderMenu();
+$('mas0').innerHTML=mascot();applyLang();show('menu');renderMenu();
 function poke(id,fn){$(id).onclick=function(){var m=CP[R(0,CP.length-1)];fn(m);jumpIt($(id));say(m);chime(true)}}
 poke('mas0',function(m){$('greet').textContent=T(m)});poke('mas',function(m){bub(T(m),'ok')});poke('mas2',function(){confetti()});
 document.addEventListener('keydown',function(e){if(/^Arrow/.test(e.key)){e.preventDefault();navFocus(e.key)}else if((e.key==='Escape'||e.key==='BrowserBack'||e.key==='GoBack')&&window.__back())e.preventDefault()});
