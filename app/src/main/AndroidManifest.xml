@@ -5,6 +5,7 @@
         android:allowBackup="true"
         android:label="تعلم مع مالك"
         android:icon="@mipmap/ic_launcher"
+        android:banner="@drawable/banner"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
         android:usesCleartextTraffic="false">
@@ -12,7 +13,8 @@
             android:name=".MainActivity"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:exported="true">
+            android:exported="true"
+            android:banner="@drawable/banner">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
