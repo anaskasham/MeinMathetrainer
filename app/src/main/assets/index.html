@@ -410,6 +410,24 @@ button:active{transform:translateY(2px) scale(.985);filter:brightness(1.06)}
 #arcRestart{background:#f7fffd;color:#21635f;border:2px solid #a9d9d1;border-radius:14px;padding:9px 18px;font-weight:900}
 @media(max-width:520px){#arcade{padding:8px}#arcStage{gap:7px}#candyBoard{width:min(96vw,62vh);gap:3px;padding:5px;border-radius:18px}.arc-cell{font-size:clamp(17px,6vw,32px);border-radius:22%}}
 @media(orientation:landscape) and (max-height:520px){#arcade{gap:6px;padding:6px}.arc-head{padding:4px 10px}.arc-head h2{font-size:20px}#arcStage{gap:5px}#arcHelp{padding:4px 10px}#candyBoard{width:min(65vh,520px)}#arcCheer img{width:52px;height:52px}}
+/* v2.5.2 TV candy board: larger pieces, clear spacing, use landscape canvas */
+@media (orientation:landscape) and (min-width:900px){
+ #arcStage{width:100%;gap:clamp(8px,1.4vh,16px);padding:0 1vw}
+ #arcHelp{width:min(96%,1400px);max-width:none;font-size:clamp(18px,2vw,28px);line-height:1.35;padding:clamp(8px,1.2vh,14px) clamp(16px,2vw,28px)}
+ #arcHud{gap:clamp(12px,1.5vw,22px)}
+ #arcHud span{font-size:clamp(19px,1.8vw,27px);padding:9px 20px}
+ #candyBoard{width:min(86vw,76vh,680px);max-width:680px;gap:clamp(7px,.9vw,12px);padding:clamp(10px,1vw,14px);border-radius:30px}
+ .arc-cell{font-size:clamp(30px,5.4vw,64px);border-radius:25%;border-width:3px}
+ #arcRestart{font-size:clamp(18px,1.6vw,24px);padding:12px 28px}
+}
+@media (orientation:landscape) and (max-height:520px){
+ #arcStage{gap:5px;padding:0}
+ #arcHelp{font-size:clamp(15px,2.1vw,22px);padding:5px 12px}
+ #arcHud span{font-size:clamp(16px,1.7vw,21px);padding:5px 12px}
+ #candyBoard{width:min(82vw,68vh,520px);gap:clamp(5px,.7vw,8px);padding:8px}
+ .arc-cell{font-size:clamp(24px,5vw,46px)}
+}
+
 </style>
 </head>
 <body>
@@ -631,7 +649,7 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
-var APP_VERSION='2.5.0';
+var APP_VERSION='2.5.2';
 var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
 var releaseDownload='';
 function aboutStatus(ar,de){$('updateStatus').innerHTML='<div class="ar" dir="rtl">'+ar+'</div><div class="de" dir="ltr">'+de+'</div>';}
