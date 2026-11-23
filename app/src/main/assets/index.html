@@ -490,7 +490,7 @@ var HEROES=[
  {src:'friend-sara.webp',alt:'سارة'},
  {src:'friend-dawood.webp',alt:'داوود'}
 ];
-function mascot(which){var h=HEROES[which==='home'?1:9];return '<img alt="'+h.alt+'" title="'+h.alt+'" src="'+h.src+'">'}
+function mascot(which){var h=HEROES[which==='home'?1:0];return '<img alt="'+h.alt+'" title="'+h.alt+'" src="'+h.src+'">'}
 function setMas(state){var e=document.getElementById('mas');if(e){e.classList.remove('celebrate','think','wave','jump');e.innerHTML=mascot('game');e.dataset.mood=state==='ok'?'happy':state==='bad'?'sad':state==='wave'?'wave':'calm';if(state==='ok')e.classList.add('celebrate');else if(state==='bad')e.classList.add('think');else if(state==='wave')e.classList.add('wave')}}
 
 function setStars(n){var e=document.getElementById('cnt');e.className='stars';e.textContent='⭐'.repeat(n)+'☆'.repeat(NEED-n)}
