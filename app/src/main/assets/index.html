@@ -727,7 +727,49 @@ $('arcRestart').onclick=function(){arcadeChoose(arcMode)};
 function arcCanvas(){var c=$('arcCanvas'),x=c.getContext('2d');return {c:c,x:x,w:c.width,h:c.height}}
 function startBall(){var z=arcCanvas(),x=z.x,px=90,py=360,vy=0,ground=410,stars=[260,470,690,850],last=0; $('arcHelp').textContent=arcadeText('الأسهم للحركة، وزر OK للقفز. اجمع النجوم!','Pfeile bewegen, OK springt. Sammle Sterne!');function frame(t){if(!arcadeOpen||arcMode!=='ball')return;var dt=Math.min(.035,(t-last)/1000||.016);last=t;if(arcKeys.ArrowRight)px+=260*dt;if(arcKeys.ArrowLeft)px-=260*dt;if(arcKeys.jump&&py>=ground-1)vy=-520;arcKeys.jump=false;vy+=1250*dt;py+=vy*dt;if(py>ground){py=ground;vy=0}px=Math.max(32,Math.min(925,px));x.clearRect(0,0,z.w,z.h);x.fillStyle='#8acb75';x.fillRect(0,ground+34,z.w,z.h-ground-34);x.fillStyle='#b67a42';x.fillRect(0,ground+22,z.w,14);x.fillStyle='#e7b94f';x.fillRect(360,ground-55,100,12);x.fillRect(610,ground-105,110,12);stars.forEach(function(s,i){x.fillStyle='#ffcc32';x.font='38px sans-serif';x.fillText('⭐',s,ground-28-(i%2)*38)});x.font='58px sans-serif';x.fillText('🔴',px-25,py+25);x.fillStyle='#17434a';x.font='bold 28px sans-serif';x.fillText('⭐ '+arcScore,28,45);stars=stars.filter(function(s){if(Math.abs(s-px)<36&&Math.abs((ground-10)-py)<70){arcScore++;if(arcScore%3===0)showArcCheer();return false}return true});if(!stars.length){arcLevel++;stars=[220,420,620,820];px=70;showArcCheer()}arcRaf=requestAnimationFrame(frame)}arcRaf=requestAnimationFrame(frame)}
 function startBirds(){var z=arcCanvas(),x=z.x,angle=0,power=55,shots=0,targets=[{x:690,y:370},{x:770,y:370},{x:730,y:310}],bird=null;$('arcHelp').textContent=arcadeText('يمين ويسار لتغيير الاتجاه، أعلى وأسفل للقوة، OK للإطلاق.','Links/rechts zielen, hoch/runter Kraft, OK schießen.');function draw(){x.clearRect(0,0,z.w,z.h);x.fillStyle='#a6d9ef';x.fillRect(0,0,z.w,z.h);x.fillStyle='#73bd6b';x.fillRect(0,430,z.w,90);x.fillStyle='#8b5b37';x.fillRect(120,350,22,80);x.fillStyle='#d8b27b';x.fillRect(650,390,170,18);targets.forEach(function(t){x.fillStyle='#78b95e';x.beginPath();x.arc(t.x,t.y,27,0,Math.PI*2);x.fill();x.font='30px sans-serif';x.fillText('🐽',t.x-19,t.y+10)});x.strokeStyle='#70472d';x.lineWidth=8;x.beginPath();x.moveTo(130,365);x.lineTo(130+power*2*Math.cos(angle),365-power*2*Math.sin(angle));x.stroke();x.font='52px sans-serif';x.fillText('🐦',95,370);if(bird){x.fillText('🟠',bird.x-18,bird.y+18)}x.fillStyle='#173f48';x.font='bold 26px sans-serif';x.fillText('⭐ '+arcScore+'   '+arcadeText('محاولات: ','Versuche: ')+shots,24,40)}function shoot(){shots++;var vx=Math.cos(angle)*power*5,vy=-Math.sin(angle)*power*5,px=130,py=365;function fly(){draw();px+=vx*.035;py+=vy*.035;vy+=360*.035;bird={x:px,y:py};if(py>430||px>950){var hit=targets.filter(function(t){return Math.hypot(t.x-px,t.y-py)<70}).length;if(hit){arcScore+=hit;targets=targets.filter(function(t){return Math.hypot(t.x-px,t.y-py)>=70});showArcCheer()}bird=null;draw();return}arcRaf=requestAnimationFrame(fly)}arcRaf=requestAnimationFrame(fly)}draw();arcadeBirdInput=function(k){if(k==='ArrowLeft')angle=Math.min(1.25,angle+.07);if(k==='ArrowRight')angle=Math.max(.08,angle-.07);if(k==='ArrowUp')power=Math.min(90,power+4);if(k==='ArrowDown')power=Math.max(25,power-4);if(k==='Enter'||k===' '){shoot();return}draw()}}
-function startCandy(){var b=$('candyBoard');arcCandy=[];arcSelected=-1;for(var i=0;i<36;i++)arcCandy.push(Math.floor(Math.random()*5));$('arcHelp').textContent=arcadeText('اختر حلوى ثم تحرّك إلى المجاورة واضغط OK للتبديل. طابق ثلاثة!','Wähle eine Süßigkeit, gehe zum Nachbarfeld und drücke OK zum Tauschen.');function render(){b.innerHTML='';arcCandy.forEach(function(v,i){var q=document.createElement('button');q.className='arc-cell'+(i===arcSelected?' selected':'');q.textContent=['🍬','🍭','🍓','🍋','🍇'][v];q.dataset.index=i;q.onclick=function(){if(arcSelected<0){arcSelected=i;render()}else{var a=arcSelected,c=i;if(Math.abs(a-c)===6||Math.abs(a-c)===1){var t=arcCandy[a];arcCandy[a]=arcCandy[c];arcCandy[c]=t;var matches=[];for(var j=0;j<36;j++){if(j%6<4&&arcCandy[j]===arcCandy[j+1]&&arcCandy[j]===arcCandy[j+2])matches.push(j,j+1,j+2);if(j<24&&arcCandy[j]===arcCandy[j+6]&&arcCandy[j]===arcCandy[j+12])matches.push(j,j+6,j+12)}if(matches.length){arcScore+=matches.length;matches.forEach(function(k){arcCandy[k]=Math.floor(Math.random()*5)});if(arcScore%9<3)showArcCheer()}else{var z=arcCandy[a];arcCandy[a]=arcCandy[c];arcCandy[c]=z}arcSelected=-1;render()}else{arcSelected=i;render()}}};b.appendChild(q)}if(b.children[0]){var target=b.children[Math.max(0,arcSelected)];if(target)target.focus()}}render();arcadeCandyRender=render}
+
+function startCandy(){
+ var board=$('candyBoard');
+ arcCandy=[];arcSelected=-1;
+ for(var i=0;i<36;i++)arcCandy.push(Math.floor(Math.random()*5));
+ $('arcHelp').textContent=arcadeText('اختر حلوى ثم تحرّك إلى المجاورة واضغط OK للتبديل. طابق ثلاثة!','Wähle eine Süßigkeit, gehe zum Nachbarfeld und drücke OK zum Tauschen.');
+ function renderCandy(){
+  board.innerHTML='';
+  for(var i=0;i<36;i++){
+   (function(index){
+    var cell=document.createElement('button');
+    cell.className='arc-cell'+(index===arcSelected?' selected':'');
+    cell.textContent=['🍬','🍭','🍓','🍋','🍇'][arcCandy[index]];
+    cell.dataset.index=index;
+    cell.onclick=function(){
+     if(arcSelected<0){arcSelected=index;renderCandy();return;}
+     var first=arcSelected,second=index;
+     var adjacent=(Math.abs(first-second)===6)||(Math.abs(first-second)===1&&Math.floor(first/6)===Math.floor(second/6));
+     if(!adjacent){arcSelected=index;renderCandy();return;}
+     var temp=arcCandy[first];arcCandy[first]=arcCandy[second];arcCandy[second]=temp;
+     var hits={};
+     for(var n=0;n<36;n++){
+      if(n%6<4&&arcCandy[n]===arcCandy[n+1]&&arcCandy[n]===arcCandy[n+2]){hits[n]=1;hits[n+1]=1;hits[n+2]=1;}
+      if(n<24&&arcCandy[n]===arcCandy[n+6]&&arcCandy[n]===arcCandy[n+12]){hits[n]=1;hits[n+6]=1;hits[n+12]=1;}
+     }
+     var found=Object.keys(hits);
+     if(found.length){
+      arcScore+=found.length;
+      found.forEach(function(key){arcCandy[+key]=Math.floor(Math.random()*5);});
+      showArcCheer();
+     }else{
+      var back=arcCandy[first];arcCandy[first]=arcCandy[second];arcCandy[second]=back;
+     }
+     arcSelected=-1;renderCandy();
+    };
+    board.appendChild(cell);
+   })(i);
+  }
+  var focusIndex=arcSelected>=0?arcSelected:0;
+  if(board.children[focusIndex])board.children[focusIndex].focus();
+ }
+ renderCandy();
+}
 function arcadeKey(k){if(!arcadeOpen)return false;if(k==='Escape'||k==='Back'){closeArcade();return true}if(!arcMode){var a=document.activeElement;if(k==='ArrowLeft'||k==='ArrowRight'||k==='ArrowUp'||k==='ArrowDown'){navFocus(k);return true}if(k==='Enter'&&a&&a.click){a.click();return true}return true}if(arcMode==='ball'){if(k==='ArrowLeft'||k==='ArrowRight'){arcKeys[k]=true;setTimeout(function(){arcKeys[k]=false},115)}if(k==='Enter'||k===' ')arcKeys.jump=true;return true}if(arcMode==='birds'){if(arcadeBirdInput){arcadeBirdInput(k);return true}}if(arcMode==='candy'){var ix=arcSelected>=0?arcSelected:Math.max(0,[].indexOf.call($('candyBoard').children,document.activeElement));var ni=ix;if(k==='ArrowLeft')ni=Math.max(0,ix-1);if(k==='ArrowRight')ni=Math.min(35,ix+1);if(k==='ArrowUp')ni=Math.max(0,ix-6);if(k==='ArrowDown')ni=Math.min(35,ix+6);if(k==='Enter'){var el=$('candyBoard').children[ix];if(el)el.click();return true}var n=$('candyBoard').children[ni];if(n)n.focus();return true}return true}
 document.addEventListener('keyup',function(e){if(arcadeOpen&&(e.key==='ArrowLeft'||e.key==='ArrowRight'))arcKeys[e.key]=false});
 var priorRemote=window.handleRemoteKey;
