@@ -428,14 +428,14 @@ button:active{transform:translateY(2px) scale(.985);filter:brightness(1.06)}
 </section>
 
 
-<div id="arcade" role="dialog" aria-modal="true" aria-label="عالم الألعاب">
- <div class="arc-head"><h2>🎮 <span class="ar">لُعْبَةُ الحَلْوَى</span><span class="de">Abenteuerwelt</span></h2><div class="arc-actions"><button class="arc-btn" id="arcHome">🏠 <span class="ar">القائمة</span><span class="de">Menü</span></button><button class="arc-btn" id="arcBack" style="display:none">↩ <span class="ar">الألعاب</span><span class="de">Spiele</span></button></div></div>
+<div id="arcade" role="dialog" aria-modal="true" aria-label="لُعْبَةُ الحَلْوَى">
+ <div class="arc-head"><h2>🎮 <span class="ar">لُعْبَةُ الحَلْوَى</span><span class="de">Abenteuerwelt</span></h2><div class="arc-actions"><button class="arc-btn" id="arcHome">🏠 <span class="ar">القائِمَةُ</span><span class="de">Menü</span></button><button class="arc-btn" id="arcBack" style="display:none">↩ <span class="ar">الأَلْعابُ</span><span class="de">Spiele</span></button></div></div>
  <div class="arc-tiles" id="arcTiles" style="display:none"></div>
  <div id="arcStage">
   <div class="arc-instructions" id="arcHelp"></div>
   <div class="arc-hud" id="arcHud"><span id="arcGoal">🎯 500</span><span id="arcMoves">👣 20</span><span id="arcPoints">⭐ 0</span></div>
   <div id="candyBoard" style="display:none"></div>
-  <div class="arc-actions" style="justify-content:center"><button class="arc-btn" id="arcRestart">🔄 <span class="ar">إعادة اللعب</span><span class="de">Neu starten</span></button></div>
+  <div class="arc-actions" style="justify-content:center"><button class="arc-btn" id="arcRestart">🔄 <span class="ar">إِعادَةُ اللَّعِبِ</span><span class="de">Neu starten</span></button></div>
  </div>
  <div id="arcCheer" aria-live="polite"><img id="arcCheerImg" alt=""><span id="arcCheerText"></span></div>
 </div>
@@ -771,11 +771,11 @@ function startCandy(){
  board.onpointerup=function(e){if(!pointerStart)return;var p=pointerStart;pointerStart=null;var dx=e.clientX-p.x,dy=e.clientY-p.y,destEl=document.elementFromPoint(e.clientX,e.clientY),target=destEl&&destEl.closest?destEl.closest('.arc-cell'):null,dest=target?+target.dataset.index:-1;if(Math.max(Math.abs(dx),Math.abs(dy))<14){chooseCell(p.id);return;}if(dest<0)dest=Math.abs(dx)>Math.abs(dy)?p.id+(dx>0?1:-1):p.id+(dy>0?N:-N);if(dest<0||dest>=N*N||(Math.abs(dx)>Math.abs(dy)&&Math.floor(dest/N)!==Math.floor(p.id/N)))return;makeMove(p.id,dest);};
  board.onpointercancel=function(){pointerStart=null;};board.ondragstart=function(e){e.preventDefault();};
  function resolve(m){
-  if(!m.length){arcBusy=false;if(arcScore>=arcGoal){showArcCheer();arcGoal+=250;arcMoves=20;}if(!hasMove()&&arcMoves>0){fill();$('arcHelp').textContent=arcadeText('خَلَطْنا قِطَعَ الحَلْوَى لِتَظْهَرَ حَرَكاتٌ جَديدَةٌ!','Wir haben die Bonbons neu gemischt!');}if(arcMoves<=0)$('arcHelp').textContent=arcadeText('انْتَهَتِ الحَرَكاتُ! اضْغَطْ «إِعادَةُ اللَّعِبِ» وَحاوِلْ مِنْ جَديدٍ.','Keine Züge mehr! Starte das Spiel neu.');render();return;}
+  if(!m.length){arcBusy=false;if(arcScore>=arcGoal){showArcCheer();arcGoal+=250;arcMoves=20;}if(!hasMove()&&arcMoves>0){fill();$('arcHelp').textContent=arcadeText('خَلَطْنا قِطَعَ الحَلْوَى لِتَظْهَرَ حَرَكاتٌ جَديدَةٌ!','Wir haben die Bonbons neu gemischt!');}if(arcMoves<=0)$('arcHelp').textContent=arcadeText('نَفِدَتِ الحَرَكاتُ! لَمْ تَصِلْ بَعْدُ إِلى الهَدَفِ. اضْغَطْ «إِعادَةُ اللَّعِبِ» لِتُحاوِلَ مِنْ جَديدٍ.','Keine Züge mehr! Starte das Spiel neu.');render();return;}
   arcScore+=m.length*60;arcHud();candyPopSound(m.length);m.forEach(function(i){if(board.children[i])board.children[i].classList.add('matched');});
   setTimeout(function(){for(var c=0;c<N;c++){var col=[];for(var r=N-1;r>=0;r--){var ix=r*N+c;if(m.indexOf(ix)<0)col.push(arcCandy[ix]);}while(col.length<N)col.push(Math.floor(Math.random()*K));for(var rr=N-1;rr>=0;rr--)arcCandy[rr*N+c]=col[N-1-rr];}render();setTimeout(function(){resolve(matches(arcCandy));},100);},210);
  }
- fill();render();$('arcHelp').textContent=arcadeText('اِسْحَبْ قِطْعَةَ الحَلْوَى نَحْوَ قِطْعَةٍ مُجاوِرَةٍ لِتُبَدِّلَ مَكانَيْهِما. طابِقْ ثَلاثَ قِطَعٍ مُتَشابِهَةٍ أَوْ أَكْثَرَ لِتَخْتَفِيَ وَتَكْسَبَ النِّقاطَ!','Ziehe ein Bonbon auf ein benachbartes Feld. Verbinde mindestens drei gleiche Bonbons, um Punkte zu sammeln!');
+ fill();render();$('arcHelp').textContent=arcadeText('اِسْحَبْ قِطْعَةَ حَلْوَى بِإِصْبَعِكَ وَأَفْلِتْها فَوْقَ قِطْعَةٍ مُجاوِرَةٍ لِتُبَدِّلَ مَكانَيْهِما. اجْمَعْ ثَلاثَ قِطَعٍ مُتَشابِهَةٍ أَوْ أَكْثَرَ لِتَكْسَبَ النِّقاطَ!','Ziehe ein Bonbon auf ein benachbartes Feld. Verbinde mindestens drei gleiche Bonbons, um Punkte zu sammeln!');
 }
 function arcadeKey(k){if(!arcadeOpen)return false;if(k==='Escape'||k==='Back'){closeArcade();return true;}if(!arcMode){if(/^Arrow/.test(k)){navFocus(k);return true;}var a=document.activeElement;if(k==='Enter'&&a&&a.click){a.click();return true;}return true;}if(arcMode==='ball'){if(k==='ArrowLeft')arcKeys.left=true;if(k==='ArrowRight')arcKeys.right=true;if(k==='Enter'||k===' ')arcKeys.jump=true;return true;}if(arcMode==='birds'&&arcadeBirdInput){arcadeBirdInput(k);return true;}if(arcMode==='candy'){var ix=arcSelected>=0?arcSelected:Math.max(0,[].indexOf.call($('candyBoard').children,document.activeElement)),ni=ix;if(k==='ArrowLeft')ni=Math.max(0,ix-1);if(k==='ArrowRight')ni=Math.min(48,ix+1);if(k==='ArrowUp')ni=Math.max(0,ix-7);if(k==='ArrowDown')ni=Math.min(48,ix+7);if(k==='Enter'){var el=$('candyBoard').children[ix];if(el)el.click();return true;}var n=$('candyBoard').children[ni];if(n)n.focus();return true;}return true;}
 document.addEventListener('keyup',function(e){if(arcadeOpen){if(e.key==='ArrowLeft')arcKeys.left=false;if(e.key==='ArrowRight')arcKeys.right=false;}});
