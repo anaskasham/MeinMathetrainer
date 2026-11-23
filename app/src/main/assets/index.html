@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>تعلم مع مالك · Learn with Malik</title>
+<title>تَعَلَّمْ مَعَ مالِكْ · Learn with Malik</title>
 <style>
 :root{--bg:#eaf7f6;--panel:#ffffff;--ink:#083b45;--mute:#315f66;--acc:#12b9a8;--wood:#ffd36e;--woodd:#9a6415;--ok:#167a36;--bad:#b42318;color-scheme:light}
 
@@ -415,7 +415,7 @@ button:active{transform:translateY(2px) scale(.985);filter:brightness(1.06)}
 <body>
 <div class="wrap">
 <header>
- <div class="hero"><button type="button" class="mas" id="mas0" aria-label="اضغط لتحية مالك ومحمد"></button><h1><span class="ar">تعلم مع مالك</span><small class="de">Learn with Malik</small></h1></div>
+ <div class="hero"><button type="button" class="mas" id="mas0" aria-label="اضغط لتحية مالك ومحمد"></button><h1><span class="ar">تَعَلَّمْ مَعَ مالِكْ</span><small class="de">Learn with Malik</small></h1></div>
  <div class="tools"><span class="langs"><button data-l="ar">عربي</button><button data-l="de">Deutsch</button><button data-l="both">ع+DE</button></span><button id="snd" aria-label="Ton">🔊</button><button id="aboutBtn" aria-label="حول التطبيق">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Info</span></button><button id="rst" aria-label="مسح التقدم">↺</button></div>
 </header>
 
@@ -429,7 +429,7 @@ button:active{transform:translateY(2px) scale(.985);filter:brightness(1.06)}
 
 
 <div id="arcade" role="dialog" aria-modal="true" aria-label="عالم الألعاب">
- <div class="arc-head"><h2>🎮 <span class="ar">عالم المغامرات</span><span class="de">Abenteuerwelt</span></h2><div class="arc-actions"><button class="arc-btn" id="arcHome">🏠 <span class="ar">القائمة</span><span class="de">Menü</span></button><button class="arc-btn" id="arcBack" style="display:none">↩ <span class="ar">الألعاب</span><span class="de">Spiele</span></button></div></div>
+ <div class="arc-head"><h2>🎮 <span class="ar">لُعْبَةُ الحَلْوَى</span><span class="de">Abenteuerwelt</span></h2><div class="arc-actions"><button class="arc-btn" id="arcHome">🏠 <span class="ar">القائمة</span><span class="de">Menü</span></button><button class="arc-btn" id="arcBack" style="display:none">↩ <span class="ar">الألعاب</span><span class="de">Spiele</span></button></div></div>
  <div class="arc-tiles" id="arcTiles" style="display:none"></div>
  <div id="arcStage">
   <div class="arc-instructions" id="arcHelp"></div>
@@ -631,7 +631,7 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
-var APP_VERSION='2.4.9';
+var APP_VERSION='2.5.0';
 var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
 var releaseDownload='';
 function aboutStatus(ar,de){$('updateStatus').innerHTML='<div class="ar" dir="rtl">'+ar+'</div><div class="de" dir="ltr">'+de+'</div>';}
@@ -739,9 +739,9 @@ var arcadeOpen=false,arcMode='',arcRaf=0,arcScore=0,arcMoves=20,arcGoal=500,arcK
 function arcadeText(ar,de){return lang==='de'?de:(lang==='both'?ar+' · '+de:ar);}
 function showArcCheer(){
  $('arcCheerImg').src='malik-maus.webp';$('arcCheerImg').alt='مالِكْ';
- $('arcCheerText').textContent=arcadeText('أَحْسَنْتَ يا مالِكْ! أَنْتَ بَطَلٌ! 🌟','Super, Malik! Du bist klasse! 🌟');
+ $('arcCheerText').textContent=arcadeText('أَحْسَنْتَ يا مالِكْ! أَبْدَعْتَ يا بَطَلْ! 🌟','Super, Malik! Du bist klasse! 🌟');
  $('arcCheer').classList.add('show');
- if(sound)speak(lang==='de'?'Super, Malik!':'أَحْسَنْتَ يا مالِكْ!','ar-SA');
+ if(sound)speak(lang==='de'?'Super, Malik!':'أَحْسَنْتَ يا مالِكْ! أَبْدَعْتَ يا بَطَلْ!','ar-SA');
  setTimeout(function(){$('arcCheer').classList.remove('show');},2200);
 }
 function arcHud(){$('arcPoints').textContent='⭐ '+arcScore;$('arcMoves').textContent='👣 '+arcMoves;$('arcGoal').textContent='🎯 '+Math.max(0,arcGoal-arcScore);}
@@ -771,11 +771,11 @@ function startCandy(){
  board.onpointerup=function(e){if(!pointerStart)return;var p=pointerStart;pointerStart=null;var dx=e.clientX-p.x,dy=e.clientY-p.y,destEl=document.elementFromPoint(e.clientX,e.clientY),target=destEl&&destEl.closest?destEl.closest('.arc-cell'):null,dest=target?+target.dataset.index:-1;if(Math.max(Math.abs(dx),Math.abs(dy))<14){chooseCell(p.id);return;}if(dest<0)dest=Math.abs(dx)>Math.abs(dy)?p.id+(dx>0?1:-1):p.id+(dy>0?N:-N);if(dest<0||dest>=N*N||(Math.abs(dx)>Math.abs(dy)&&Math.floor(dest/N)!==Math.floor(p.id/N)))return;makeMove(p.id,dest);};
  board.onpointercancel=function(){pointerStart=null;};board.ondragstart=function(e){e.preventDefault();};
  function resolve(m){
-  if(!m.length){arcBusy=false;if(arcScore>=arcGoal){showArcCheer();arcGoal+=250;arcMoves=20;}if(!hasMove()&&arcMoves>0){fill();$('arcHelp').textContent=arcadeText('خَلَطْنا قِطَعَ الحَلْوى لِتَظْهَرَ حَرَكاتٌ جَديدَةٌ!','Wir haben die Bonbons neu gemischt!');}if(arcMoves<=0)$('arcHelp').textContent=arcadeText('انْتَهَتِ الحَرَكاتُ! اضْغَطْ «إِعادَةُ اللَّعِبِ» وَحاوِلْ مِنْ جَديدٍ.','Keine Züge mehr! Starte das Spiel neu.');render();return;}
+  if(!m.length){arcBusy=false;if(arcScore>=arcGoal){showArcCheer();arcGoal+=250;arcMoves=20;}if(!hasMove()&&arcMoves>0){fill();$('arcHelp').textContent=arcadeText('خَلَطْنا قِطَعَ الحَلْوَى لِتَظْهَرَ حَرَكاتٌ جَديدَةٌ!','Wir haben die Bonbons neu gemischt!');}if(arcMoves<=0)$('arcHelp').textContent=arcadeText('انْتَهَتِ الحَرَكاتُ! اضْغَطْ «إِعادَةُ اللَّعِبِ» وَحاوِلْ مِنْ جَديدٍ.','Keine Züge mehr! Starte das Spiel neu.');render();return;}
   arcScore+=m.length*60;arcHud();candyPopSound(m.length);m.forEach(function(i){if(board.children[i])board.children[i].classList.add('matched');});
   setTimeout(function(){for(var c=0;c<N;c++){var col=[];for(var r=N-1;r>=0;r--){var ix=r*N+c;if(m.indexOf(ix)<0)col.push(arcCandy[ix]);}while(col.length<N)col.push(Math.floor(Math.random()*K));for(var rr=N-1;rr>=0;rr--)arcCandy[rr*N+c]=col[N-1-rr];}render();setTimeout(function(){resolve(matches(arcCandy));},100);},210);
  }
- fill();render();$('arcHelp').textContent=arcadeText('اِسْحَبْ قِطْعَةَ حَلْوى نَحْوَ قِطْعَةٍ مُجاوِرَةٍ لِتُبَدِّلَ مَكانَيْهِما. اجْمَعْ ٣ قِطَعٍ مُتَشابِهَةٍ أَوْ أَكْثَرَ لِتَخْتَفِيَ وَتَكْسَبَ النِّقاطَ!','Ziehe ein Bonbon auf ein benachbartes Feld. Verbinde mindestens drei gleiche Bonbons, um Punkte zu sammeln!');
+ fill();render();$('arcHelp').textContent=arcadeText('اِسْحَبْ قِطْعَةَ الحَلْوَى نَحْوَ قِطْعَةٍ مُجاوِرَةٍ لِتُبَدِّلَ مَكانَيْهِما. طابِقْ ثَلاثَ قِطَعٍ مُتَشابِهَةٍ أَوْ أَكْثَرَ لِتَخْتَفِيَ وَتَكْسَبَ النِّقاطَ!','Ziehe ein Bonbon auf ein benachbartes Feld. Verbinde mindestens drei gleiche Bonbons, um Punkte zu sammeln!');
 }
 function arcadeKey(k){if(!arcadeOpen)return false;if(k==='Escape'||k==='Back'){closeArcade();return true;}if(!arcMode){if(/^Arrow/.test(k)){navFocus(k);return true;}var a=document.activeElement;if(k==='Enter'&&a&&a.click){a.click();return true;}return true;}if(arcMode==='ball'){if(k==='ArrowLeft')arcKeys.left=true;if(k==='ArrowRight')arcKeys.right=true;if(k==='Enter'||k===' ')arcKeys.jump=true;return true;}if(arcMode==='birds'&&arcadeBirdInput){arcadeBirdInput(k);return true;}if(arcMode==='candy'){var ix=arcSelected>=0?arcSelected:Math.max(0,[].indexOf.call($('candyBoard').children,document.activeElement)),ni=ix;if(k==='ArrowLeft')ni=Math.max(0,ix-1);if(k==='ArrowRight')ni=Math.min(48,ix+1);if(k==='ArrowUp')ni=Math.max(0,ix-7);if(k==='ArrowDown')ni=Math.min(48,ix+7);if(k==='Enter'){var el=$('candyBoard').children[ix];if(el)el.click();return true;}var n=$('candyBoard').children[ni];if(n)n.focus();return true;}return true;}
 document.addEventListener('keyup',function(e){if(arcadeOpen){if(e.key==='ArrowLeft')arcKeys.left=false;if(e.key==='ArrowRight')arcKeys.right=false;}});
