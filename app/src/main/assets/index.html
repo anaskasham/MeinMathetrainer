@@ -456,6 +456,32 @@ html[lang="ar"],body{font-family:"Noto Naskh Arabic","Noto Sans Arabic",Tahoma,A
 .ar,[lang="ar"],[dir="rtl"]{line-height:1.55;letter-spacing:0}
 button,.bub,.task,.answer-title{font-weight:800}
 button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0 0 7px #ffcf4a33}
+
+/* v2.5.5: use supplied character portraits in memory and reward UI */
+.memory-card .memory-portrait,.atlas-portrait{
+ width:100%;height:clamp(72px,13vw,124px);background-image:url('friends-atlas.webp');
+ background-repeat:no-repeat;background-size:400% 200%;background-position:0 0;
+ border-radius:14px;background-color:#eaf7f3
+}
+#arcCheerImg.atlas-portrait{width:clamp(100px,15vw,180px);height:clamp(120px,20vw,210px);flex:0 0 auto;background-size:400% 200%;background-color:#eaf7f3;border:3px solid #b9e5dc;box-shadow:0 5px 0 #8dbdb2}
+#win .mas.atlas-portrait{width:clamp(150px,24vmin,250px);height:clamp(150px,24vmin,250px);margin:0 auto;background-size:400% 200%}
+@media (orientation:landscape) and (min-width:900px){
+ #arcade{overflow:hidden;padding:clamp(12px,1.5vw,24px);gap:clamp(8px,1.2vh,14px)}
+ #arcStage{display:grid!important;grid-template-columns:minmax(260px,1fr) minmax(440px,min(55vw,84vh,660px));grid-template-rows:auto auto 1fr;align-items:center;justify-items:stretch;gap:clamp(12px,1.5vw,22px);width:100%;flex:1;min-height:0}
+ #arcHelp{grid-column:1;grid-row:1;width:100%;max-width:none;font-size:clamp(20px,2.1vw,30px);line-height:1.5;padding:clamp(12px,1.3vw,20px)}
+ #arcHud{grid-column:1;grid-row:2;gap:clamp(10px,1vw,16px)}
+ #arcHud span{font-size:clamp(20px,1.8vw,28px);padding:10px 18px}
+ #candyBoard{grid-column:2;grid-row:1 / 4;width:min(55vw,84vh,660px)!important;max-width:none!important;aspect-ratio:1;gap:clamp(8px,.9vw,14px)!important;padding:clamp(12px,1.2vw,18px)!important;border-radius:30px}
+ #candyBoard .arc-cell{font-size:clamp(36px,5.3vw,70px)!important;border-radius:24%;border-width:3px}
+ #arcStage>.arc-actions{grid-column:1;grid-row:3;justify-content:center}
+ #arcRestart{font-size:clamp(20px,1.8vw,28px);padding:14px 28px}
+}
+@media (orientation:landscape) and (min-width:900px) and (max-height:520px){
+ #arcStage{grid-template-columns:minmax(220px,1fr) minmax(340px,min(52vw,82vh,500px));gap:8px}
+ #candyBoard{width:min(52vw,82vh,500px)!important;gap:6px!important;padding:8px!important}
+ #candyBoard .arc-cell{font-size:clamp(28px,4.8vw,48px)!important}
+}
+
 </style>
 </head>
 <body>
@@ -475,7 +501,7 @@ button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0
 
 
 <div id="arcade" role="dialog" aria-modal="true" aria-label="لُعْبَةُ الحَلْوَى">
- <div class="arc-head"><h2>🎮 <span class="ar">لُعْبَةُ الحَلْوَى</span><span class="de">Abenteuerwelt</span></h2><div class="arc-actions"><button class="arc-btn" id="arcHome">🏠 <span class="ar">القائِمَةُ</span><span class="de">Menü</span></button><button class="arc-btn" id="arcBack" style="display:none">↩ <span class="ar">الأَلْعابُ</span><span class="de">Spiele</span></button></div></div>
+ <div class="arc-head"><h2>🎮 <span class="ar">لُعْبَةُ الحَلْوَى</span><span class="de">Abenteuerwelt</span></h2><div class="arc-actions"><button class="arc-btn" id="arcHome">↩ <span class="ar">العَوْدَةُ</span><span class="de">Zurück</span></button><button class="arc-btn" id="arcBack" style="display:none">↩ <span class="ar">الأَلْعابُ</span><span class="de">Spiele</span></button></div></div>
  <div class="arc-tiles" id="arcTiles" style="display:none"></div>
  <div id="arcStage">
   <div class="arc-instructions" id="arcHelp"></div>
@@ -483,7 +509,7 @@ button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0
   <div id="candyBoard" style="display:none"></div>
   <div class="arc-actions" style="justify-content:center"><button class="arc-btn" id="arcRestart">🔄 <span class="ar">إِعادَةُ اللَّعِبِ</span><span class="de">Neu starten</span></button></div>
  </div>
- <div id="arcCheer" aria-live="polite"><img id="arcCheerImg" alt=""><span id="arcCheerText"></span></div>
+ <div id="arcCheer" aria-live="polite"><div id="arcCheerImg" class="atlas-portrait" role="img" aria-label="شخصية مكافأة"></div><span id="arcCheerText"></span></div>
 </div>
 <div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><div class="about-card"><h2 id="aboutTitle">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Über die App</span></h2><p><strong>تعلم مع مالك · Learn with Malik</strong></p><div class="about-line"><div class="ar" dir="rtl">الإصدار المثبّت: <b id="appVersion">2.4.2</b></div><div class="de" dir="ltr">Installierte Version: <b id="appVersionDe">2.4.2</b></div></div><div id="updateStatus" aria-live="polite"><div class="ar" dir="rtl">يمكنك البحث عن أحدث إصدار عبر الإنترنت.</div><div class="de" dir="ltr">Du kannst online nach einer neuen Version suchen.</div></div><div class="about-actions"><button class="primary" id="checkUpdate"><span class="ar">البحث عن تحديثات</span><span class="de">Nach Updates suchen</span></button><button id="downloadUpdate" style="display:none"><span class="ar">تنزيل التحديث</span><span class="de">Update herunterladen</span></button><button id="closeAbout"><span class="ar">إغلاق</span><span class="de">Schließen</span></button></div></div></div>
 
@@ -622,7 +648,7 @@ function sayQuestion(){if(!q)return;var prompt=q.say&&q.say.indexOf(' · ')>=0?q
 function renderAlbum(){var a=$('album');if(a)a.innerHTML=IC.map(function(e,i){return '<i class="'+(done(i)?'':'off')+'">'+e+'</i>'}).join('');var g=$('greet');if(g)g.textContent=T('أهلاً يا مالك ومحمد وأصدقائهم! · Hallo Malik, Mohammad und ihre Freunde!')}
 function navFocus(dir){var els=[].filter.call(document.querySelectorAll('button:not([disabled])'),function(b){var r=b.getBoundingClientRect();return r.width>0&&r.height>0});var a=document.activeElement;if(!a||els.indexOf(a)<0){if(els.length)els[0].focus();return}var r=a.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,best=null,bs=1e9;els.forEach(function(b){if(b===a)return;var q=b.getBoundingClientRect(),x=q.left+q.width/2-cx,y=q.top+q.height/2-cy,ok,p,s;if(dir=='ArrowUp'){ok=y<-4;p=-y;s=Math.abs(x)}else if(dir=='ArrowDown'){ok=y>4;p=y;s=Math.abs(x)}else if(dir=='ArrowLeft'){ok=x<-4;p=-x;s=Math.abs(y)}else{ok=x>4;p=x;s=Math.abs(y)}if(!ok)return;var sc=p+s*2.5;if(sc<bs){bs=sc;best=b}});if(best){best.focus();best.scrollIntoView({block:'nearest',inline:'nearest'})}}
 function chime(ok){if(window.AndroidSound){try{if(ok)AndroidSound.playCorrect();else AndroidSound.playWrong();return}catch(e){}}if(ok)seq([523,659,784,1047],'triangle',.4,.11);else seq([300,220],'sawtooth',.15,.22)}
-function speak(t,l){if(!sound)return;l=l||'de-DE';try{if(window.AndroidSound&&AndroidSound.speak){AndroidSound.speak(t,l);return}if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.88;var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.toLowerCase().indexOf(l.slice(0,2))==0})[0];if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+function speak(t,l){if(!sound)return;l=l||'de-DE';if(String(l).toLowerCase().indexOf('ar')===0)t=String(t).replace(/مال[\u064B-\u065F]*ك[\u064B-\u065F]*/g,'مالِكْ');try{if(window.AndroidSound&&AndroidSound.speak){AndroidSound.speak(t,l);return}if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.88;var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.toLowerCase().indexOf(l.slice(0,2))==0})[0];if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
 
 /* ---- state ---- */
 var cur=0,q=null,d=0,streak=0,miss=0,input='',locked=false;
@@ -677,7 +703,7 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
-var APP_VERSION='2.5.4';
+var APP_VERSION='2.5.5';
 var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
 var releaseDownload='';
 function aboutStatus(ar,de){$('updateStatus').innerHTML='<div class="ar" dir="rtl">'+ar+'</div><div class="de" dir="ltr">'+de+'</div>';}
@@ -689,10 +715,10 @@ $('downloadUpdate').onclick=function(){if(!releaseDownload)return;try{if(window.
 
 /* ---- level-completion bonus: partner memory game ---- */
 var memoryPairs=[
- {id:'mm',a:{src:'malik-maus.webp',name:'مالك · Malik'},b:{src:'mohammad-maus.webp',name:'محمد · Mohammad'},label:'مالك ومحمد · Malik & Mohammad'},
- {id:'oh',a:{src:'friend-omar.webp',name:'عمر · Omar'},b:{src:'friend-hana.webp',name:'هنا · Hana'},label:'عمر وهنا · Omar & Hana'},
- {id:'rn',a:{src:'friend-rashed.webp',name:'راشد · Rashed'},b:{src:'friend-noura.webp',name:'نورا · Noura'},label:'راشد ونورا · Rashed & Noura'},
- {id:'ss',a:{src:'friend-saud.webp',name:'سعود · Saud'},b:{src:'friend-sara.webp',name:'سارة · Sara'},label:'سعود وسارة · Saud & Sara'}
+ {id:'mm',a:{idx:0,name:'مالك · Malik'},b:{idx:1,name:'محمد · Mohammad'},label:'مالك ومحمد · Malik & Mohammad'},
+ {id:'oh',a:{idx:2,name:'عمر · Omar'},b:{idx:3,name:'هنا · Hana'},label:'عمر وهنا · Omar & Hana'},
+ {id:'rn',a:{idx:7,name:'راشد · Rashed'},b:{idx:6,name:'نورا · Noura'},label:'راشد ونورا · Rashed & Noura'},
+ {id:'ss',a:{idx:4,name:'سعود · Saud'},b:{idx:5,name:'سارة · Sara'},label:'سعود وسارة · Saud & Sara'}
 ];
 var memCards=[],memOpen=[],memMatched={},memBusy=false,memMoves=0,memPreviewing=false,memPreviewTimer=null;
 function memoryPraise(ar,de){$('memoryStatus').innerHTML='<div class=\"ar\" dir=\"rtl\">'+ar+'</div><div class=\"de\" dir=\"ltr\">'+de+'</div>'}
@@ -728,7 +754,7 @@ function renderMemory(){
   var open=memPreviewing||memOpen.indexOf(i)>=0;
   var b=document.createElement('button');b.className='memory-card'+(matched?' matched':'');b.type='button';b.disabled=matched||open||memBusy;
   if(open||matched){
-   var im=document.createElement('img');im.src=c.person.src;im.alt=c.person.name;b.appendChild(im);
+   var im=document.createElement('div');im.className='memory-portrait';im.setAttribute('role','img');im.setAttribute('aria-label',c.person.name);var col=c.person.idx%4,row=Math.floor(c.person.idx/4);im.style.backgroundPosition=(col*100/3)+'% '+(row*100)+'%';b.appendChild(im);
    /* لا نعرض أسماء الشخصيات حتى يعتمد مالك على الذاكرة البصرية */
   }else{var back=document.createElement('span');back.className='backface';back.textContent='?';b.appendChild(back);var hint=document.createElement('span');hint.className='name';hint.textContent='⭐';b.appendChild(hint)}
   b.addEventListener('click',(function(ix){return function(){flipMemory(ix)}})(i));g.appendChild(b);
@@ -784,7 +810,7 @@ window.__back=function(){if($('game').style.display==='block'||$('win').style.di
 var arcadeOpen=false,arcMode='',arcRaf=0,arcScore=0,arcMoves=20,arcGoal=500,arcKeys={},arcCandy=[],arcSelected=-1,arcBusy=false,arcadeBirdInput=null;
 function arcadeText(ar,de){return lang==='de'?de:(lang==='both'?ar+' · '+de:ar);}
 function showArcCheer(){
- $('arcCheerImg').src='malik-maus.webp';$('arcCheerImg').alt='مالِكْ';
+ var reward=window.__rewardFriend=(window.__rewardFriend||0)+1;var rewardIdx=[2,3,4,5,6,7,0,1][(reward-1)%8];$('arcCheerImg').style.backgroundPosition=((rewardIdx%4)*100/3)+'% '+(Math.floor(rewardIdx/4)*100)+'%';$('arcCheerImg').setAttribute('aria-label',['مالك','محمد','عمر','هنا','سعود','سارة','نورا','راشد'][rewardIdx]);
  $('arcCheerText').textContent=arcadeText('أَحْسَنْتَ يا مالِكْ! أَبْدَعْتَ يا بَطَلْ! 🌟','Super, Malik! Du bist klasse! 🌟');
  $('arcCheer').classList.add('show');
  if(sound)speak(lang==='de'?'Super, Malik!':'أَحْسَنْتَ يا مالِكْ! أَبْدَعْتَ يا بَطَلْ!','ar-SA');
