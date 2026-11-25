@@ -457,6 +457,25 @@ html[lang="ar"],body{font-family:"Noto Naskh Arabic","Noto Sans Arabic",Tahoma,A
 button,.bub,.task,.answer-title{font-weight:800}
 button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0 0 7px #ffcf4a33}
 
+
+/* v2.5.6: large landscape candy layout and clear back navigation */
+@media (orientation:landscape) and (min-width:900px){
+ #arcade{overflow:hidden;padding:clamp(12px,1.5vw,24px);gap:clamp(8px,1.2vh,14px)}
+ #arcStage{display:grid!important;grid-template-columns:minmax(260px,1fr) minmax(440px,min(55vw,84vh,660px));grid-template-rows:auto auto 1fr;align-items:center;justify-items:stretch;gap:clamp(12px,1.5vw,22px);width:100%;flex:1;min-height:0}
+ #arcHelp{grid-column:1;grid-row:1;width:100%;max-width:none;font-size:clamp(20px,2.1vw,30px);line-height:1.5;padding:clamp(12px,1.3vw,20px)}
+ #arcHud{grid-column:1;grid-row:2;gap:clamp(10px,1vw,16px)}
+ #arcHud span{font-size:clamp(20px,1.8vw,28px);padding:10px 18px}
+ #candyBoard{grid-column:2;grid-row:1 / 4;width:min(55vw,84vh,660px)!important;max-width:none!important;aspect-ratio:1;gap:clamp(8px,.9vw,14px)!important;padding:clamp(12px,1.2vw,18px)!important;border-radius:30px}
+ #candyBoard .arc-cell{font-size:clamp(36px,5.3vw,70px)!important;border-radius:24%;border-width:3px}
+ #arcStage>.arc-actions{grid-column:1;grid-row:3;justify-content:center}
+ #arcRestart{font-size:clamp(20px,1.8vw,28px);padding:14px 28px}
+}
+@media (orientation:landscape) and (min-width:900px) and (max-height:520px){
+ #arcStage{grid-template-columns:minmax(220px,1fr) minmax(340px,min(52vw,82vh,500px));gap:8px}
+ #candyBoard{width:min(52vw,82vh,500px)!important;gap:6px!important;padding:8px!important}
+ #candyBoard .arc-cell{font-size:clamp(28px,4.8vw,48px)!important}
+}
+
 </style>
 </head>
 <body>
@@ -678,7 +697,7 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
-var APP_VERSION='2.5.5';
+var APP_VERSION='2.5.6';
 var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
 var releaseDownload='';
 function aboutStatus(ar,de){$('updateStatus').innerHTML='<div class="ar" dir="rtl">'+ar+'</div><div class="de" dir="ltr">'+de+'</div>';}
