@@ -476,12 +476,31 @@ button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0
  #candyBoard .arc-cell{font-size:clamp(28px,4.8vw,48px)!important}
 }
 
+
+/* v2.5.7: supplied portraits and larger, easier candy controls */
+.friend-portrait{display:inline-block;background-image:url('friends-atlas.jpg');background-repeat:no-repeat;background-size:400% 200%;background-position:0 0;overflow:hidden}
+.friend-slot-0{background-position:0% 0%}.friend-slot-1{background-position:33.333% 0%}.friend-slot-2{background-position:66.666% 0%}.friend-slot-3{background-position:100% 0%}
+.friend-slot-4{background-position:0% 100%}.friend-slot-5{background-position:33.333% 100%}.friend-slot-6{background-position:66.666% 100%}.friend-slot-7{background-position:100% 100%}
+.mas .friend-portrait{width:100%;height:clamp(78px,13vmin,150px);background-size:400% 200%;border-radius:22%;box-shadow:0 5px 12px #002d3555}
+#arcCheer .friend-portrait{flex:0 0 auto;width:clamp(110px,15vw,190px);height:clamp(110px,15vw,190px);background-size:400% 200%;border:4px solid #fff;border-radius:24%;box-shadow:0 5px 0 #a6d4c9}
+.memory-card .friend-portrait{width:100%;height:clamp(80px,13vw,145px);background-size:400% 200%;border-radius:12px}
+@media (orientation:landscape) and (min-width:900px){
+ #candyBoard{width:min(60vw,88vh,740px)!important;gap:clamp(10px,1.2vw,18px)!important;padding:clamp(14px,1.5vw,22px)!important}
+ #candyBoard .arc-cell{font-size:clamp(48px,6.6vw,82px)!important;min-width:0;min-height:0;touch-action:none}
+ #arcHelp{font-size:clamp(21px,2.2vw,32px);line-height:1.45}
+ #arcRestart,#arcExit{font-size:clamp(20px,1.8vw,28px);min-height:62px;padding:14px 24px}
+}
+@media (max-width:899px){
+ #candyBoard{width:min(94vw,78vh,680px)!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:clamp(7px,1.5vw,12px)!important;padding:10px!important}
+ #candyBoard .arc-cell{font-size:clamp(30px,7vw,60px)!important;touch-action:none}
+}
+
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
- <div class="hero"><button type="button" class="mas" id="mas0" aria-label="اضغط لتحية مالك ومحمد"></button><h1><span class="ar">تَعَلَّمْ مَعَ مالِكْ</span><small class="de">Learn with Malik</small></h1></div>
+ <div class="hero"><button type="button" class="mas" id="mas0" aria-label="اضغط لتحية مالِكْ ومحمد"></button><h1><span class="ar">تَعَلَّمْ مَعَ مالِكْ</span><small class="de">Learn with Malik</small></h1></div>
  <div class="tools"><span class="langs"><button data-l="ar">عربي</button><button data-l="de">Deutsch</button><button data-l="both">ع+DE</button></span><button id="snd" aria-label="Ton">🔊</button><button id="aboutBtn" aria-label="حول التطبيق">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Info</span></button><button id="rst" aria-label="مسح التقدم">↺</button></div>
 </header>
 
@@ -501,17 +520,17 @@ button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0
   <div class="arc-instructions" id="arcHelp"></div>
   <div class="arc-hud" id="arcHud"><span id="arcGoal">🎯 500</span><span id="arcMoves">👣 20</span><span id="arcPoints">⭐ 0</span></div>
   <div id="candyBoard" style="display:none"></div>
-  <div class="arc-actions" style="justify-content:center"><button class="arc-btn" id="arcRestart">🔄 <span class="ar">إِعادَةُ اللَّعِبِ</span><span class="de">Neu starten</span></button></div>
+  <div class="arc-actions" style="justify-content:center;gap:12px;flex-wrap:wrap"><button class="arc-btn" id="arcRestart">🔄 <span class="ar">إِعادَةُ اللَّعِبِ</span><span class="de">Neu starten</span></button><button class="arc-btn" id="arcExit">↩ <span class="ar">العَوْدَةُ</span><span class="de">Zurück</span></button></div>
  </div>
- <div id="arcCheer" aria-live="polite"><img id="arcCheerImg" alt=""><span id="arcCheerText"></span></div>
+ <div id="arcCheer" aria-live="polite"><span id="arcCheerImg" class="friend-portrait friend-slot-0" role="img" aria-label="شخصية من أصدقاء التعلّم"></span><span id="arcCheerText"></span></div>
 </div>
-<div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><div class="about-card"><h2 id="aboutTitle">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Über die App</span></h2><p><strong>تعلم مع مالك · Learn with Malik</strong></p><div class="about-line"><div class="ar" dir="rtl">الإصدار المثبّت: <b id="appVersion">2.4.2</b></div><div class="de" dir="ltr">Installierte Version: <b id="appVersionDe">2.4.2</b></div></div><div id="updateStatus" aria-live="polite"><div class="ar" dir="rtl">يمكنك البحث عن أحدث إصدار عبر الإنترنت.</div><div class="de" dir="ltr">Du kannst online nach einer neuen Version suchen.</div></div><div class="about-actions"><button class="primary" id="checkUpdate"><span class="ar">البحث عن تحديثات</span><span class="de">Nach Updates suchen</span></button><button id="downloadUpdate" style="display:none"><span class="ar">تنزيل التحديث</span><span class="de">Update herunterladen</span></button><button id="closeAbout"><span class="ar">إغلاق</span><span class="de">Schließen</span></button></div></div></div>
+<div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><div class="about-card"><h2 id="aboutTitle">ℹ️ <span class="ar">حول التطبيق</span><span class="de">Über die App</span></h2><p><strong>تعلم مع مالِكْ · Learn with Malik</strong></p><div class="about-line"><div class="ar" dir="rtl">الإصدار المثبّت: <b id="appVersion">2.4.2</b></div><div class="de" dir="ltr">Installierte Version: <b id="appVersionDe">2.4.2</b></div></div><div id="updateStatus" aria-live="polite"><div class="ar" dir="rtl">يمكنك البحث عن أحدث إصدار عبر الإنترنت.</div><div class="de" dir="ltr">Du kannst online nach einer neuen Version suchen.</div></div><div class="about-actions"><button class="primary" id="checkUpdate"><span class="ar">البحث عن تحديثات</span><span class="de">Nach Updates suchen</span></button><button id="downloadUpdate" style="display:none"><span class="ar">تنزيل التحديث</span><span class="de">Update herunterladen</span></button><button id="closeAbout"><span class="ar">إغلاق</span><span class="de">Schließen</span></button></div></div></div>
 
 <section id="game">
  <div class="top game-hud"><button id="back">🏠 <span class="ar">القائمة</span> <span class="de">Menü</span></button><div class="level-chip">🏅 <span class="ar">مغامرة الأرقام</span><span class="de">Zahlen-Abenteuer</span></div><div class="prog"><i id="pb"></i></div><span id="cnt" style="direction:ltr"></span><div class="score-chip">⭐ <b id="score">0</b></div></div>
  <div class="card" id="card">
   <div>
-   <div class="hero"><div class="mas" id="mas" aria-label="مالك أو محمد مع الفأر"></div><div><div class="bub" id="msg" role="status" aria-live="polite"></div><div class="task" id="task"></div></div></div>
+   <div class="hero"><div class="mas" id="mas" aria-label="مالِكْ أو محمد مع الفأر"></div><div><div class="bub" id="msg" role="status" aria-live="polite"></div><div class="task" id="task"></div></div></div>
    <div id="vis"></div>
    <div class="eq" id="eq"></div>
    <div class="steps" id="steps"></div>
@@ -528,7 +547,7 @@ button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0
 </section>
 
 <section id="win">
- <div class="mas" id="mas2" style="margin:0 auto" aria-label="شخصيات مالك ومحمد وأصدقائه"></div><div class="sticker" id="stk"></div><h2>🎉 <span class="ar">بطل يا مالك! ممتاز!</span> <span class="de">Du bist ein Held, Malik!</span></h2>
+ <div class="mas" id="mas2" style="margin:0 auto" aria-label="شخصيات مالِكْ ومحمد وأصدقائه"></div><div class="sticker" id="stk"></div><h2>🎉 <span class="ar">بطل يا مالِكْ! ممتاز!</span> <span class="de">Du bist ein Held, Malik!</span></h2>
  <p id="wintxt"></p>
  <button class="primary" id="nextlv"><span class="ar">أكمل</span> <span class="de">Weiter</span></button>
  <button id="bonusBtn">🎁 <span class="ar">مكافأة اللعب</span><span class="de">Spiel-Belohnung</span></button>
@@ -542,7 +561,7 @@ button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0
   <h2 id="bonusTitle"><span class="ar">لعبة الأصدقاء: اعثر على الثنائيات!</span><span class="de">Freunde-Spiel: Finde die Paare!</span></h2>
   <p class="bonus-sub"><span class="ar">اقلب بطاقتين في كل مرة، وابحث عن الصديقين المرتبطين معاً.</span><span class="de">Decke zwei Karten auf und finde die passenden Freunde.</span></p>
   <div id="memoryGrid"></div>
-  <div id="memoryStatus" aria-live="polite"><span class="ar">هيا يا مالك! ❤️</span><span class="de">Los, Malik! ❤️</span></div>
+  <div id="memoryStatus" aria-live="polite"><span class="ar">هيا يا مالِكْ! ❤️</span><span class="de">Los, Malik! ❤️</span></div>
   <div class="bonus-actions">
    <button id="memoryPreview">👀 <span class="ar">لمحة سريعة</span><span class="de">Schnellblick</span></button>
    <button id="memoryRestart">🔄 <span class="ar">العب مرة أخرى</span><span class="de">Nochmal spielen</span></button>
@@ -564,18 +583,11 @@ var IC=['🧱','✂️','↔️','🔟','🍎','🔗','🎯','🌉','🧩','🏰
 function T(s){if(lang=='both')return s;var p=String(s).split(' · ');return p.length<2?s:(lang=='ar'?p[0]:p[1])}
 var heroIndex=1;
 var HEROES=[
- {src:'malik-maus.webp',alt:'مالك مع الفأر'},
- {src:'mohammad-maus.webp',alt:'محمد مع الفأر'},
- {src:'friend-rashed.webp',alt:'راشد'},
- {src:'friend-noura.webp',alt:'نورا'},
- {src:'friend-siraj.webp',alt:'سراج'},
- {src:'friend-omar.webp',alt:'عمر'},
- {src:'friend-hana.webp',alt:'هنا'},
- {src:'friend-saud.webp',alt:'سعود'},
- {src:'friend-sara.webp',alt:'سارة'},
- {src:'friend-dawood.webp',alt:'داوود'}
+ {slot:0,alt:'مالِكْ'},{slot:1,alt:'محمد'},{slot:2,alt:'عمر'},{slot:3,alt:'هنا'},
+ {slot:4,alt:'راشد'},{slot:5,alt:'نورا'},{slot:6,alt:'سعود'},{slot:7,alt:'سارة'}
 ];
-function mascot(which){var h=HEROES[which==='home'?1:0];return '<img alt="'+h.alt+'" title="'+h.alt+'" src="'+h.src+'">'}
+function portraitClass(slot){return 'friend-portrait friend-slot-'+slot;}
+function mascot(which){var h=HEROES[which==='home'?1:0];return '<span class="'+portraitClass(h.slot)+'" role="img" aria-label="'+h.alt+'" title="'+h.alt+'"></span>'}
 function setMas(state){var e=document.getElementById('mas');if(e){e.classList.remove('celebrate','think','wave','jump');e.innerHTML=mascot('game');e.dataset.mood=state==='ok'?'happy':state==='bad'?'sad':state==='wave'?'wave':'calm';if(state==='ok')e.classList.add('celebrate');else if(state==='bad')e.classList.add('think');else if(state==='wave')e.classList.add('wave')}}
 
 function setStars(n){var e=document.getElementById('cnt');e.className='stars';e.textContent='⭐'.repeat(n)+'☆'.repeat(NEED-n)}
@@ -631,15 +643,15 @@ var ac;
 function seq(n,ty,vol,gap){if(!sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();var t=ac.currentTime+.02;n.forEach(function(f,i){var o=ac.createOscillator(),g=ac.createGain(),s=t+i*gap;o.type=ty;o.frequency.setValueAtTime(f,s);g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(vol,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+gap*1.9);o.connect(g);g.connect(ac.destination);o.start(s);o.stop(s+gap*1.9+.05)})}catch(e){}}
 function tick(){seq([760],'sine',.22,.05)}
 function fanfare(){seq([523,659,784,659,784,1047,1319],'triangle',.4,.13)}
-var CP=['أَحْسَنْتَ يا مالِكُ! · Bravo, Malik!','رائِعٌ يا مالِكُ! · Toll, Malik!','مُمْتازٌ يا بَطَلُ! · Ausgezeichnet, Champion!','يا سَلامُ يا مالِكُ! · Toll gemacht, Malik!','أَبْدَعْتَ يا مالِكُ! · Das hast du toll gemacht!','إِجابَتُكَ صَحيحَةٌ! أَنْتَ ذَكِيٌّ! · Richtige Antwort! Du bist schlau!','يا لَكَ مِنْ بَطَلٍ! · Was für ein Held!','أَحْسَنْتَ! هذِهِ نَجْمَةٌ جَديدَةٌ لَكَ! · Super! Ein neuer Stern für dich!'],HERO='أَنْتَ بَطَلٌ يا مالِكُ! · Du bist ein Held, Malik!',WR=['تابِعْ يا مالِكُ، حاوِلْ مَرَّةً أُخْرى! · Weiter, Malik, versuch es nochmal','لا بَأْسَ، أَنْتَ تَسْتَطيعُ! · Nicht schlimm, du schaffst das!'],run=0;
-function praise(n){return n==Math.floor(NEED/2)?'أَكْمَلْتَ نِصْفَ الطَّريقِ يا مالِكُ! · Halbzeit, Malik!':(R(0,5)==0?HERO:CP[R(0,CP.length-1)])}
+var CP=['أَحْسَنْتَ يا مالِكْ! · Bravo, Malik!','رائِعٌ يا مالِكْ! · Toll, Malik!','مُمْتازٌ يا بَطَلُ! · Ausgezeichnet, Champion!','يا سَلامُ يا مالِكْ! · Toll gemacht, Malik!','أَبْدَعْتَ يا مالِكْ! · Das hast du toll gemacht!','إِجابَتُكَ صَحيحَةٌ! أَنْتَ ذَكِيٌّ! · Richtige Antwort! Du bist schlau!','يا لَكَ مِنْ بَطَلٍ! · Was für ein Held!','أَحْسَنْتَ! هذِهِ نَجْمَةٌ جَديدَةٌ لَكَ! · Super! Ein neuer Stern für dich!'],HERO='أَنْتَ بَطَلٌ يا مالِكْ! · Du bist ein Held, Malik!',WR=['تابِعْ يا مالِكْ، حاوِلْ مَرَّةً أُخْرى! · Weiter, Malik, versuch es nochmal','لا بَأْسَ، أَنْتَ تَسْتَطيعُ! · Nicht schlimm, du schaffst das!'],run=0;
+function praise(n){return n==Math.floor(NEED/2)?'أَكْمَلْتَ نِصْفَ الطَّريقِ يا مالِكْ! · Halbzeit, Malik!':(R(0,5)==0?HERO:CP[R(0,CP.length-1)])}
 function celebrateAnswer(){var E=['⭐','🌟','✨','🎉','🎈','🏆','🎊'];for(var i=0;i<30;i++){var s=document.createElement('span');s.className='conf';s.textContent=E[R(0,E.length-1)];s.style.left=R(2,98)+'vw';s.style.animationDuration=R(24,46)/10+'s';s.style.animationDelay=R(0,5)/10+'s';s.style.fontSize=R(4,8)+'vmin';document.body.appendChild(s);(function(x){setTimeout(function(){x.remove()},5600)})(s)}fireworks();jumpIt($('mas'));if(streak%3===2)fanfare();}
 function bub(t,c){var b=$('msg');b.className='bub '+(c||'');b.innerHTML=t}
 function flash(c){var e=$('card');e.classList.remove('pop','flash-ok','flash-no');void e.offsetWidth;e.classList.add(c)}
 function jumpIt(e){e.classList.remove('jump');void e.offsetWidth;e.classList.add('jump')}
 function say(m){var p=String(m||'').split(' · ');if(lang=='de'){speak(p[1]||p[0],'de-DE')}else if(lang=='ar'){speak(p[0],'ar-SA')}else{speak(p[0],'ar-SA');if(p[1])setTimeout(function(){speak(p[1],'de-DE')},1700)}}
 function sayQuestion(){if(!q)return;var prompt=q.say&&q.say.indexOf(' · ')>=0?q.say:q.task;say(prompt)}
-function renderAlbum(){var a=$('album');if(a)a.innerHTML=IC.map(function(e,i){return '<i class="'+(done(i)?'':'off')+'">'+e+'</i>'}).join('');var g=$('greet');if(g)g.textContent=T('أهلاً يا مالك ومحمد وأصدقائهم! · Hallo Malik, Mohammad und ihre Freunde!')}
+function renderAlbum(){var a=$('album');if(a)a.innerHTML=IC.map(function(e,i){return '<i class="'+(done(i)?'':'off')+'">'+e+'</i>'}).join('');var g=$('greet');if(g)g.textContent=T('أهلاً يا مالِكْ ومحمد وأصدقائهم! · Hallo Malik, Mohammad und ihre Freunde!')}
 function navFocus(dir){var els=[].filter.call(document.querySelectorAll('button:not([disabled])'),function(b){var r=b.getBoundingClientRect();return r.width>0&&r.height>0});var a=document.activeElement;if(!a||els.indexOf(a)<0){if(els.length)els[0].focus();return}var r=a.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,best=null,bs=1e9;els.forEach(function(b){if(b===a)return;var q=b.getBoundingClientRect(),x=q.left+q.width/2-cx,y=q.top+q.height/2-cy,ok,p,s;if(dir=='ArrowUp'){ok=y<-4;p=-y;s=Math.abs(x)}else if(dir=='ArrowDown'){ok=y>4;p=y;s=Math.abs(x)}else if(dir=='ArrowLeft'){ok=x<-4;p=-x;s=Math.abs(y)}else{ok=x>4;p=x;s=Math.abs(y)}if(!ok)return;var sc=p+s*2.5;if(sc<bs){bs=sc;best=b}});if(best){best.focus();best.scrollIntoView({block:'nearest',inline:'nearest'})}}
 function chime(ok){if(window.AndroidSound){try{if(ok)AndroidSound.playCorrect();else AndroidSound.playWrong();return}catch(e){}}if(ok)seq([523,659,784,1047],'triangle',.4,.11);else seq([300,220],'sawtooth',.15,.22)}
 function speak(t,l){if(!sound)return;l=l||'de-DE';if(String(l).toLowerCase().indexOf('ar')===0)t=String(t).replace(/مال[\u064B-\u065F]*ك[\u064B-\u065F]*/g,'مالِكْ');try{if(window.AndroidSound&&AndroidSound.speak){AndroidSound.speak(t,l);return}if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.88;var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.toLowerCase().indexOf(l.slice(0,2))==0})[0];if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
@@ -660,7 +672,7 @@ function show(id){['menu','game','win'].forEach(function(s){$(s).style.display=s
 function start(i){cur=i;d=Math.min(2,Math.floor((prog[i]||0)/3));streak=0;miss=0;run=0;show('game');next();var k0=document.querySelector('#pad [data-k="5"]');if(k0)try{k0.focus()}catch(e){}}
 function next(){locked=false;input='';miss=0;heroIndex=(heroIndex+1)%HEROES.length;q=L[cur].gen(d);
  $('task').textContent=T(q.task);$('vis').innerHTML=q.vis||'';$('vis').setAttribute('aria-label','تمثيل بصري للعشرات والآحاد');$('eq').innerHTML=q.eq||'';$('steps').textContent=q.steps||'';
- $('ans').innerHTML='&nbsp;';bub(T('هيا يا مالك! · Los, Malik!'),'');setMas('hi');
+ $('ans').innerHTML='&nbsp;';bub(T('هيا يا مالِكْ! · Los, Malik!'),'');setMas('hi');
  var n=Math.min(prog[cur]||0,NEED);$('pb').style.width=(n/NEED*100)+'%';setStars(n);
  $('card').classList.remove('pop','flash-ok','flash-no');void $('card').offsetWidth;$('card').classList.add('pop');
  setTimeout(function(){sayQuestion()},250)}
@@ -678,7 +690,7 @@ function check(){if(!input||locked)return;var ok=+input===q.ans;
   var wm=WR[R(0,WR.length-1)];bub(T(wm)+(miss>=2?'<br><small>'+T(q.help)+'</small>':''),'no');flash('flash-no');say(wm);run=0;
   if(miss>=2&&q.vis===''&&!$('steps').textContent)$('steps').textContent=T(q.help);
   input='';showInput()}}
-function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML=mascot('game');confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالك · Ausgezeichnet, Malik! Stufe geschafft');
+function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML=mascot('game');confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالِكْ · Ausgezeichnet, Malik! Stufe geschafft');
  $('wintxt').textContent=LT(cur);
  $('nextlv').style.display=last?'none':'inline-block';
  if(!last){$('nextlv').focus()}if(last)$('tomenu').focus();}
@@ -697,7 +709,7 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
-var APP_VERSION='2.5.6';
+var APP_VERSION='2.5.7';
 var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
 var releaseDownload='';
 function aboutStatus(ar,de){$('updateStatus').innerHTML='<div class="ar" dir="rtl">'+ar+'</div><div class="de" dir="ltr">'+de+'</div>';}
@@ -709,10 +721,10 @@ $('downloadUpdate').onclick=function(){if(!releaseDownload)return;try{if(window.
 
 /* ---- level-completion bonus: partner memory game ---- */
 var memoryPairs=[
- {id:'mm',a:{src:'malik-maus.webp',name:'مالك · Malik'},b:{src:'mohammad-maus.webp',name:'محمد · Mohammad'},label:'مالك ومحمد · Malik & Mohammad'},
- {id:'oh',a:{src:'friend-omar.webp',name:'عمر · Omar'},b:{src:'friend-hana.webp',name:'هنا · Hana'},label:'عمر وهنا · Omar & Hana'},
- {id:'rn',a:{src:'friend-rashed.webp',name:'راشد · Rashed'},b:{src:'friend-noura.webp',name:'نورا · Noura'},label:'راشد ونورا · Rashed & Noura'},
- {id:'ss',a:{src:'friend-saud.webp',name:'سعود · Saud'},b:{src:'friend-sara.webp',name:'سارة · Sara'},label:'سعود وسارة · Saud & Sara'}
+ {id:'mm',a:{slot:0,name:'مالِكْ · Malik'},b:{slot:1,name:'محمد · Mohammad'},label:'مالِكْ ومحمد · Malik & Mohammad'},
+ {id:'oh',a:{slot:2,name:'عمر · Omar'},b:{slot:3,name:'هنا · Hana'},label:'عمر وهنا · Omar & Hana'},
+ {id:'rn',a:{slot:4,name:'راشد · Rashed'},b:{slot:5,name:'نورا · Noura'},label:'راشد ونورا · Rashed & Noura'},
+ {id:'ss',a:{slot:6,name:'سعود · Saud'},b:{slot:7,name:'سارة · Sara'},label:'سعود وسارة · Saud & Sara'}
 ];
 var memCards=[],memOpen=[],memMatched={},memBusy=false,memMoves=0,memPreviewing=false,memPreviewTimer=null;
 function memoryPraise(ar,de){$('memoryStatus').innerHTML='<div class=\"ar\" dir=\"rtl\">'+ar+'</div><div class=\"de\" dir=\"ltr\">'+de+'</div>'}
@@ -748,8 +760,8 @@ function renderMemory(){
   var open=memPreviewing||memOpen.indexOf(i)>=0;
   var b=document.createElement('button');b.className='memory-card'+(matched?' matched':'');b.type='button';b.disabled=matched||open||memBusy;
   if(open||matched){
-   var im=document.createElement('img');im.src=c.person.src;im.alt=c.person.name;b.appendChild(im);
-   /* لا نعرض أسماء الشخصيات حتى يعتمد مالك على الذاكرة البصرية */
+   var im=document.createElement('span');im.className=portraitClass(c.person.slot);im.setAttribute('role','img');im.setAttribute('aria-label',c.person.name);b.appendChild(im);
+   /* لا نعرض أسماء الشخصيات حتى يعتمد مالِكْ على الذاكرة البصرية */
   }else{var back=document.createElement('span');back.className='backface';back.textContent='?';b.appendChild(back);var hint=document.createElement('span');hint.className='name';hint.textContent='⭐';b.appendChild(hint)}
   b.addEventListener('click',(function(ix){return function(){flipMemory(ix)}})(i));g.appendChild(b);
  });
@@ -759,7 +771,7 @@ function previewMemory(){
  memPreviewing=true;memBusy=true;renderMemory();
  memoryPraise('احفظ أماكن الصور بسرعة!','Merke dir die Bilder und ihre Plätze!');
  var b=$('memoryPreview');b.disabled=true;
- memPreviewTimer=setTimeout(function(){memPreviewing=false;memBusy=false;renderMemory();b.disabled=false;memoryPraise('هيا يا مالك، ابحث عن الأزواج!','Los, Malik! Finde die Paare!')},1400);
+ memPreviewTimer=setTimeout(function(){memPreviewing=false;memBusy=false;renderMemory();b.disabled=false;memoryPraise('هيا يا مالِكْ، ابحث عن الأزواج!','Los, Malik! Finde die Paare!')},1400);
 }
 function flipMemory(i){
  if(memPreviewing||memBusy||memOpen.indexOf(i)>=0||memMatched[memCards[i].pair])return;
@@ -772,7 +784,7 @@ function flipMemory(i){
    var p=memoryPairs.filter(function(x){return x.id===a.pair})[0];
    memoryPraise('أحسنت! وجدت '+p.label.split(' · ')[0]+'!','Super! Du hast '+p.label.split(' · ')[1]+' gefunden!');
    if(Object.keys(memMatched).length===memoryPairs.length){
-    memoryPraise('رائع يا مالك! وجدت كل الأصدقاء! 🎉','Wunderbar, Malik! Du hast alle Freunde gefunden! 🎉');
+    memoryPraise('رائع يا مالِكْ! وجدت كل الأصدقاء! 🎉','Wunderbar, Malik! Du hast alle Freunde gefunden! 🎉');
     confetti();memorySound();try{if(window.AndroidSound&&AndroidSound.applause)AndroidSound.applause()}catch(e){}
    }
   }else{
@@ -789,7 +801,7 @@ $('memoryClose').onclick=function(){$('bonusGame').classList.remove('open');$('t
 
 function applyLang(){document.body.dataset.lang=lang;var h=document.documentElement;h.dir=lang=='de'?'ltr':'rtl';h.lang=lang=='de'?'de':'ar';[].forEach.call(document.querySelectorAll('.langs button'),function(b){b.setAttribute('aria-pressed',String(b.dataset.l==lang))});renderMenu();if(q&&$('game').style.display==='block')$('task').textContent=T(q.task)}
 [].forEach.call(document.querySelectorAll('.langs button'),function(b){b.onclick=function(){lang=b.dataset.l;store.set('r100l',lang);applyLang()}});
-$('mas0').innerHTML=mascot('home');$('mas0').type='button';$('mas0').setAttribute('aria-label','اضغط لتحية مالك ومحمد');applyLang();show('menu');renderMenu();
+$('mas0').innerHTML=mascot('home');$('mas0').type='button';$('mas0').setAttribute('aria-label','اضغط لتحية مالِكْ ومحمد');applyLang();show('menu');renderMenu();
 function poke(id,fn){$(id).onclick=function(){var m=CP[R(0,CP.length-1)];fn(m);jumpIt($(id));if(id==='mas'){setMas('wave');bub(T(m),'ok')}say(m);chime(true)}}
 poke('mas0',function(m){$('greet').textContent=T(m);$('mas0').classList.remove('jump');$('mas0').classList.add('wave')});poke('mas',function(m){bub(T(m),'ok')});poke('mas2',function(){confetti()});
 document.addEventListener('keydown',function(e){if(/^Arrow/.test(e.key)){e.preventDefault();navFocus(e.key)}else if((e.key==='Escape'||e.key==='BrowserBack'||e.key==='GoBack')&&window.__back())e.preventDefault()});
@@ -803,8 +815,9 @@ window.__back=function(){if($('game').style.display==='block'||$('win').style.di
 /* Malik-only arcade rebuild */
 var arcadeOpen=false,arcMode='',arcRaf=0,arcScore=0,arcMoves=20,arcGoal=500,arcKeys={},arcCandy=[],arcSelected=-1,arcBusy=false,arcadeBirdInput=null;
 function arcadeText(ar,de){return lang==='de'?de:(lang==='both'?ar+' · '+de:ar);}
+var arcRewardSlot=0;
 function showArcCheer(){
- $('arcCheerImg').src='malik-maus.webp';$('arcCheerImg').alt='مالِكْ';
+ $('arcCheerImg').className=portraitClass(arcRewardSlot++%8);$('arcCheerImg').setAttribute('aria-label','صديق التعلّم');
  $('arcCheerText').textContent=arcadeText('أَحْسَنْتَ يا مالِكْ! أَبْدَعْتَ يا بَطَلْ! 🌟','Super, Malik! Du bist klasse! 🌟');
  $('arcCheer').classList.add('show');
  if(sound)speak(lang==='de'?'Super, Malik!':'أَحْسَنْتَ يا مالِكْ! أَبْدَعْتَ يا بَطَلْ!','ar-SA');
@@ -813,16 +826,16 @@ function showArcCheer(){
 function arcHud(){$('arcPoints').textContent='⭐ '+arcScore;$('arcMoves').textContent='👣 '+arcMoves;$('arcGoal').textContent='🎯 '+Math.max(0,arcGoal-arcScore);}
 function stopArcLoop(){if(arcRaf)cancelAnimationFrame(arcRaf);arcRaf=0;arcKeys={};}
 
-function openArcade(){arcadeOpen=true;$('arcade').classList.add('open');$('arcTiles').style.display='none';$('arcStage').classList.add('active');$('arcBack').style.display='none';if(arcMode!=='candy')arcadeChoose();else if(!arcCandy.length)startCandy();$('arcRestart').focus();}
+function openArcade(){arcadeOpen=true;$('arcade').classList.add('open');$('arcTiles').style.display='none';$('arcStage').classList.add('active');$('arcBack').style.display='none';if(arcMode!=='candy')arcadeChoose();else if(!arcCandy.length)startCandy();var first=$('candyBoard').querySelector('.arc-cell');if(first)first.focus();else $('arcHome').focus();}
 function closeArcade(){stopArcLoop();arcadeOpen=false;$('arcade').classList.remove('open');$('arcadeBtn').focus();}
 function arcadeChoose(){stopArcLoop();arcMode='candy';arcScore=0;arcMoves=20;arcGoal=500;arcBusy=false;$('arcStage').classList.add('active');$('arcHud').style.display='flex';$('candyBoard').style.display='grid';startCandy();arcHud();}
-$('arcadeBtn').onclick=openArcade;$('arcHome').onclick=closeArcade;$('arcBack').style.display='none';$('arcRestart').onclick=function(){arcadeChoose();};
+$('arcadeBtn').onclick=openArcade;$('arcHome').onclick=closeArcade;$('arcExit').onclick=closeArcade;$('arcBack').style.display='none';$('arcRestart').onclick=function(){arcadeChoose();};
 function arcCanvas(){var c=$('arcCanvas');return {c:c,x:c.getContext('2d'),w:c.width,h:c.height};}
 function holdButton(id,key){var b=$(id);b.addEventListener('pointerdown',function(e){e.preventDefault();b.setPointerCapture(e.pointerId);arcKeys[key]=true;});['pointerup','pointercancel','lostpointercapture'].forEach(function(t){b.addEventListener(t,function(){arcKeys[key]=false;});});}
 
 function candyPopSound(n){if(!sound)return;if(n>=5)seq([523,659,784,988,1319],'sine',.27,.075);else seq([660,880,1175],'sine',.24,.075);}
 function startCandy(){
- var board=$('candyBoard'),N=7,K=6,icons=['🍓','🍬','🍋','🍇','🍭','🍊'];
+ var board=$('candyBoard'),N=5,K=6,icons=['🍓','🍬','🍋','🍇','🍭','🍊'];
  arcCandy=[];arcSelected=-1;arcMoves=20;arcScore=0;arcGoal=500;arcBusy=false;
  function matchAt(a,p){var r=Math.floor(p/N),c=p%N,v=a[p];return(c>=2&&a[p-1]===v&&a[p-2]===v)||(r>=2&&a[p-N]===v&&a[p-2*N]===v);}
  function fill(){arcCandy=[];for(var p=0;p<N*N;p++){var v;do{v=Math.floor(Math.random()*K);}while(matchAt(arcCandy.concat([v]),p));arcCandy.push(v);}}
@@ -843,10 +856,10 @@ function startCandy(){
  }
  fill();render();$('arcHelp').textContent=arcadeText('اِسْحَبْ قِطْعَةَ حَلْوَى بِإِصْبَعِكَ وَأَفْلِتْها فَوْقَ قِطْعَةٍ مُجاوِرَةٍ لِتُبَدِّلَ مَكانَيْهِما. اجْمَعْ ثَلاثَ قِطَعٍ مُتَشابِهَةٍ أَوْ أَكْثَرَ لِتَكْسَبَ النِّقاطَ!','Ziehe ein Bonbon auf ein benachbartes Feld. Verbinde mindestens drei gleiche Bonbons, um Punkte zu sammeln!');
 }
-function arcadeKey(k){if(!arcadeOpen)return false;if(k==='Escape'||k==='Back'){closeArcade();return true;}if(!arcMode){if(/^Arrow/.test(k)){navFocus(k);return true;}var a=document.activeElement;if(k==='Enter'&&a&&a.click){a.click();return true;}return true;}if(arcMode==='ball'){if(k==='ArrowLeft')arcKeys.left=true;if(k==='ArrowRight')arcKeys.right=true;if(k==='Enter'||k===' ')arcKeys.jump=true;return true;}if(arcMode==='birds'&&arcadeBirdInput){arcadeBirdInput(k);return true;}if(arcMode==='candy'){var ix=arcSelected>=0?arcSelected:Math.max(0,[].indexOf.call($('candyBoard').children,document.activeElement)),ni=ix;if(k==='ArrowLeft')ni=Math.max(0,ix-1);if(k==='ArrowRight')ni=Math.min(48,ix+1);if(k==='ArrowUp')ni=Math.max(0,ix-7);if(k==='ArrowDown')ni=Math.min(48,ix+7);if(k==='Enter'){var el=$('candyBoard').children[ix];if(el)el.click();return true;}var n=$('candyBoard').children[ni];if(n)n.focus();return true;}return true;}
+function arcadeKey(k){if(!arcadeOpen)return false;if(k==='Escape'||k==='Back'){closeArcade();return true;}if(!arcMode){if(/^Arrow/.test(k)){navFocus(k);return true;}var a=document.activeElement;if(k==='Enter'&&a&&a.click){a.click();return true;}return true;}if(arcMode==='ball'){if(k==='ArrowLeft')arcKeys.left=true;if(k==='ArrowRight')arcKeys.right=true;if(k==='Enter'||k===' ')arcKeys.jump=true;return true;}if(arcMode==='birds'&&arcadeBirdInput){arcadeBirdInput(k);return true;}if(arcMode==='candy'){var ix=arcSelected>=0?arcSelected:Math.max(0,[].indexOf.call($('candyBoard').children,document.activeElement)),ni=ix;if(k==='ArrowLeft')ni=Math.max(0,ix-1);if(k==='ArrowRight')ni=Math.min(24,ix+1);if(k==='ArrowUp')ni=Math.max(0,ix-5);if(k==='ArrowDown')ni=Math.min(24,ix+5);if(k==='Enter'){var el=$('candyBoard').children[ix];if(el)el.click();return true;}var n=$('candyBoard').children[ni];if(n)n.focus();return true;}return true;}
 document.addEventListener('keyup',function(e){if(arcadeOpen){if(e.key==='ArrowLeft')arcKeys.left=false;if(e.key==='ArrowRight')arcKeys.right=false;}});
 var priorRemote=window.handleRemoteKey;window.handleRemoteKey=function(key){if(arcadeOpen)return arcadeKey(key);return priorRemote?priorRemote(key):false;};
-var priorBack=window.handleBackKey;window.handleBackKey=function(){if(arcadeOpen){if(arcMode)openArcade();else closeArcade();return true;}return priorBack?priorBack():false;};
+var priorBack=window.handleBackKey;window.handleBackKey=function(){if(arcadeOpen){closeArcade();return true;}return priorBack?priorBack():false;};
 
 })();
 </script>
