@@ -758,7 +758,7 @@ function check(){if(!input||locked)return;var ok=+input===q.ans;
   var wm=WR[R(0,WR.length-1)];bub(T(wm)+(miss>=2?'<br><small>'+T(q.help)+'</small>':''),'no');flash('flash-no');say(wm);run=0;
   if(miss>=2&&q.vis===''&&!$('steps').textContent)$('steps').textContent=T(q.help);
   input='';showInput()}}
-function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML='<span class="'+portraitClass(cur%8)+'" role="img" aria-label="صديق التعلّم"></span>';confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالِكْ · Ausgezeichnet, Malik! Stufe geschafft');
+function finish(){var last=cur>=L.length-1;show('win');var rp=[[2,3],[6,7],[4,5],[0,1]][cur%4];$('mas2').innerHTML='<span class="'+portraitClass(rp[0])+'" role="img" aria-label="الشخصية الأولى"></span><span class="'+portraitClass(rp[1])+'" role="img" aria-label="الشخصية الثانية"></span>';confetti();fanfare();$('stk').textContent=IC[cur];say('مُمْتازٌ! أَكْمَلْتَ الْمُسْتَوَى يا مالِكْ! · Ausgezeichnet, Malik! Stufe geschafft');
  $('wintxt').textContent=LT(cur);
  $('nextlv').style.display=last?'none':'inline-block';
  if(!last){$('nextlv').focus()}if(last)$('tomenu').focus();}
@@ -941,6 +941,7 @@ function startCandy(stage){
   if(!hasMove())fill();
  }
  function render(){
+  var focusIndex=arcSelected>=0?arcSelected:0;
   board.innerHTML='';
   arcCandy.forEach(function(v,i){
    var cell=document.createElement('button');cell.type='button';cell.className='arc-cell'+(i===arcSelected?' selected':'');
@@ -948,6 +949,7 @@ function startCandy(stage){
    cell.addEventListener('click',function(){chooseCell(i)});board.appendChild(cell);
   });
   arcHud();
+  var focusCell=board.children[focusIndex];if(focusCell&&arcadeOpen)try{focusCell.focus({preventScroll:true})}catch(_){focusCell.focus()}
  }
  function adjacent(a,b){return Math.abs(a-b)===N||(Math.abs(a-b)===1&&Math.floor(a/N)===Math.floor(b/N));}
  function chooseCell(i){
@@ -964,7 +966,8 @@ function startCandy(stage){
   if(!m.length){swap(a,b);arcSelected=b;render();return;}
   arcSelected=-1;arcMoves--;arcBusy=true;resolve(m);
  }
- var pointerStart=null;
+ var pointerStart=null,suppressCandyClick=false;
+ board.addEventListener('click',function(e){if(suppressCandyClick){e.preventDefault();e.stopPropagation();suppressCandyClick=false;}},true);
  board.onpointerdown=function(e){
   var cell=e.target.closest('.arc-cell');if(!cell||arcBusy)return;
   pointerStart={id:+cell.dataset.index,x:e.clientX,y:e.clientY,pointerId:e.pointerId};
@@ -974,7 +977,8 @@ function startCandy(stage){
   if(!pointerStart)return;
   var p=pointerStart;pointerStart=null;
   var dx=e.clientX-p.x,dy=e.clientY-p.y;
-  if(Math.max(Math.abs(dx),Math.abs(dy))<14){chooseCell(p.id);return;}
+  if(Math.max(Math.abs(dx),Math.abs(dy))<14){suppressCandyClick=true;chooseCell(p.id);setTimeout(function(){suppressCandyClick=false},350);return;}
+  suppressCandyClick=true;setTimeout(function(){suppressCandyClick=false},350);
   var target=document.elementFromPoint(e.clientX,e.clientY);
   var destCell=target&&target.closest?target.closest('.arc-cell'):null;
   if(destCell){var dest=+destCell.dataset.index;if(adjacent(p.id,dest))makeMove(p.id,dest);}
