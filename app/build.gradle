@@ -15,8 +15,8 @@ android {
         applicationId 'de.meinmathetrainer.tv'
         minSdk 23
         targetSdk 28
-        versionCode 30
-        versionName '2.5.7'
+        versionCode 31
+        versionName '2.5.8'
     }
     lint {
         // This app is distributed as a sideloaded Android TV APK, not through Google Play.
