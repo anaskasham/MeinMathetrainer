@@ -16,6 +16,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import java.util.Locale;
+import android.speech.tts.Voice;
+import java.util.Set;
 
 public class MainActivity extends Activity {
     private WebView webView;
@@ -39,16 +41,42 @@ public class MainActivity extends Activity {
             if (text == null || text.trim().isEmpty()) return;
             runOnUiThread(() -> {
                 if (tts != null && ttsReady) {
-                    Locale locale = (language != null && language.toLowerCase().startsWith("ar"))
-                        ? new Locale("ar") : Locale.GERMANY;
+                    boolean arabic = language != null && language.toLowerCase(Locale.ROOT).startsWith("ar");
+                    Locale locale = arabic ? Locale.forLanguageTag("ar-SA") : Locale.GERMANY;
                     int result = tts.setLanguage(locale);
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        if (arabic) result = tts.setLanguage(new Locale("ar"));
+                    }
                     if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
-                        tts.setSpeechRate(0.88f);
+                        if (arabic) selectArabicVoice();
+                        tts.setSpeechRate(arabic ? 0.78f : 0.88f);
+                        tts.setPitch(1.0f);
                         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "mathtrainer-" + System.currentTimeMillis());
                     }
                 }
             });
         }
+    }
+
+    // Prefer a locally installed Saudi/Arabic voice for clearer offline pronunciation.
+    private void selectArabicVoice() {
+        if (tts == null) return;
+        try {
+            Set<Voice> voices = tts.getVoices();
+            if (voices == null) return;
+            Voice best = null;
+            for (Voice voice : voices) {
+                Locale l = voice.getLocale();
+                if (l == null || !"ar".equalsIgnoreCase(l.getLanguage())) continue;
+                if (best == null
+                    || (best.isNetworkConnectionRequired() && !voice.isNetworkConnectionRequired())
+                    || (best.isNetworkConnectionRequired() == voice.isNetworkConnectionRequired()
+                        && voice.getQuality() > best.getQuality())) {
+                    best = voice;
+                }
+            }
+            if (best != null) tts.setVoice(best);
+        } catch (Exception ignored) { }
     }
 
     @Override public void onCreate(Bundle savedInstanceState) {
