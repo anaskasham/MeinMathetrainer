@@ -495,6 +495,35 @@ button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0
  #candyBoard .arc-cell{font-size:clamp(30px,7vw,60px)!important;touch-action:none}
 }
 
+/* v2.6.0: accessible, large candy playfield and clear touch targets */
+#arcHome,#arcExit{display:inline-flex!important;align-items:center;justify-content:center;min-height:58px;min-width:150px;font-size:clamp(19px,2vw,28px);border-radius:18px}
+#arcRestart{min-height:58px;font-size:clamp(18px,1.8vw,25px)}
+#arcStage{gap:clamp(10px,1.4vh,18px)}
+#candyBoard{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:clamp(8px,1.2vw,16px)!important;padding:clamp(12px,1.4vw,20px)!important;width:min(94vw,82vh,780px)!important;max-width:none!important;touch-action:none!important}
+#candyBoard .arc-cell{font-size:clamp(34px,6.4vw,76px)!important;min-width:0;min-height:0;touch-action:none!important;user-select:none;-webkit-user-select:none}
+#arcHelp{font-size:clamp(18px,2.1vw,29px)!important;line-height:1.4!important;max-width:100%!important}
+#arcCheer .friend-portrait{width:clamp(130px,17vw,210px);height:clamp(130px,17vw,210px)}
+@media (orientation:landscape) and (min-width:900px){
+ #arcade{padding:clamp(10px,1.3vw,22px)!important;gap:clamp(8px,1vh,14px)!important;overflow:hidden!important}
+ #arcStage{display:grid!important;grid-template-columns:minmax(260px,1fr) minmax(560px,min(68vw,86vh,800px))!important;grid-template-rows:auto auto 1fr;align-items:center;justify-items:stretch;gap:clamp(12px,1.5vw,22px)!important}
+ #arcHelp{grid-column:1;grid-row:1;font-size:clamp(20px,2.1vw,30px)!important}
+ #arcHud{grid-column:1;grid-row:2;justify-content:center;gap:12px}
+ #candyBoard{grid-column:2;grid-row:1 / 4;width:min(68vw,86vh,800px)!important;max-height:86vh;align-self:center}
+ #arcStage>.arc-actions{grid-column:1;grid-row:3;justify-content:center;align-self:end}
+ #arcStage>.arc-actions .arc-btn{min-height:68px;padding:14px 24px;font-size:clamp(20px,1.9vw,28px)}
+}
+@media (max-width:899px){
+ #arcade{overflow:auto!important}
+ #arcStage{display:flex!important;flex-direction:column;align-items:center}
+ #candyBoard{width:min(94vw,76vh,680px)!important}
+ #arcStage>.arc-actions{width:100%;justify-content:center}
+ #arcHome,#arcExit,#arcRestart{min-height:56px}
+}
+@media (pointer:coarse){
+ #candyBoard{gap:clamp(9px,2vw,16px)!important;padding:clamp(12px,2vw,20px)!important}
+ #candyBoard .arc-cell{touch-action:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -709,7 +738,7 @@ $('nextlv').onclick=function(){start(cur+1)};
 $('snd').onclick=function(){sound=!sound;store.set('r100s',sound);$('snd').textContent=sound?'🔊':'🔇'};
 $('rst').onclick=function(){if(confirm(T('مسح كل التقدم؟ · Fortschritt löschen?'))){prog={};store.set('r100',prog);renderMenu()}};
 $('snd').textContent=sound?'🔊':'🔇';
-var APP_VERSION='2.5.9';
+var APP_VERSION='2.6.0';
 var RELEASES_API='https://api.github.com/repos/anaskasham/MeinMathetrainer/releases/latest';
 var releaseDownload='';
 function aboutStatus(ar,de){$('updateStatus').innerHTML='<div class="ar" dir="rtl">'+ar+'</div><div class="de" dir="ltr">'+de+'</div>';}
@@ -846,8 +875,10 @@ function startCandy(){
  function chooseCell(i){if(arcBusy||arcMoves<=0)return;if(arcSelected<0){arcSelected=i;render();return;}var a=arcSelected,b=i;if(a===b){arcSelected=-1;render();return;}var adjacent=Math.abs(a-b)===N||(Math.abs(a-b)===1&&Math.floor(a/N)===Math.floor(b/N));if(!adjacent){arcSelected=i;render();return;}makeMove(a,b);}
  function makeMove(a,b){if(arcBusy||arcMoves<=0)return;swap(a,b);var m=matches(arcCandy);if(!m.length){swap(a,b);arcSelected=b;render();return;}arcSelected=-1;arcMoves--;arcBusy=true;resolve(m);}
  var pointerStart=null;
- board.onpointerdown=function(e){var cell=e.target.closest('.arc-cell');if(!cell||arcBusy)return;e.preventDefault();pointerStart={id:+cell.dataset.index,x:e.clientX,y:e.clientY};try{board.setPointerCapture(e.pointerId);}catch(_){}};
- board.onpointerup=function(e){if(!pointerStart)return;var p=pointerStart;pointerStart=null;var dx=e.clientX-p.x,dy=e.clientY-p.y,destEl=document.elementFromPoint(e.clientX,e.clientY),target=destEl&&destEl.closest?destEl.closest('.arc-cell'):null,dest=target?+target.dataset.index:-1;if(Math.max(Math.abs(dx),Math.abs(dy))<14){chooseCell(p.id);return;}if(dest<0)dest=Math.abs(dx)>Math.abs(dy)?p.id+(dx>0?1:-1):p.id+(dy>0?N:-N);if(dest<0||dest>=N*N||(Math.abs(dx)>Math.abs(dy)&&Math.floor(dest/N)!==Math.floor(p.id/N)))return;makeMove(p.id,dest);};
+ var suppressCandyClick=false;
+  board.addEventListener('click',function(e){if(suppressCandyClick){e.preventDefault();e.stopPropagation();suppressCandyClick=false;}},true);
+  board.onpointerdown=function(e){var cell=e.target.closest('.arc-cell');if(!cell||arcBusy)return;e.preventDefault();pointerStart={id:+cell.dataset.index,x:e.clientX,y:e.clientY};try{board.setPointerCapture(e.pointerId);}catch(_){}};
+ board.onpointerup=function(e){if(!pointerStart)return;var p=pointerStart;pointerStart=null;var dx=e.clientX-p.x,dy=e.clientY-p.y;if(Math.max(Math.abs(dx),Math.abs(dy))<18)return;var rect=board.getBoundingClientRect(),cs=getComputedStyle(board),padL=parseFloat(cs.paddingLeft)||0,padT=parseFloat(cs.paddingTop)||0,gap=parseFloat(cs.columnGap)||0,cell=board.children[0],cellSize=cell?cell.getBoundingClientRect().width:0,step=cellSize+gap;if(!step)return;var x=e.clientX-rect.left-(parseFloat(cs.borderLeftWidth)||0)-padL,y=e.clientY-rect.top-(parseFloat(cs.borderTopWidth)||0)-padT,col=Math.floor(x/step),row=Math.floor(y/step),dest=row*N+col;if(row<0||row>=N||col<0||col>=N||x%step>cellSize||y%step>cellSize)dest=-1;if(dest<0||dest>=N*N||dest===p.id)return;if(Math.abs(dx)>Math.abs(dy)&&Math.floor(dest/N)!==Math.floor(p.id/N))return;if(Math.abs(dy)>Math.abs(dx)&&dest%N!==p.id%N)return;suppressCandyClick=true;makeMove(p.id,dest);};
  board.onpointercancel=function(){pointerStart=null;};board.ondragstart=function(e){e.preventDefault();};
  function resolve(m){
   if(!m.length){arcBusy=false;if(arcScore>=arcGoal){showArcCheer();arcGoal+=250;arcMoves=20;}if(!hasMove()&&arcMoves>0){fill();$('arcHelp').textContent=arcadeText('خَلَطْنا قِطَعَ الحَلْوَى لِتَظْهَرَ حَرَكاتٌ جَديدَةٌ!','Wir haben die Bonbons neu gemischt!');}if(arcMoves<=0)$('arcHelp').textContent=arcadeText('نَفِدَتِ الحَرَكاتُ! لَمْ تَصِلْ بَعْدُ إِلى الهَدَفِ. اضْغَطْ «إِعادَةُ اللَّعِبِ» لِتُحاوِلَ مِنْ جَديدٍ.','Keine Züge mehr! Starte das Spiel neu.');render();return;}
