@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
                     }
                     if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
                         if (arabic) selectArabicVoice();
-                        tts.setSpeechRate(arabic ? 0.78f : 0.88f);
+                        tts.setSpeechRate(arabic ? 0.86f : 0.88f);
                         tts.setPitch(1.0f);
                         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "mathtrainer-" + System.currentTimeMillis());
                     }
@@ -58,7 +58,8 @@ public class MainActivity extends Activity {
         }
     }
 
-    // Prefer a locally installed Saudi/Arabic voice for clearer offline pronunciation.
+    // Select the highest-quality installed Arabic voice, preferring Saudi Arabic.
+    // A network voice may sound more natural than the basic offline voice.
     private void selectArabicVoice() {
         if (tts == null) return;
         try {
@@ -66,12 +67,13 @@ public class MainActivity extends Activity {
             if (voices == null) return;
             Voice best = null;
             for (Voice voice : voices) {
-                Locale l = voice.getLocale();
-                if (l == null || !"ar".equalsIgnoreCase(l.getLanguage())) continue;
+                Locale locale = voice.getLocale();
+                if (locale == null || !"ar".equalsIgnoreCase(locale.getLanguage())) continue;
+                boolean exactSaudi = "SA".equalsIgnoreCase(locale.getCountry());
+                boolean bestSaudi = best != null && "SA".equalsIgnoreCase(best.getLocale().getCountry());
                 if (best == null
-                    || (best.isNetworkConnectionRequired() && !voice.isNetworkConnectionRequired())
-                    || (best.isNetworkConnectionRequired() == voice.isNetworkConnectionRequired()
-                        && voice.getQuality() > best.getQuality())) {
+                    || voice.getQuality() > best.getQuality()
+                    || (voice.getQuality() == best.getQuality() && exactSaudi && !bestSaudi)) {
                     best = voice;
                 }
             }
