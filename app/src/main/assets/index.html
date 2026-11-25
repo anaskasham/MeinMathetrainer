@@ -485,7 +485,7 @@ button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0
 #arcCheer .friend-portrait{flex:0 0 auto;width:clamp(110px,15vw,190px);height:clamp(110px,15vw,190px);background-size:400% 200%;border:4px solid #fff;border-radius:24%;box-shadow:0 5px 0 #a6d4c9}
 .memory-card .friend-portrait{width:100%;height:clamp(80px,13vw,145px);background-size:400% 200%;border-radius:12px}
 @media (orientation:landscape) and (min-width:900px){
- #candyBoard{width:min(60vw,88vh,740px)!important;gap:clamp(10px,1.2vw,18px)!important;padding:clamp(14px,1.5vw,22px)!important}
+ #candyBoard{grid-template-columns:repeat(5,minmax(0,1fr))!important;touch-action:none!important;user-select:none;-webkit-user-select:none;width:min(60vw,88vh,740px)!important;gap:clamp(10px,1.2vw,18px)!important;padding:clamp(14px,1.5vw,22px)!important}
  #candyBoard .arc-cell{font-size:clamp(48px,6.6vw,82px)!important;min-width:0;min-height:0;touch-action:none}
  #arcHelp{font-size:clamp(21px,2.2vw,32px);line-height:1.45}
  #arcRestart,#arcExit{font-size:clamp(20px,1.8vw,28px);min-height:62px;padding:14px 24px}
@@ -690,7 +690,7 @@ function check(){if(!input||locked)return;var ok=+input===q.ans;
   var wm=WR[R(0,WR.length-1)];bub(T(wm)+(miss>=2?'<br><small>'+T(q.help)+'</small>':''),'no');flash('flash-no');say(wm);run=0;
   if(miss>=2&&q.vis===''&&!$('steps').textContent)$('steps').textContent=T(q.help);
   input='';showInput()}}
-function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML=mascot('game');confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالِكْ · Ausgezeichnet, Malik! Stufe geschafft');
+function finish(){var last=cur>=L.length-1;show('win');$('mas2').innerHTML='<span class="'+portraitClass(cur%8)+'" role="img" aria-label="صديق التعلّم"></span>';confetti();fanfare();$('stk').textContent=IC[cur];say('ممتاز! أكملت المستوى يا مالِكْ · Ausgezeichnet, Malik! Stufe geschafft');
  $('wintxt').textContent=LT(cur);
  $('nextlv').style.display=last?'none':'inline-block';
  if(!last){$('nextlv').focus()}if(last)$('tomenu').focus();}
@@ -854,9 +854,9 @@ function startCandy(){
   arcScore+=m.length*60;arcHud();candyPopSound(m.length);m.forEach(function(i){if(board.children[i])board.children[i].classList.add('matched');});
   setTimeout(function(){for(var c=0;c<N;c++){var col=[];for(var r=N-1;r>=0;r--){var ix=r*N+c;if(m.indexOf(ix)<0)col.push(arcCandy[ix]);}while(col.length<N)col.push(Math.floor(Math.random()*K));for(var rr=N-1;rr>=0;rr--)arcCandy[rr*N+c]=col[N-1-rr];}render();setTimeout(function(){resolve(matches(arcCandy));},100);},210);
  }
- fill();render();$('arcHelp').textContent=arcadeText('اِسْحَبْ قِطْعَةَ حَلْوَى بِإِصْبَعِكَ وَأَفْلِتْها فَوْقَ قِطْعَةٍ مُجاوِرَةٍ لِتُبَدِّلَ مَكانَيْهِما. اجْمَعْ ثَلاثَ قِطَعٍ مُتَشابِهَةٍ أَوْ أَكْثَرَ لِتَكْسَبَ النِّقاطَ!','Ziehe ein Bonbon auf ein benachbartes Feld. Verbinde mindestens drei gleiche Bonbons, um Punkte zu sammeln!');
+ fill();render();$('arcHelp').textContent=arcadeText('المَسْ قِطْعَةَ حَلْوَى ثُمَّ المَسْ قِطْعَةً مُجاوِرَةً، أَوِ اسْحَبْها وَأَفْلِتْها. اجْمَعْ ثَلاثَ قِطَعٍ مُتَشابِهَةٍ أَوْ أَكْثَرَ لِتَكْسَبَ النِّقاطَ!','Tippe zwei benachbarte Bonbons an oder ziehe eines auf ein Nachbarfeld. Verbinde mindestens drei gleiche Bonbons!');
 }
-function arcadeKey(k){if(!arcadeOpen)return false;if(k==='Escape'||k==='Back'){closeArcade();return true;}if(!arcMode){if(/^Arrow/.test(k)){navFocus(k);return true;}var a=document.activeElement;if(k==='Enter'&&a&&a.click){a.click();return true;}return true;}if(arcMode==='ball'){if(k==='ArrowLeft')arcKeys.left=true;if(k==='ArrowRight')arcKeys.right=true;if(k==='Enter'||k===' ')arcKeys.jump=true;return true;}if(arcMode==='birds'&&arcadeBirdInput){arcadeBirdInput(k);return true;}if(arcMode==='candy'){var ix=arcSelected>=0?arcSelected:Math.max(0,[].indexOf.call($('candyBoard').children,document.activeElement)),ni=ix;if(k==='ArrowLeft')ni=Math.max(0,ix-1);if(k==='ArrowRight')ni=Math.min(24,ix+1);if(k==='ArrowUp')ni=Math.max(0,ix-5);if(k==='ArrowDown')ni=Math.min(24,ix+5);if(k==='Enter'){var el=$('candyBoard').children[ix];if(el)el.click();return true;}var n=$('candyBoard').children[ni];if(n)n.focus();return true;}return true;}
+function arcadeKey(k){if(!arcadeOpen)return false;if(k==='Escape'||k==='Back'){closeArcade();return true;}if(!arcMode){if(/^Arrow/.test(k)){navFocus(k);return true;}var a=document.activeElement;if(k==='Enter'&&a&&a.click){a.click();return true;}return true;}if(arcMode==='ball'){if(k==='ArrowLeft')arcKeys.left=true;if(k==='ArrowRight')arcKeys.right=true;if(k==='Enter'||k===' ')arcKeys.jump=true;return true;}if(arcMode==='birds'&&arcadeBirdInput){arcadeBirdInput(k);return true;}if(arcMode==='candy'){var active=document.activeElement;if(k==='Enter'&&active&&active.tagName==='BUTTON'&&!$('candyBoard').contains(active)){active.click();return true;}var ix=arcSelected>=0?arcSelected:Math.max(0,[].indexOf.call($('candyBoard').children,active)),ni=ix;if(k==='ArrowLeft'&&ix%5===0){$('arcExit').focus();return true;}if(k==='ArrowUp'&&ix<5){$('arcHome').focus();return true;}if(k==='ArrowDown'&&ix>=20){$('arcRestart').focus();return true;}if(k==='ArrowLeft')ni=Math.max(0,ix-1);if(k==='ArrowRight')ni=Math.min(24,ix+1);if(k==='ArrowUp')ni=Math.max(0,ix-5);if(k==='ArrowDown')ni=Math.min(24,ix+5);if(k==='Enter'){var el=$('candyBoard').children[ix];if(el)el.click();return true;}var n=$('candyBoard').children[ni];if(n)n.focus();return true;}return true;}
 document.addEventListener('keyup',function(e){if(arcadeOpen){if(e.key==='ArrowLeft')arcKeys.left=false;if(e.key==='ArrowRight')arcKeys.right=false;}});
 var priorRemote=window.handleRemoteKey;window.handleRemoteKey=function(key){if(arcadeOpen)return arcadeKey(key);return priorRemote?priorRemote(key):false;};
 var priorBack=window.handleBackKey;window.handleBackKey=function(){if(arcadeOpen){closeArcade();return true;}return priorBack?priorBack():false;};
