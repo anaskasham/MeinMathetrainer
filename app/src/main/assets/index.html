@@ -563,6 +563,44 @@ button:focus-visible{outline:4px solid #ffcf4a;outline-offset:4px;box-shadow:0 0
  #candyBoard .arc-cell{touch-action:none!important}
 }
 
+
+/* v2.6.3: calm, non-overlapping candy layout with screen-safe sizing */
+#arcade{box-sizing:border-box;inset:0;width:100%;height:100vh;height:100dvh;overflow:auto!important;padding:clamp(8px,1.2vw,18px)!important;gap:clamp(6px,1vh,10px)!important}
+#arcade *{box-sizing:border-box}
+#arcade .arc-head{flex:0 0 auto;padding:6px 12px;min-height:42px}
+#arcade .arc-head h2{font-size:clamp(18px,2vw,28px)}
+#arcHelp{font-size:clamp(15px,1.45vw,21px)!important;line-height:1.35!important;padding:8px 12px!important;max-width:100%;margin:0 auto}
+#arcHud{gap:8px!important;justify-content:center}
+#arcHud span{font-size:clamp(15px,1.35vw,21px)!important;padding:6px 12px!important}
+#arcStage{min-height:0!important;flex:1 0 auto;gap:10px!important}
+#candyBoard{grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-auto-rows:minmax(0,1fr)!important;gap:clamp(8px,1vw,13px)!important;padding:clamp(9px,1vw,14px)!important;width:min(92vw,66vh,500px)!important;height:auto!important;max-height:min(66vh,500px)!important;aspect-ratio:1!important;border-radius:22px!important}
+#candyBoard .arc-cell{width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;padding:0!important;font-size:clamp(28px,4.2vh,48px)!important;line-height:1!important;border-radius:22%!important;overflow:hidden}
+#candyBoard .arc-cell.selected{transform:scale(.94)!important;outline:3px solid #f4cf55!important;outline-offset:-3px!important}
+#arcStage>.arc-actions{gap:10px;flex-wrap:wrap}
+#arcHome,#arcExit,#arcRestart{min-height:48px!important;min-width:120px!important;font-size:clamp(16px,1.5vw,21px)!important;padding:9px 16px!important}
+#arcCheer{max-height:22vh;overflow:hidden;padding:8px!important}
+@media (orientation:landscape) and (min-width:900px){
+ #arcade{overflow:hidden!important}
+ #arcStage{display:grid!important;grid-template-columns:minmax(220px,1fr) minmax(300px,min(48vw,66vh,500px))!important;grid-template-rows:auto auto 1fr!important;align-items:center!important;justify-items:stretch!important;gap:clamp(8px,1vw,14px)!important}
+ #arcHelp{grid-column:1;grid-row:1}
+ #arcHud{grid-column:1;grid-row:2}
+ #candyBoard{grid-column:2;grid-row:1/4;width:min(48vw,66vh,500px)!important;max-height:min(66vh,500px)!important;align-self:center!important}
+ #arcStage>.arc-actions{grid-column:1;grid-row:3;align-self:center;justify-content:center}
+}
+@media (max-height:760px) and (orientation:landscape){
+ #arcade{gap:5px!important;padding:6px!important}
+ #arcStage{gap:6px!important}
+ #candyBoard{width:min(44vw,64vh,460px)!important;max-height:min(64vh,460px)!important}
+ #candyBoard .arc-cell{font-size:clamp(26px,4vh,42px)!important}
+}
+@media (max-width:899px){
+ #arcade{overflow-y:auto!important}
+ #arcStage{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important}
+ #candyBoard{width:min(90vw,54vh,480px)!important;max-height:min(54vh,480px)!important}
+ #candyBoard .arc-cell{font-size:clamp(26px,7vw,42px)!important}
+ #arcStage>.arc-actions{width:100%;justify-content:center}
+}
+
 </style>
 </head>
 <body>
